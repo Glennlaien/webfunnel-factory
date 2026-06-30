@@ -1,0 +1,475 @@
+{
+  "version": "0.5.0",
+  "productId": "workout-for-women-lose-weight",
+  "productName": "Workout for Women -Lose Weight",
+  "contractType": "web2app_runtime_field_contract",
+  "principle": "Questions can be product-specific, but fields must remain stable enough for summary, plan generation, paywall personalization, Firestore, and analytics.",
+  "fields": [
+    {
+      "dataKey": "ageGroup",
+      "pageId": "age_group",
+      "pageType": "single_choice_page",
+      "capability": "age_group",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "string",
+      "requiredFor": [
+        "summary",
+        "plan_personalization",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "ageNum",
+      "pageId": "exact_age",
+      "pageType": "age_input_page",
+      "capability": "exact_age",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "number",
+      "requiredFor": [
+        "summary",
+        "plan_personalization",
+        "plan_pacing"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {
+        "min": 13,
+        "max": 71
+      }
+    },
+    {
+      "dataKey": "mainGoal",
+      "pageId": "fitness_goal_discovery",
+      "pageType": "single_choice_page",
+      "capability": "goal_discovery",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "summary",
+        "plan_personalization",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "focusAreas",
+      "pageId": "fitness_body_focus",
+      "pageType": "multi_choice_page",
+      "capability": "body_focus",
+      "source": "capability_plan",
+      "valueShape": "string[]",
+      "requiredFor": [
+        "plan_personalization",
+        "summary",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {
+        "minSelections": 1
+      }
+    },
+    {
+      "dataKey": "fitnessLevel",
+      "pageId": "fitness_experience_level",
+      "pageType": "single_choice_page",
+      "capability": "experience_level",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_difficulty",
+        "summary",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "capabilityLevel",
+      "pageId": "fitness_training_readiness",
+      "pageType": "single_choice_page",
+      "capability": "training_readiness",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_difficulty",
+        "plan_generation",
+        "risk_reduction"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "activeLevel",
+      "pageId": "fitness_current_activity",
+      "pageType": "single_choice_page",
+      "capability": "current_activity",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_pacing",
+        "summary",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "barriers",
+      "pageId": "fitness_blockers",
+      "pageType": "multi_choice_page",
+      "capability": "blockers",
+      "source": "capability_plan",
+      "valueShape": "string[]",
+      "requiredFor": [
+        "objection_handling",
+        "paywall_bridge",
+        "plan_adherence"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {
+        "minSelections": 1
+      }
+    },
+    {
+      "dataKey": "limitations",
+      "pageId": "fitness_limitations",
+      "pageType": "multi_choice_page",
+      "capability": "limitations",
+      "source": "capability_plan",
+      "valueShape": "string[]",
+      "requiredFor": [
+        "plan_safety",
+        "plan_personalization",
+        "trust_building"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {
+        "minSelections": 1
+      }
+    },
+    {
+      "dataKey": "dailyTime",
+      "pageId": "fitness_time_budget",
+      "pageType": "single_choice_page",
+      "capability": "time_budget",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_schedule",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "weeklyFrequency",
+      "pageId": "fitness_weekly_frequency",
+      "pageType": "single_choice_page",
+      "capability": "weekly_frequency",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_schedule",
+        "plan_generation"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "preferredTime",
+      "pageId": "fitness_preferred_time",
+      "pageType": "single_choice_page",
+      "capability": "preferred_time",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_schedule",
+        "adherence_copy"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "energyLevel",
+      "pageId": "fitness_energy_level",
+      "pageType": "single_choice_page",
+      "capability": "energy_level",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_pacing",
+        "difficulty_adjustment"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "motivationReason",
+      "pageId": "fitness_motivation_reason",
+      "pageType": "single_choice_page",
+      "capability": "motivation_reason",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "paywall_bridge",
+        "plan_ready_copy"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "accountabilityStyle",
+      "pageId": "fitness_support_style",
+      "pageType": "single_choice_page",
+      "capability": "support_style",
+      "source": "capability_plan",
+      "valueShape": "string",
+      "requiredFor": [
+        "plan_tone",
+        "retention_copy"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {}
+    },
+    {
+      "dataKey": "height",
+      "pageId": "height",
+      "pageType": "height_input_page",
+      "capability": "height",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "height_measurement",
+      "requiredFor": [
+        "summary",
+        "bmi",
+        "plan_personalization"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": false
+      },
+      "validation": {
+        "units": [
+          "ft",
+          "cm"
+        ],
+        "defaultUnit": "cm",
+        "min": {
+          "cm": 120,
+          "ftTotalInches": 48
+        },
+        "max": {
+          "cm": 230,
+          "ftTotalInches": 91
+        }
+      }
+    },
+    {
+      "dataKey": "currentWeight",
+      "pageId": "current_weight",
+      "pageType": "weight_input_page",
+      "capability": "current_weight",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "weight_measurement",
+      "requiredFor": [
+        "summary",
+        "bmi",
+        "plan_personalization",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {
+        "units": [
+          "lbs",
+          "kg"
+        ],
+        "defaultUnit": "kg",
+        "min": {
+          "kg": 25,
+          "lbs": 55
+        },
+        "max": {
+          "kg": 300,
+          "lbs": 661
+        }
+      }
+    },
+    {
+      "dataKey": "targetWeight",
+      "pageId": "target_weight",
+      "pageType": "weight_input_page",
+      "capability": "target_weight",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "weight_measurement",
+      "requiredFor": [
+        "summary",
+        "goal_delta",
+        "plan_prediction",
+        "paywall_bridge"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": true,
+        "planGeneration": true,
+        "paywall": true
+      },
+      "validation": {
+        "units": [
+          "lbs",
+          "kg"
+        ],
+        "defaultUnit": "kg",
+        "min": {
+          "kg": 25,
+          "lbs": 55
+        },
+        "max": {
+          "kg": 300,
+          "lbs": 661
+        }
+      }
+    },
+    {
+      "dataKey": "email",
+      "pageId": "email",
+      "pageType": "email_capture_page",
+      "capability": "email_capture",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "email_string",
+      "requiredFor": [
+        "lead_capture",
+        "account_recovery"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": false,
+        "paywall": false
+      },
+      "validation": {
+        "format": "email"
+      }
+    },
+    {
+      "dataKey": "accountEmail",
+      "pageId": "account_create",
+      "pageType": "account_create_page",
+      "capability": "account_create",
+      "source": "fixed_runtime_trunk",
+      "valueShape": "email_string",
+      "requiredFor": [
+        "account_creation"
+      ],
+      "usedBy": {
+        "firestore": true,
+        "analytics": true,
+        "summary": false,
+        "planGeneration": false,
+        "paywall": false
+      },
+      "validation": {}
+    }
+  ]
+}

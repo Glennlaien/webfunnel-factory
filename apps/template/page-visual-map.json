@@ -1,0 +1,35 @@
+{
+  "version": "runtime-default",
+  "defaults": {
+    "pageMaxWidth": 420,
+    "desktopMaxWidth": 760,
+    "background": "var(--bg)",
+    "titleAlign": "center",
+    "selectedStyle": "primary_outline_or_fill",
+    "motion": "subtle"
+  },
+  "pageTypes": {
+    "single_choice_page": {
+      "supportedVariants": [
+        "image_grid",
+        "plain_list",
+        "icon_list"
+      ],
+      "ctaMode": "auto_advance"
+    },
+    "multi_choice_page": {
+      "supportedVariants": [
+        "image_grid",
+        "plain_list",
+        "icon_list"
+      ],
+      "ctaMode": "sticky_bottom",
+      "minSelectionFeedback": "disabled_cta"
+    },
+    "paywall_page": {
+      "layout": "long_vertical_sales_page",
+      "desktopLayout": "vertical_centered_not_split"
+    }
+  },
+  "pages": {}
+}

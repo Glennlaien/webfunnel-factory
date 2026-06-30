@@ -1,0 +1,17 @@
+{
+  "version": "0.1.0",
+  "description": "How Runtime Assembler maps runtime renderers to provider-neutral design page type templates.",
+  "requiredTopLevelFields": ["source", "templates"],
+  "templateRequiredFields": ["key", "pageType", "nodeId"],
+  "templateOptionalFields": ["variant", "assetIds", "provider", "screenId", "screenInstanceId", "frameName", "fileKey", "projectId"],
+  "lookup": {
+    "primary": "pageType + ':' + variant",
+    "fallback": "pageType"
+  },
+  "usage": [
+    "Read outputs/design-handoff/design-handoff.json before implementing or updating runtime renderers.",
+    "Use Figma get_design_context for Figma templates when implementation detail is unclear.",
+    "Use generated config, theme, page visual map, and local assets for config prototype templates.",
+    "Do not require one design frame or screen per funnel page; templates map to renderer types."
+  ]
+}

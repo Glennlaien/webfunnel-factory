@@ -1,0 +1,36 @@
+{
+  "version": "0.5.0",
+  "productId": "workout-for-women-lose-weight",
+  "productName": "Workout for Women -Lose Weight",
+  "selectedCandidateId": "energetic_fitness",
+  "selectionRationale": "Energetic Fitness is selected from product profile, audience, modality, and trust needs. It must not blindly reuse category colors or reference screenshot colors.",
+  "candidates": [
+    {
+      "id": "hard_training",
+      "sourceType": "preset",
+      "primary": "#2D4D3D",
+      "background": "#F3F0EA",
+      "audienceFit": "Best for male strength, military, calisthenics, and higher-intensity muscle products.",
+      "conversionFit": "Strong for discipline and visible strength, but can be too aggressive for chair-based or low-impact senior flows.",
+      "selected": false
+    },
+    {
+      "id": "calm_wellness",
+      "sourceType": "preset",
+      "primary": "#5B8069",
+      "background": "#F5F3EC",
+      "audienceFit": "Best for senior, chair, yoga, tai chi, low-impact, balance, and recovery-oriented products.",
+      "conversionFit": "Strong for trust and clarity across long OB flows; may need strength-oriented overrides for male muscle products.",
+      "selected": false
+    },
+    {
+      "id": "energetic_fitness",
+      "sourceType": "preset",
+      "primary": "#C83D72",
+      "background": "#F8F5F7",
+      "audienceFit": "Best for women's fitness, weight loss, toning, and visible transformation.",
+      "conversionFit": "Strong for motivation and action, but mismatched for chair-based men's low-impact strength.",
+      "selected": true
+    }
+  ]
+}

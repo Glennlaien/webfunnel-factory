@@ -1,0 +1,384 @@
+{
+  "version": "0.5.0",
+  "product": "Workout for Women -Lose Weight",
+  "pages": {
+    "entry": {
+      "title": "Create a plan that fits your starting point",
+      "subtitle": "Answer a few simple questions so your plan can match your goal, routine, and body profile.",
+      "cta": "Get started"
+    },
+    "age_group": {
+      "title": "Select your age to start",
+      "subtitle": "This helps tune recovery, difficulty, and weekly pacing.",
+      "options": [
+        {
+          "value": "18_25",
+          "label": "Age: 18-25"
+        },
+        {
+          "value": "26_35",
+          "label": "Age: 26-35"
+        },
+        {
+          "value": "36_45",
+          "label": "Age: 36-45"
+        },
+        {
+          "value": "46_plus",
+          "label": "Age: 46+"
+        }
+      ]
+    },
+    "exact_age": {
+      "title": "What is your age?",
+      "subtitle": "A precise age helps us personalize intensity and recovery.",
+      "cta": "Continue"
+    },
+    "fitness_goal_discovery": {
+      "title": "What is your main goal?",
+      "options": [
+        {
+          "value": "build_strength",
+          "label": "Build strength"
+        },
+        {
+          "value": "lose_fat",
+          "label": "Lose fat"
+        },
+        {
+          "value": "look_more_defined",
+          "label": "Look more defined"
+        },
+        {
+          "value": "build_discipline",
+          "label": "Build discipline"
+        }
+      ]
+    },
+    "fitness_body_focus": {
+      "title": "Which areas should we focus on?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "chest",
+          "label": "Chest"
+        },
+        {
+          "value": "arms",
+          "label": "Arms"
+        },
+        {
+          "value": "core",
+          "label": "Core"
+        },
+        {
+          "value": "legs",
+          "label": "Legs"
+        },
+        {
+          "value": "full_body",
+          "label": "Full body"
+        }
+      ]
+    },
+    "fitness_goal_trust_bridge": {
+      "title": "Your goal gives the plan direction",
+      "subtitle": "The next answers help us make it realistic.",
+      "body": "A strong plan is not just harder exercises. It needs the right starting point, the right schedule, and a progression you can keep repeating.",
+      "cta": "Continue"
+    },
+    "fitness_experience_level": {
+      "title": "How familiar are you with home fitness?",
+      "options": [
+        {
+          "value": "beginner",
+          "label": "Beginner"
+        },
+        {
+          "value": "returning",
+          "label": "Returning after a break"
+        },
+        {
+          "value": "intermediate",
+          "label": "Intermediate"
+        },
+        {
+          "value": "advanced",
+          "label": "Advanced"
+        }
+      ]
+    },
+    "fitness_training_readiness": {
+      "title": "What is your current starting level?",
+      "options": [
+        {
+          "value": "low",
+          "label": "I need a simple start"
+        },
+        {
+          "value": "medium",
+          "label": "I can handle a challenge"
+        },
+        {
+          "value": "high",
+          "label": "Push me harder"
+        }
+      ]
+    },
+    "fitness_current_activity": {
+      "title": "How active are you now?",
+      "options": [
+        {
+          "value": "not_active",
+          "label": "Not active"
+        },
+        {
+          "value": "light",
+          "label": "Light movement sometimes"
+        },
+        {
+          "value": "moderate",
+          "label": "I move a few days a week"
+        },
+        {
+          "value": "high",
+          "label": "I already stay active"
+        }
+      ]
+    },
+    "fitness_blockers": {
+      "title": "What usually gets in your way?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "no_time",
+          "label": "No time"
+        },
+        {
+          "value": "low_motivation",
+          "label": "Low motivation"
+        },
+        {
+          "value": "too_hard",
+          "label": "Plans feel too hard"
+        },
+        {
+          "value": "no_plan",
+          "label": "I do not know what to do"
+        },
+        {
+          "value": "slow_results",
+          "label": "Results feel too slow"
+        }
+      ]
+    },
+    "fitness_limitations": {
+      "title": "Any areas that need extra care?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "wrists",
+          "label": "Wrists"
+        },
+        {
+          "value": "shoulders",
+          "label": "Shoulders"
+        },
+        {
+          "value": "back",
+          "label": "Back"
+        },
+        {
+          "value": "knees",
+          "label": "Knees"
+        },
+        {
+          "value": "none",
+          "label": "No special limitations"
+        }
+      ]
+    },
+    "fitness_routine_trust_bridge": {
+      "title": "Your routine should fit your real week",
+      "subtitle": "Consistency matters more than a perfect schedule.",
+      "body": "Most people stop because the training plan asks for a version of their week that does not exist. We will use your schedule to shape a home fitness plan that feels easier to repeat.",
+      "cta": "Continue"
+    },
+    "fitness_time_budget": {
+      "title": "How much time feels realistic?",
+      "options": [
+        {
+          "value": "10",
+          "label": "10 minutes"
+        },
+        {
+          "value": "15",
+          "label": "15 minutes"
+        },
+        {
+          "value": "20",
+          "label": "20 minutes"
+        },
+        {
+          "value": "25",
+          "label": "25 minutes"
+        }
+      ]
+    },
+    "fitness_weekly_frequency": {
+      "title": "How many days per week can you commit?",
+      "options": [
+        {
+          "value": "2_3",
+          "label": "2-3 days"
+        },
+        {
+          "value": "4_5",
+          "label": "4-5 days"
+        },
+        {
+          "value": "6_7",
+          "label": "6-7 days"
+        }
+      ]
+    },
+    "fitness_preferred_time": {
+      "title": "When would you prefer to practice?",
+      "options": [
+        {
+          "value": "morning",
+          "label": "Morning"
+        },
+        {
+          "value": "afternoon",
+          "label": "Afternoon"
+        },
+        {
+          "value": "evening",
+          "label": "Evening"
+        },
+        {
+          "value": "varies",
+          "label": "It changes"
+        }
+      ]
+    },
+    "fitness_energy_level": {
+      "title": "How is your energy on most days?",
+      "options": [
+        {
+          "value": "low",
+          "label": "Low"
+        },
+        {
+          "value": "mixed",
+          "label": "It changes"
+        },
+        {
+          "value": "steady",
+          "label": "Steady"
+        },
+        {
+          "value": "high",
+          "label": "High"
+        }
+      ]
+    },
+    "fitness_motivation_reason": {
+      "title": "What would make this plan worth it?",
+      "options": [
+        {
+          "value": "confidence",
+          "label": "Feel more confident"
+        },
+        {
+          "value": "discipline",
+          "label": "Build discipline"
+        },
+        {
+          "value": "appearance",
+          "label": "See visible change"
+        },
+        {
+          "value": "health",
+          "label": "Feel healthier"
+        }
+      ]
+    },
+    "fitness_support_style": {
+      "title": "What kind of guidance helps you most?",
+      "options": [
+        {
+          "value": "simple",
+          "label": "Simple instructions"
+        },
+        {
+          "value": "encouraging",
+          "label": "Encourage me"
+        },
+        {
+          "value": "progress",
+          "label": "Show progress"
+        },
+        {
+          "value": "challenge",
+          "label": "Challenge me gradually"
+        }
+      ]
+    },
+    "height": {
+      "title": "How tall are you?",
+      "cta": "Continue"
+    },
+    "current_weight": {
+      "title": "What is your current weight?",
+      "cta": "Continue"
+    },
+    "target_weight": {
+      "title": "What is your target weight?",
+      "cta": "Continue"
+    },
+    "email": {
+      "title": "Where should we send your plan?",
+      "subtitle": "Use an email you can access later.",
+      "cta": "Continue"
+    },
+    "summary": {
+      "title": "Summary of your fitness level",
+      "cta": "Continue"
+    },
+    "plan_generation": {
+      "title": "Creating your home fitness plan",
+      "subtitle": "Matching your baseline, goal, and weekly schedule."
+    },
+    "plan_ready": {
+      "title": "Your personalized plan is ready",
+      "subtitle": "A structured path built around your starting point.",
+      "cta": "Continue"
+    },
+    "paywall": {
+      "title": "Unlock your personalized plan",
+      "subtitle": "Start with a plan shaped around your goal, body profile, and schedule.",
+      "cta": "Get my plan"
+    },
+    "payment_success": {
+      "title": "Payment confirmed",
+      "subtitle": "Create your account to keep access to your plan.",
+      "cta": "Create account"
+    },
+    "account_create": {
+      "title": "Create your account",
+      "subtitle": "Save your plan and subscription access.",
+      "cta": "Create account"
+    },
+    "login": {
+      "title": "Log in",
+      "subtitle": "Access your plan and subscription.",
+      "cta": "Log in"
+    },
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Your plan and subscription."
+    }
+  }
+}

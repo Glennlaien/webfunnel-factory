@@ -1,0 +1,203 @@
+{
+  "version": "0.1.0",
+  "selection": "pageType + variant",
+  "renderers": [
+    {
+      "key": "entry_page",
+      "component": "EntryPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "First portal screen with large hero image, start CTA, and login button."
+    },
+    {
+      "key": "intro_page",
+      "component": "IntroPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Copy-only transition page used between major OB sections."
+    },
+    {
+      "key": "single_choice_page:image_grid",
+      "component": "SingleChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Image-led single choice cards. Used for age_group, body type, or other visual self-identification questions."
+    },
+    {
+      "key": "single_choice_page:plain_list",
+      "component": "SingleChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Text-only single choice rows. Does not require icons or images."
+    },
+    {
+      "key": "single_choice_page:icon_list",
+      "component": "SingleChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Single choice rows with semantic Lucide icons."
+    },
+    {
+      "key": "multi_choice_page:image_grid",
+      "component": "MultiChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Image-led multi-select cards for visual preference or body-area selection."
+    },
+    {
+      "key": "multi_choice_page:plain_list",
+      "component": "MultiChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Text-only multi-select rows. Does not require icons or images."
+    },
+    {
+      "key": "multi_choice_page:icon_list",
+      "component": "MultiChoicePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Multi-select rows with semantic Lucide icons."
+    },
+    {
+      "key": "age_input_page",
+      "component": "AgeInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["numeric_age_input", "default_value", "range_validation"],
+      "notes": "Large centered age input with default value and explanatory card."
+    },
+    {
+      "key": "height_input_page:unit_switching_numeric_input",
+      "component": "HeightInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["cm_ft_in_conversion"]
+    },
+    {
+      "key": "height_input_page",
+      "component": "HeightInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["cm_ft_in_conversion"]
+    },
+    {
+      "key": "weight_input_page:unit_switching_numeric_input",
+      "component": "WeightInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["lb_kg_conversion"]
+    },
+    {
+      "key": "weight_input_page:current_weight",
+      "component": "WeightInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["lb_kg_conversion", "bmi_calculation"]
+    },
+    {
+      "key": "weight_input_page:target_weight",
+      "component": "WeightInputPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "capabilities": ["lb_kg_conversion", "target_weight_delta"]
+    },
+    {
+      "key": "measurement_picker_page:height_picker",
+      "component": "HeightInputPage",
+      "status": "supported",
+      "figmaTemplateRequired": false,
+      "capabilities": ["cm_ft_in_conversion"]
+    },
+    {
+      "key": "measurement_picker_page:weight_picker",
+      "component": "WeightInputPage",
+      "status": "supported",
+      "figmaTemplateRequired": false,
+      "capabilities": ["lb_kg_conversion"]
+    },
+    {
+      "key": "email_capture_page",
+      "component": "EmailCapturePage",
+      "status": "required"
+    },
+    {
+      "key": "name_capture_page",
+      "component": "NameCapturePage",
+      "status": "required"
+    },
+    {
+      "key": "summary_page",
+      "component": "SummaryPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "analysis_page",
+      "component": "AnalysisPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "plan_generation_page",
+      "component": "PlanGenerationPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "plan_ready_page",
+      "component": "PlanReadyPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "paywall_page",
+      "component": "PaywallPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "payment_success_page",
+      "component": "PaymentSuccessPage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "account_create_page",
+      "component": "AccountCreatePage",
+      "status": "required",
+      "figmaTemplateRequired": true
+    },
+    {
+      "key": "login_page",
+      "component": "LoginPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Returning user login screen from entry portal and account routes."
+    },
+    {
+      "key": "account_page",
+      "component": "AccountPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Member account overview that loads subscription status, entitlements, and management actions."
+    },
+    {
+      "key": "subscription_manage_page",
+      "component": "SubscriptionManagePage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Subscription detail and cancellation entry point."
+    },
+    {
+      "key": "cancel_subscription_page",
+      "component": "CancelSubscriptionPage",
+      "status": "required",
+      "figmaTemplateRequired": true,
+      "notes": "Cancellation confirmation flow that calls the backend cancel endpoint."
+    }
+  ],
+  "fallbackRenderer": {
+    "component": "UnsupportedPage",
+    "behavior": "show a development-time error with page id, pageType, and variant"
+  }
+}

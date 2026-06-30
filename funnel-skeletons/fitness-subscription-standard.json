@@ -1,0 +1,462 @@
+{
+  "version": "0.2.0",
+  "id": "fitness-subscription-standard",
+  "name": "Fitness Subscription Standard Web2App Funnel",
+  "description": "Default Web2App skeleton for fitness, strength, weight-loss, Pilates, yoga, calisthenics, walking, senior fitness, and home workout subscription apps. The skeleton is organized by conversion psychology instead of field order.",
+  "selectionSignals": [
+    "fitness",
+    "weight loss",
+    "strength",
+    "home workout",
+    "calisthenics",
+    "pilates",
+    "yoga",
+    "walking",
+    "senior fitness",
+    "bodyweight",
+    "subscription"
+  ],
+  "operatingModel": {
+    "principle": "The onboarding flow is a personalized plan generator and pre-paywall advertorial, not a neutral survey.",
+    "sequenceLogic": [
+      "Start with low-friction self-identification.",
+      "Create current-versus-desired-state contrast.",
+      "Use answer-triggered feedback pages to build trust and momentum.",
+      "Delay sensitive measurement inputs until the user understands why the plan needs them.",
+      "Convert answers into a visible profile summary, analysis, plan generation, and plan-ready bridge before paywall."
+    ],
+    "feedbackPagePolicy": {
+      "name": "answer_triggered_feedback",
+      "description": "Intro pages should be tied to previous answers or section transitions. They should provide social proof, reassurance, objection handling, or personalization explanation.",
+      "minimumForStandardFlow": 3,
+      "recommendedCadence": "After every 3-6 input pages or immediately after high-intent answers such as age, primary goal, main barrier, and measurements.",
+      "assetRequirement": {
+        "required": true,
+        "assetType": "intro_hero"
+      }
+    }
+  },
+  "stages": [
+    {
+      "id": "entry_split",
+      "name": "Entry And Low-Friction Split",
+      "sectionId": "entry",
+      "sectionLabel": "Start",
+      "sectionOrder": 0,
+      "required": true,
+      "goal": "Open with a product portal and a low-friction split so the funnel immediately feels personalized.",
+      "psychology": "Reduce first-step friction and make users self-identify before asking anything sensitive.",
+      "slots": [
+        {
+          "slotId": "entry",
+          "required": true,
+          "allowedPageTypes": ["entry_page"],
+          "positionRequirement": "first_page",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "entry_hero"
+          },
+          "purpose": "Show product promise, large hero image, start CTA, and login action. The start CTA routes into the first profile question."
+        },
+        {
+          "slotId": "gender_split",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["plain_list", "image_grid"],
+          "dataKey": "gender",
+          "purpose": "Optional first low-friction split when the product has gendered positioning or plan logic. If used, it should appear before age_group."
+        }
+      ]
+    },
+    {
+      "id": "my_profile",
+      "name": "My Profile",
+      "sectionId": "my_profile",
+      "sectionLabel": "My Profile",
+      "sectionOrder": 1,
+      "required": true,
+      "goal": "Collect broad identity and self-perception signals that make the rest of the funnel feel tailored.",
+      "psychology": "Let users classify who they are, where they are now, and who they want to become.",
+      "slots": [
+        {
+          "slotId": "age_group",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["image_grid"],
+          "dataKey": "ageGroup",
+          "positionRequirement": "early_profile_question",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "age_group_option",
+            "perOption": true
+          },
+          "designOverride": {
+            "layout": "image_grid",
+            "mustUseImages": true,
+            "selectionTreatment": "primary_border_checkmark_subtle_overlay"
+          },
+          "purpose": "Segment motivation, claims, imagery, and plan tone by life stage. Normally four options."
+        },
+        {
+          "slotId": "age_social_proof_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "age_group",
+          "usesAnswers": ["ageGroup"],
+          "purpose": "Show age-relevant social proof or reassurance, similar to 'people like you have already tried this' without copying competitor wording."
+        },
+        {
+          "slotId": "current_body_identity",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["image_grid", "plain_list"],
+          "dataKey": "currentBodyIdentity",
+          "purpose": "Capture how the user describes their current physical build, ability, or comfort level in non-shaming language."
+        },
+        {
+          "slotId": "desired_body_identity",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["image_grid", "plain_list"],
+          "dataKey": "desiredBodyIdentity",
+          "purpose": "Create current-versus-desired contrast and support later plan ownership."
+        }
+      ]
+    },
+    {
+      "id": "goal_clarity",
+      "name": "Goal Clarity",
+      "sectionId": "goals",
+      "sectionLabel": "Goals",
+      "sectionOrder": 2,
+      "required": true,
+      "goal": "Clarify the result the user wants and the body areas or benefits that matter most.",
+      "psychology": "Turn vague interest into a concrete desired outcome the paywall can later unlock.",
+      "slots": [
+        {
+          "slotId": "primary_goal",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "primaryGoal",
+          "purpose": "Anchor the rest of the funnel and paywall bridge around the user's main desired outcome."
+        },
+        {
+          "slotId": "goal_promise_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "primary_goal",
+          "usesAnswers": ["primaryGoal"],
+          "purpose": "Explain that the product can build a personalized path toward the selected goal and handle the one-size-fits-all objection."
+        },
+        {
+          "slotId": "focus_areas",
+          "required": false,
+          "allowedPageTypes": ["multi_choice_page"],
+          "dataKey": "focusAreas",
+          "purpose": "Let users name specific improvement areas, increasing ownership and giving the plan visible personalization hooks."
+        },
+        {
+          "slotId": "success_definition",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "successDefinition",
+          "purpose": "Capture what would make the plan feel successful, such as energy, strength, flexibility, confidence, or visible tone."
+        }
+      ]
+    },
+    {
+      "id": "barriers",
+      "name": "Barriers And Past Attempts",
+      "sectionId": "barriers",
+      "sectionLabel": "Barriers",
+      "sectionOrder": 3,
+      "required": true,
+      "goal": "Surface why previous attempts failed and position the product as adaptive rather than generic.",
+      "psychology": "Reframe failure as a plan-fit problem, not a willpower problem.",
+      "slots": [
+        {
+          "slotId": "past_attempts",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "pastAttempts",
+          "purpose": "Identify previous attempts so copy can acknowledge lived experience without blame."
+        },
+        {
+          "slotId": "biggest_barrier",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page", "multi_choice_page"],
+          "dataKey": "biggestBarrier",
+          "purpose": "Identify the main reason plans have not worked before and later show how the plan adapts around it."
+        },
+        {
+          "slotId": "barrier_reframe_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "biggest_barrier",
+          "usesAnswers": ["biggestBarrier"],
+          "purpose": "Reassure the user that their barrier is common and solvable through a personalized plan."
+        },
+        {
+          "slotId": "limitations_or_pain",
+          "required": false,
+          "allowedPageTypes": ["multi_choice_page"],
+          "dataKey": "limitations",
+          "purpose": "Collect physical constraints, pain, discomfort, or support needs when relevant, without making medical claims."
+        }
+      ]
+    },
+    {
+      "id": "lifestyle_context",
+      "name": "Lifestyle Context",
+      "sectionId": "lifestyle",
+      "sectionLabel": "Lifestyle",
+      "sectionOrder": 4,
+      "required": true,
+      "goal": "Understand everyday context so the plan feels realistic and sustainable.",
+      "psychology": "Make the plan feel fitted to the user's real life, not an abstract ideal routine.",
+      "slots": [
+        {
+          "slotId": "activity_level",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "activityLevel",
+          "purpose": "Calibrate starting intensity and avoid an intimidating plan."
+        },
+        {
+          "slotId": "training_location",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "trainingLocation",
+          "purpose": "Match routines to home, gym, chair, mat, outdoor, or no-equipment context."
+        },
+        {
+          "slotId": "available_time",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["segmented_cards", "plain_list"],
+          "dataKey": "availableTime",
+          "purpose": "Make the plan feel achievable by fitting it into available time."
+        },
+        {
+          "slotId": "habit_context",
+          "required": false,
+          "allowedPageTypes": ["multi_choice_page"],
+          "dataKey": "habitContext",
+          "purpose": "Collect diet, sleep, hydration, stress, or routine signals when relevant to the product category."
+        }
+      ]
+    },
+    {
+      "id": "body_metrics",
+      "name": "Body Metrics",
+      "sectionId": "body_metrics",
+      "sectionLabel": "Body Metrics",
+      "sectionOrder": 5,
+      "required": true,
+      "goal": "Collect measurement data after enough trust has been built.",
+      "psychology": "Make sensitive inputs feel useful for personalization, not invasive.",
+      "slots": [
+        {
+          "slotId": "measurement_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "purpose": "Explain that measurements help set pacing and plan fit. Do not include BMI explanation cards as a UI requirement."
+        },
+        {
+          "slotId": "height",
+          "required": true,
+          "allowedPageTypes": ["height_input_page"],
+          "recommendedVariants": ["unit_switching_numeric_input"],
+          "dataKey": "height",
+          "measurementType": "height",
+          "units": ["cm", "ft_in"],
+          "defaultUnit": "ft_in",
+          "purpose": "Collect height with real-time unit conversion."
+        },
+        {
+          "slotId": "current_weight",
+          "required": true,
+          "allowedPageTypes": ["weight_input_page"],
+          "recommendedVariants": ["unit_switching_numeric_input"],
+          "dataKey": "currentWeight",
+          "measurementType": "weight",
+          "units": ["lb", "kg"],
+          "defaultUnit": "lb",
+          "purpose": "Collect current weight with real-time unit conversion."
+        },
+        {
+          "slotId": "target_weight",
+          "required": false,
+          "allowedPageTypes": ["weight_input_page"],
+          "recommendedVariants": ["unit_switching_numeric_input"],
+          "dataKey": "targetWeight",
+          "measurementType": "target_weight",
+          "units": ["lb", "kg"],
+          "defaultUnit": "lb",
+          "purpose": "Collect goal weight only when weight change is central to the offer."
+        }
+      ]
+    },
+    {
+      "id": "commitment",
+      "name": "Commitment And Plan Setup",
+      "sectionId": "plan_setup",
+      "sectionLabel": "Plan Setup",
+      "sectionOrder": 6,
+      "required": true,
+      "goal": "Turn answers into a plan configuration and ask for lightweight commitment.",
+      "psychology": "Build ownership by letting users choose cadence, intensity, timeline, and readiness.",
+      "slots": [
+        {
+          "slotId": "target_timeline",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "targetTimeline",
+          "purpose": "Capture expected timeline and set realistic pacing for later plan copy."
+        },
+        {
+          "slotId": "available_days",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["segmented_cards", "plain_list"],
+          "dataKey": "availableDays",
+          "purpose": "Configure weekly cadence and make the plan feel executable."
+        },
+        {
+          "slotId": "preferred_intensity",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "preferredIntensity",
+          "purpose": "Let users feel control over the plan difficulty."
+        },
+        {
+          "slotId": "commitment_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "purpose": "Confirm that enough information has been collected to build a personalized plan."
+        }
+      ]
+    },
+    {
+      "id": "lead_capture",
+      "name": "Personalization Capture",
+      "sectionId": "plan_setup",
+      "sectionLabel": "Plan Setup",
+      "sectionOrder": 6,
+      "required": false,
+      "goal": "Capture contact identity when the business wants recovery or plan continuity before the result sequence.",
+      "psychology": "Ask for email only after users believe a useful plan is being prepared.",
+      "slots": [
+        {
+          "slotId": "name_capture",
+          "required": false,
+          "allowedPageTypes": ["name_capture_page"],
+          "dataKey": "firstName"
+        },
+        {
+          "slotId": "email_capture",
+          "required": false,
+          "allowedPageTypes": ["email_capture_page"],
+          "dataKey": "email"
+        }
+      ]
+    },
+    {
+      "id": "result_bridge",
+      "name": "Result Bridge",
+      "sectionId": "results",
+      "sectionLabel": "Results",
+      "sectionOrder": 7,
+      "required": true,
+      "goal": "Turn answers into proof that a personalized plan exists.",
+      "psychology": "Shift the user's feeling from 'I answered questions' to 'my plan has been created'.",
+      "slots": [
+        {
+          "slotId": "summary",
+          "required": true,
+          "allowedPageTypes": ["summary_page"],
+          "purpose": "Show a concise profile summary based on user answers."
+        },
+        {
+          "slotId": "analysis",
+          "required": true,
+          "allowedPageTypes": ["analysis_page"],
+          "purpose": "Explain the gap between current state and desired outcome without medical diagnosis or guarantees."
+        },
+        {
+          "slotId": "plan_generation",
+          "required": true,
+          "allowedPageTypes": ["plan_generation_page"],
+          "purpose": "Create anticipation by showing the plan being assembled from profile, goals, barriers, lifestyle, and metrics."
+        },
+        {
+          "slotId": "plan_ready",
+          "required": true,
+          "allowedPageTypes": ["plan_ready_page"],
+          "purpose": "Bridge to paywall by stating the personalized plan is ready and previewing what will be unlocked."
+        }
+      ]
+    },
+    {
+      "id": "monetization",
+      "name": "Paywall",
+      "sectionId": "paywall",
+      "sectionLabel": "Plan",
+      "sectionOrder": 8,
+      "required": true,
+      "goal": "Convert to subscription after plan ownership has been established.",
+      "psychology": "The paid offer should feel like unlocking a plan the user already helped create.",
+      "slots": [
+        {
+          "slotId": "paywall",
+          "required": true,
+          "allowedPageTypes": ["paywall_page"],
+          "purpose": "Show personalized result preview, offer, plans, social proof, guarantee, FAQ, legal disclosure, and embedded checkout."
+        }
+      ]
+    },
+    {
+      "id": "post_purchase",
+      "name": "Post Purchase Continuation",
+      "sectionId": "post_purchase",
+      "sectionLabel": "Start",
+      "sectionOrder": 9,
+      "required": true,
+      "goal": "Confirm unlock, establish account continuity, and expose subscription management.",
+      "psychology": "Reduce buyer uncertainty and move users toward account/app continuity.",
+      "slots": [
+        {
+          "slotId": "payment_success",
+          "required": true,
+          "allowedPageTypes": ["payment_success_page"]
+        },
+        {
+          "slotId": "account_create",
+          "required": true,
+          "allowedPageTypes": ["account_create_page"],
+          "dataKey": "accountCredentials"
+        },
+        {
+          "slotId": "login",
+          "required": true,
+          "allowedPageTypes": ["login_page"]
+        },
+        {
+          "slotId": "account",
+          "required": true,
+          "allowedPageTypes": ["account_page"]
+        },
+        {
+          "slotId": "subscription_manage",
+          "required": true,
+          "allowedPageTypes": ["subscription_manage_page"]
+        },
+        {
+          "slotId": "cancel_subscription",
+          "required": true,
+          "allowedPageTypes": ["cancel_subscription_page"]
+        }
+      ]
+    }
+  ]
+}

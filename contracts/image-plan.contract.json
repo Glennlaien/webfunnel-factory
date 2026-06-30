@@ -1,0 +1,98 @@
+{
+  "version": "0.1.0",
+  "name": "image-plan-contract",
+  "purpose": "Define the reviewable large-image planning layer that runs before image generation.",
+  "requiredForProduction": true,
+  "output": "outputs/assets/image-plan.json",
+  "scope": "Large visual assets only. Tiny option icons, payment logos, progress bars, charts, UI glyphs, and generated code visuals are not image-plan slots.",
+  "requiredTopLevelFields": [
+    "version",
+    "productId",
+    "productName",
+    "status",
+    "reviewRequired",
+    "largeImageOnly",
+    "slots"
+  ],
+  "allowedStatus": ["planned", "approved", "blocked"],
+  "allowedSourcePolicy": [
+    "generate",
+    "edit",
+    "app_store",
+    "reuse_generated_summary_asset",
+    "provided",
+    "skip"
+  ],
+  "allowedSlotKinds": [
+    "entry_hero",
+    "age_group_option_set",
+    "welcome_transition_hero",
+    "intro_hero",
+    "question_option_image_set",
+    "question_page_hero",
+    "explanatory_visual",
+    "result_visual",
+    "proof_visual",
+    "current_body_option_set",
+    "target_body_option_set",
+    "focus_area_option_set",
+    "special_need_option_set",
+    "flexibility_option_set",
+    "sleep_hero",
+    "summary_body_set",
+    "paywall_result_comparison",
+    "paywall_app_screenshot_set",
+    "paywall_plan_preview"
+  ],
+  "requiredSlotFields": [
+    "id",
+    "kind",
+    "pageId",
+    "required",
+    "sourcePolicy",
+    "count",
+    "displayRole",
+    "aspectRatio",
+    "backgroundPolicy",
+    "styleConsistency",
+    "promptBrief",
+    "negativePrompt",
+    "runtimeUsage"
+  ],
+  "recommendedSlotFields": [
+    "visualRole",
+    "visualNecessity",
+    "visualFunction",
+    "visualDecisionReason"
+  ],
+  "visualDecision": {
+    "source": "outputs/page-map/page-map.json pages[].visualDecision",
+    "requiredOnEveryPage": true,
+    "allowedVisualRole": ["none", "option_image", "page_hero", "explanatory_visual", "result_visual", "proof_visual"],
+    "allowedVisualNecessity": ["required", "recommended", "optional", "none"],
+    "allowedVisualFunction": [
+      "none",
+      "recognition",
+      "visual_difference",
+      "result_imagination",
+      "trust_building",
+      "concept_explanation",
+      "emotional_reinforcement",
+      "proof"
+    ],
+    "allowedVisualScope": ["none", "page", "option", "asset_set"]
+  },
+  "hardRules": [
+    "Age group image slots are mandatory when the funnel includes age_group image_grid. They must use sourcePolicy generate, count 4, theme-matched hard plain-color background, and age-differentiated prompt briefs.",
+    "Welcome or transition hero slots are mandatory when the page map includes a welcome/transition/entry hero page with a large image requirement.",
+    "Intro hero slots are generated per intro_page. The count follows the page map; do not assume a fixed number. Intro hero assets should default to 4:3 unless a page-specific design explicitly requires a different large-image ratio.",
+    "Intro hero prompt briefs must reference that intro page's copy, trust job, and section purpose.",
+    "Conditional rich question images are driven by page visualDecision, not by product-specific page names. If visualRole is none, do not create a large image slot for that page.",
+    "Conditional page visuals must carry visualRole, visualNecessity, visualFunction, and visualDecisionReason into the image plan slot.",
+    "Summary body set is mandatory for fitness, weight, body-shaping, yoga, Pilates, strength, and wellness funnels with BMI/body result summary. It must contain one consistent person identity across four body-state variants, preferably by generating one base body-state image and using image edits for the remaining variants.",
+    "Plan generation pages must not request large generated images. Use runtime animation and testimonial/content modules instead.",
+    "Paywall result comparison must reuse summary body assets where possible. It should not trigger a separate freeform body image set.",
+    "Paywall app screenshots should use sourcePolicy app_store when App Store screenshots are available.",
+    "No slot may request tiny icons, payment logos, Stripe UI, progress bars, BMI charts, weight curves, or other code-generated UI as image-generation assets."
+  ]
+}

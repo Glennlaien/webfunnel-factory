@@ -1,0 +1,153 @@
+{
+  "version": "0.1.0",
+  "recipeId": "hard_training",
+  "recipeName": "Hard Training",
+  "recipeMode": "selected_preset",
+  "selection": {
+    "source": "product_strategy",
+    "reason": "For male training, military fitness, calisthenics, strength building, and discipline-led transformation products.",
+    "confidence": "high",
+    "productEvidence": [
+      "The product promise centers on strength, discipline, consistency, and visible physical progress.",
+      "The audience is likely motivated by structure, capability, and measurable improvement.",
+      "The funnel should feel direct and training-oriented rather than soft wellness."
+    ]
+  },
+  "fit": {
+    "productCategories": ["calisthenics", "military fitness", "strength training", "muscle building", "bodyweight training"],
+    "audience": {
+      "ageBand": "young_to_middle_adult",
+      "genderFocus": "male_or_strength_oriented",
+      "confidenceLevel": "medium_to_high",
+      "sensitivityNeeds": "avoid soft wellness framing"
+    },
+    "modality": ["bodyweight training", "strength", "discipline", "progressive training"],
+    "emotionalPromise": "Become stronger, more disciplined, and visibly capable."
+  },
+  "visualTone": {
+    "keywords": ["disciplined", "direct", "strong", "structured", "focused", "grounded"],
+    "avoid": ["soft spa wellness", "cute icons", "pastel yoga look", "generic green health app", "overly decorative gradients"],
+    "differentiationGoal": "Make the funnel feel like a serious training plan instead of a gentle wellness quiz."
+  },
+  "globalTokens": {
+    "background": "#F3F0EA",
+    "surface": "#FFFFFF",
+    "surfaceContainer": "#ECE7DE",
+    "surfaceContainerHigh": "#E1D9CD",
+    "text": "#1E2420",
+    "secondary": "#5F675F",
+    "muted": "#8A9189",
+    "primary": "#2D4D3D",
+    "onPrimary": "#FFFFFF",
+    "outline": "#D6CFC4",
+    "error": "#B3261E"
+  },
+  "typography": {
+    "fontFamily": "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    "headingTone": "compact_bold",
+    "headingWeight": 800,
+    "bodyWeight": 500,
+    "titleScale": "strong_mobile_title",
+    "bodyScale": "clear_mobile_body",
+    "letterSpacing": 0
+  },
+  "shape": {
+    "buttonRadius": 16,
+    "cardRadius": 18,
+    "optionRadius": 16,
+    "imageRadius": 18,
+    "chipRadius": 999
+  },
+  "spacing": {
+    "pagePaddingX": 24,
+    "sectionGap": 28,
+    "optionGap": 14,
+    "contentMaxWidth": 390,
+    "desktopContentMaxWidth": 760
+  },
+  "components": {
+    "cta": {
+      "height": 58,
+      "radius": 16,
+      "fontWeight": 800,
+      "disabledStyle": "muted_solid",
+      "loadingStyle": "fullscreen_overlay"
+    },
+    "optionCard": {
+      "density": "medium",
+      "selectedState": "strong_outline_and_tint",
+      "borderStyle": "quiet_outline",
+      "shadowStyle": "none_or_soft",
+      "checkTreatment": "compact_checkmark"
+    },
+    "input": {
+      "style": "large_numeric_or_flat_field",
+      "focusStyle": "primary_outline"
+    },
+    "progress": {
+      "style": "segmented",
+      "activeColor": "primary",
+      "inactiveColor": "surfaceContainer"
+    },
+    "statusCard": {
+      "style": "flat_tinted",
+      "tone": "direct_supportive"
+    }
+  },
+  "choiceSystem": {
+    "defaultSingleChoiceVariant": "plain_list",
+    "defaultMultiChoiceVariant": "plain_list",
+    "iconPolicy": "optional_only_when_semantic",
+    "imageGridPolicy": "use_for_age_group_body_identity_and_visual_self_identification"
+  },
+  "mediaSystem": {
+    "imageStyle": "realistic fitness photography",
+    "personStyle": "confident athletic subject",
+    "backgroundTreatment": "clean light neutral or gym editorial background",
+    "crop": "mobile-first strong subject crop",
+    "lighting": "clean directional natural light",
+    "assetBackgroundRule": "light_clean_background"
+  },
+  "paywallSystem": {
+    "tone": "direct_result_driven",
+    "primaryEmphasis": "visible progress and disciplined plan ownership",
+    "resultComparisonTreatment": "clean_before_after_comparison",
+    "offerCardTreatment": "bold_selected_plan",
+    "testimonialTreatment": "short_credible_progress_focused_reviews",
+    "countdownTreatment": "sticky_discount_reserved_bar"
+  },
+  "desktopSystem": {
+    "layoutMode": "full_width_web_funnel",
+    "contentAlignment": "centered_column",
+    "maxContentWidth": 760,
+    "phoneMockupPolicy": "forbidden"
+  },
+  "pageVariants": {
+    "entry_page": "dominant_hero",
+    "age_group": "image_grid",
+    "age_input_page": "large_numeric",
+    "single_choice_page": "plain_list",
+    "multi_choice_page": "plain_list",
+    "intro_page": "hero_top",
+    "height_input_page": "unit_switching_numeric",
+    "weight_input_page": "unit_switching_numeric",
+    "email_capture_page": "simple_form",
+    "summary_page": "metric_report",
+    "analysis_page": "projection_chart",
+    "plan_generation_page": "circular_progress_with_proof",
+    "plan_ready_page": "chart_led_ready",
+    "paywall_page": "long_checkout_landing",
+    "account_create_page": "simple_form",
+    "login_page": "simple_form",
+    "account_page": "flat_account_center"
+  },
+  "forbiddenOverrides": [
+    "page-level unrelated primary colors",
+    "page-level unrelated font families",
+    "page-level unrelated button styles",
+    "page-level unrelated card radius systems",
+    "changing runtime behavior through recipe",
+    "changing backend/API behavior through recipe",
+    "using reference screenshot colors unless explicitly selected"
+  ]
+}

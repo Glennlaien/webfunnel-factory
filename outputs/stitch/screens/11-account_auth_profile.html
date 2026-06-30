@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account & Profile - Fitness Elite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#006a37",
+                        "inverse-primary": "#ffb2bd",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#fff0f1",
+                        "on-primary-container": "#fffbff",
+                        "surface": "#fff8f7",
+                        "primary-container": "#e6005c",
+                        "surface-container-high": "#ffe1e4",
+                        "inverse-on-surface": "#ffecee",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#900037",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#fcdade",
+                        "tertiary-fixed-dim": "#6bdd90",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb2bd",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#88faaa",
+                        "outline-variant": "#e5bcc1",
+                        "background": "#fff8f7",
+                        "surface-variant": "#fcdade",
+                        "inverse-surface": "#3f2b2e",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#831e49",
+                        "secondary-container": "#fe80ab",
+                        "on-secondary-fixed": "#3e001d",
+                        "on-secondary-container": "#771340",
+                        "surface-container": "#ffe9ea",
+                        "surface-tint": "#bc004a",
+                        "secondary-fixed-dim": "#ffb1c8",
+                        "on-surface": "#281719",
+                        "on-tertiary-container": "#f6fff4",
+                        "primary": "#b80048",
+                        "on-tertiary-fixed-variant": "#005229",
+                        "on-background": "#281719",
+                        "on-primary-fixed": "#400014",
+                        "surface-dim": "#f3d2d6",
+                        "tertiary-container": "#008647",
+                        "on-surface-variant": "#5c3f43",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#ffd9dd",
+                        "secondary-fixed": "#ffd9e2",
+                        "surface-bright": "#fff8f7",
+                        "outline": "#916e73",
+                        "secondary": "#a23761",
+                        "on-tertiary-fixed": "#00210d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin-mobile": "20px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8F5F7;
+            color: #281719;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-shadow {
+            box-shadow: 0px 10px 30px rgba(34, 36, 42, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex justify-center items-start min-h-screen">
+<!-- Mobile Canvas (390px) -->
+<main class="w-[390px] bg-background min-h-screen relative pb-32 overflow-x-hidden">
+<!-- TopAppBar (From Shared Components) -->
+<nav class="w-full top-0 sticky z-50 bg-surface dark:bg-background flex items-center h-14 px-margin-mobile w-full">
+<button class="active:scale-95 transition-transform hover:opacity-80 transition-opacity mr-4">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile text-primary font-bold">Account</h1>
+</nav>
+<div class="px-margin-mobile">
+<!-- Hero Aesthetic Image -->
+<div class="mt-lg mb-xl rounded-xl overflow-hidden h-48 relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="A professional and high-end editorial photo of a determined woman in a minimalist, sun-drenched home gym. The lighting is soft and airy, creating a high-key light mode aesthetic. She is wearing sleek, high-performance athletic wear in deep charcoal and vibrant pink accents. The mood is empowering, focused, and confident, perfectly capturing the core of high-performance fitness training for women." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0R8Ruqvk23R7GEOizTLJxFUE08YLfXneLvc2KysL2Y4HyVQa4JhOtA8zOw_SbeA3gMnqGfMne_nAUIutD7qFk_AFX3F-9ysDJbN7Rh0TBrpHQBniXkMJ0wKirTx8LrP0ihE8FEcLLkdAoMrZfZmAqDF6KMvBJGHS3D46pYPMXbagZ5d4S9AmSeRSDXYulKsRKkqkXwr9So0r3ZxDKhEJalcOh4wY6RL_Pxlrn0y0Z8OUqpawd7qeK107xsAl9l3MV4Ku0fjVTdO8')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute bottom-md left-md">
+<span class="font-label-sm text-label-sm text-white px-sm py-1 bg-primary rounded-full uppercase tracking-wider">Member Access</span>
+</div>
+</div>
+<!-- Create Account Section -->
+<section class="mb-xl">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-md">Create your account</h2>
+<form class="space-y-md" onsubmit="event.preventDefault()">
+<div class="space-y-xs">
+<label class="font-label-lg text-label-lg text-on-surface-variant block">Email</label>
+<input class="w-full h-[56px] px-md rounded-xl bg-[#F1EEF0] border-none focus:ring-2 focus:ring-primary transition-all text-body-md font-body-md outline-none" placeholder="Enter your email" required="" type="email"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-lg text-label-lg text-on-surface-variant block">Password</label>
+<div class="relative">
+<input class="w-full h-[56px] px-md rounded-xl bg-[#F1EEF0] border-none focus:ring-2 focus:ring-primary transition-all text-body-md font-body-md outline-none" placeholder="Create a password" required="" type="password"/>
+<span class="material-symbols-outlined absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer">visibility_off</span>
+</div>
+</div>
+<button class="w-full h-[56px] bg-primary text-white font-bold rounded-xl active:scale-95 transition-transform custom-shadow mt-md flex items-center justify-center gap-sm" type="submit">
+<span>Create account</span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</form>
+</section>
+<!-- Separator -->
+<div class="h-px bg-outline-variant w-full my-xl opacity-30"></div>
+<!-- Profile Section -->
+<section class="mb-xl">
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Profile</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">ID: 83921</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+</div>
+<div class="space-y-0 divide-y divide-outline-variant/30">
+<!-- Profile Row: Email -->
+<div class="py-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">mail</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Email</p>
+<p class="font-body-md text-body-md font-medium">user@example.com</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 text-[20px]">edit</span>
+</div>
+<!-- Profile Row: Subscription -->
+<div class="py-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">verified</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Subscription</p>
+<div class="flex items-center gap-xs">
+<p class="font-body-md text-body-md font-medium">Active</p>
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Profile Row: Plan Period -->
+<div class="py-md flex items-center justify-between">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Plan Period</p>
+<p class="font-body-md text-body-md font-medium">12-Month Plan</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant/50 text-[20px]">chevron_right</span>
+</div>
+</div>
+<div class="mt-lg">
+<button class="text-on-surface-variant font-label-lg text-label-lg hover:text-primary transition-colors flex items-center gap-xs active:opacity-70">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+                        Cancel subscription
+                    </button>
+</div>
+</section>
+</div>
+<!-- BottomNavBar (From Shared Components) -->
+<!-- Based on Profile section intent, the 'Profile' tab is active -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-surface dark:bg-background">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-sm text-label-sm mt-1">Workouts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-sm text-label-sm mt-1">Progress</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm mt-1">Community</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</button>
+</nav>
+</main>
+<script>
+        // Micro-interaction for the password toggle
+        document.querySelector('.material-symbols-outlined.absolute').addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.textContent = 'visibility';
+            } else {
+                input.type = 'password';
+                this.textContent = 'visibility_off';
+            }
+        });
+
+        // Simple button press animation enhancement
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('touchstart', function() {
+                this.classList.add('opacity-80');
+            });
+            btn.addEventListener('touchend', function() {
+                this.classList.remove('opacity-80');
+            });
+        });
+    </script>
+</body></html>

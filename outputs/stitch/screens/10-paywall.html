@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#008647",
+                        "tertiary-fixed": "#88faaa",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fff8f7",
+                        "surface-tint": "#bc004a",
+                        "secondary-container": "#fe80ab",
+                        "on-tertiary-fixed": "#00210d",
+                        "on-tertiary-container": "#f6fff4",
+                        "tertiary": "#006a37",
+                        "surface-dim": "#f3d2d6",
+                        "surface-container": "#ffe9ea",
+                        "on-surface": "#281719",
+                        "inverse-on-surface": "#ffecee",
+                        "on-tertiary-fixed-variant": "#005229",
+                        "secondary-fixed": "#ffd9e2",
+                        "on-secondary-container": "#771340",
+                        "primary-fixed": "#ffd9dd",
+                        "error": "#ba1a1a",
+                        "primary-container": "#e6005c",
+                        "tertiary-fixed-dim": "#6bdd90",
+                        "outline": "#916e73",
+                        "background": "#fff8f7",
+                        "primary-fixed-dim": "#ffb2bd",
+                        "primary": "#b80048",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#fffbff",
+                        "inverse-primary": "#ffb2bd",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#fcdade",
+                        "secondary": "#a23761",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#fff0f1",
+                        "on-surface-variant": "#5c3f43",
+                        "surface": "#fff8f7",
+                        "on-background": "#281719",
+                        "surface-container-high": "#ffe1e4",
+                        "surface-variant": "#fcdade",
+                        "outline-variant": "#e5bcc1",
+                        "on-secondary-fixed": "#3e001d",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#831e49",
+                        "on-primary-fixed": "#400014",
+                        "secondary-fixed-dim": "#ffb1c8",
+                        "on-primary-fixed-variant": "#900037",
+                        "inverse-surface": "#3f2b2e",
+                        "on-secondary": "#ffffff",
+                        "brand-pink": "#F20562",
+                        "brand-bg": "#F8F5F7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "base": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "margin-mobile": "20px",
+                        "xs": "4px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-brand-bg font-body-md text-on-surface overflow-x-hidden">
+<!-- Sticky Top Bar (Discount Timer) -->
+<header class="sticky top-0 z-50 bg-brand-pink text-white px-margin-mobile h-16 flex items-center justify-between shadow-md">
+<div class="flex flex-col">
+<span class="text-[10px] font-label-sm opacity-90 leading-tight">Discount reserved for</span>
+<span class="font-headline-md leading-none font-extrabold tabular-nums" id="countdown">09:59</span>
+</div>
+<button class="bg-white text-brand-pink font-label-lg px-4 py-2 rounded-full active:scale-95 transition-transform">
+            GET MY PLAN
+        </button>
+</header>
+<main class="flex flex-col pb-xl">
+<!-- Hero Section -->
+<section class="px-margin-mobile pt-xl pb-lg text-center">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-md">
+                Unlock your personalized plan
+            </h1>
+<div class="flex gap-2 h-72 rounded-2xl overflow-hidden shadow-sm">
+<div class="relative flex-1">
+<img alt="Before transformation photo" class="w-full h-full object-cover grayscale-[0.3]" src="https://lh3.googleusercontent.com/aida/AP1WRLu5MEMOqPUhDzc-RLH064tTgui71Zy8VmUdIncc-p3yoFZKliZTmamfofsVaPhnlBdJuYDt8Uy8F4sX3vEDvR0m2RbKUJLIBuJJri08aJLeHlF5aduTtKuAzX9UT3mHIBKFgA0dQJs3hjtGs8P0mgAFqZBLt3CpnPG-__bHBK25EkJDjpwq_s5RtExGvwxeahjZoOdSNYT2G8myV2Q5Ur-7jJDYq4VIzpcMq0K3hewB-UefP5oG-YJOwA"/>
+<div class="absolute bottom-3 left-3 bg-on-surface/60 backdrop-blur-sm text-white px-2 py-1 rounded-lg text-label-sm font-bold">NOW</div>
+</div>
+<div class="relative flex-1">
+<img alt="Goal transformation photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLtjLgqNFtp8sP-3nc4gE3cmPgMTTRBeWZXB-u5Y6innSdIHdkOBQnoP3uo_uw3MCVJpVGD5P7Tsfre06NoZrvFcJOsOW1yyXEGEWLw3yF1m40ZteZSU6nm00Z93oBk64RusAyBdOxZsNdzpThR6qAD0I8NDEQIqg896rK0b27jEMau9I4R0PwOEPHnBZ3Qqja1hZBqvztKdp43WA119QrSv3n8IRVZVATho9ZqYWwRgEvWEY5MoEmXXTjI"/>
+<div class="absolute bottom-3 right-3 bg-brand-pink text-white px-2 py-1 rounded-lg text-label-sm font-bold">GOAL</div>
+</div>
+</div>
+</section>
+<!-- Plan Selection -->
+<section class="px-margin-mobile space-y-md mb-xl">
+<!-- 12 Month Plan (Most Popular) -->
+<div class="relative group cursor-pointer" onclick="selectPlan(this)">
+<input checked="" class="hidden" id="plan12" name="plan" type="radio"/>
+<div class="plan-card border-2 border-brand-pink bg-white p-md rounded-2xl flex items-center justify-between shadow-sm transition-all">
+<div class="flex items-center gap-md">
+<div class="w-6 h-6 rounded-full border-2 border-brand-pink flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-brand-pink"></div>
+</div>
+<div>
+<p class="font-headline-md text-headline-md leading-tight">12-Month Plan</p>
+<p class="text-label-sm text-on-surface-variant">$0.19/day</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant line-through text-label-sm">$199.99</p>
+<p class="font-headline-md text-headline-md text-brand-pink">$69.99</p>
+</div>
+</div>
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-pink text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-wider">
+                    MOST POPULAR
+                </div>
+</div>
+<!-- 3 Month Plan -->
+<div class="relative group cursor-pointer" onclick="selectPlan(this)">
+<input class="hidden" id="plan3" name="plan" type="radio"/>
+<div class="plan-card border-2 border-outline-variant bg-white p-md rounded-2xl flex items-center justify-between shadow-sm transition-all">
+<div class="flex items-center gap-md">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center">
+<div class="inner-circle w-3 h-3 rounded-full bg-transparent"></div>
+</div>
+<div>
+<p class="font-headline-md text-headline-md leading-tight">3-Month Plan</p>
+<p class="text-label-sm text-on-surface-variant">$0.44/day</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant line-through text-label-sm">$99.99</p>
+<p class="font-headline-md text-headline-md">$39.99</p>
+</div>
+</div>
+</div>
+<!-- 1 Month Plan -->
+<div class="relative group cursor-pointer" onclick="selectPlan(this)">
+<input class="hidden" id="plan1" name="plan" type="radio"/>
+<div class="plan-card border-2 border-outline-variant bg-white p-md rounded-2xl flex items-center justify-between shadow-sm transition-all">
+<div class="flex items-center gap-md">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center">
+<div class="inner-circle w-3 h-3 rounded-full bg-transparent"></div>
+</div>
+<div>
+<p class="font-headline-md text-headline-md leading-tight">1-Month Plan</p>
+<p class="text-label-sm text-on-surface-variant">Full flex</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md">$19.99</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main CTA -->
+<div class="px-margin-mobile mb-md">
+<button class="w-full h-14 bg-brand-pink text-white font-headline-md rounded-full shadow-[0px_10px_30px_rgba(242,5,98,0.2)] active:scale-95 transition-transform flex items-center justify-center">
+                Get my plan
+            </button>
+</div>
+<!-- Money Back Guarantee -->
+<div class="px-margin-mobile mb-xl">
+<div class="flex items-center justify-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary">verified_user</span>
+<span class="text-label-lg">30-day money-back guarantee</span>
+</div>
+</div>
+<!-- Social Proof (Testimonials) -->
+<section class="mb-xl">
+<div class="px-margin-mobile mb-md">
+<h2 class="font-headline-md text-on-surface">Community Results</h2>
+</div>
+<div class="flex overflow-x-auto no-scrollbar gap-md px-margin-mobile pb-sm">
+<!-- Card 1 -->
+<div class="min-w-[280px] bg-white p-md rounded-2xl border border-outline-variant shadow-sm shrink-0">
+<div class="flex items-center gap-sm mb-xs">
+<div class="text-[#FFD700] text-sm">⭐⭐⭐⭐⭐</div>
+</div>
+<p class="text-body-md text-on-surface mb-sm italic">"I've lost 12 lbs in the first month. The personalized workouts fit my busy schedule perfectly. Highly recommend!"</p>
+<p class="text-label-lg font-bold">Sarah J.</p>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[280px] bg-white p-md rounded-2xl border border-outline-variant shadow-sm shrink-0">
+<div class="flex items-center gap-sm mb-xs">
+<div class="text-[#FFD700] text-sm">⭐⭐⭐⭐⭐</div>
+</div>
+<p class="text-body-md text-on-surface mb-sm italic">"Finally an app that targets what I actually need. The glute workouts are intense but so effective!"</p>
+<p class="text-label-lg font-bold">Michelle R.</p>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[280px] bg-white p-md rounded-2xl border border-outline-variant shadow-sm shrink-0">
+<div class="flex items-center gap-sm mb-xs">
+<div class="text-[#FFD700] text-sm">⭐⭐⭐⭐⭐</div>
+</div>
+<p class="text-body-md text-on-surface mb-sm italic">"The progress tracking keeps me motivated. Seeing the 'Goal' version of myself getting closer is amazing."</p>
+<p class="text-label-lg font-bold">Elena K.</p>
+</div>
+</div>
+</section>
+<!-- App Showcase Carousel -->
+<section class="mb-xl overflow-hidden">
+<div class="px-margin-mobile mb-md">
+<h2 class="font-headline-md text-on-surface">Companion App</h2>
+</div>
+<div class="flex gap-md overflow-x-auto no-scrollbar px-margin-mobile snap-x">
+<div class="min-w-[200px] h-[360px] rounded-3xl overflow-hidden snap-center">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity mobile UI mockup showing a workout tracking screen with vibrant pink progress bars and a dark mode aesthetic for a premium fitness app. The interface is clean, professional, and features bold typography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY7r6wgFPwJsd-htnsyZol8v6b9mm-B8JgHbZscLxzehHpnwVIs0_KMAMPnlFs1a7FmkCRoikIvMcKqKUWbk8POBnyXkmOm86hqqJHpcl8vfeWcI9b6c8JzGLDXx8ypM5ZsrB9vONyhGKJFF_C1quPvFH5Kmk30ULhU5_bn2e18yQtavGorf_KWuajMihc6QbGfXvxyn9HLYdlAoFTE3lunIhsa62PQ4iiceOnMsLS6F_MPHYj50kj6M99n4Jku9Tp5AgD1OYYkzU"/>
+</div>
+<div class="min-w-[200px] h-[360px] rounded-3xl overflow-hidden snap-center">
+<img class="w-full h-full object-cover" data-alt="A premium mobile app screen displaying a personalized meal plan for a fitness enthusiast. The UI features high-quality food photography, calorie counts in a modern font, and a clean white background with subtle pink accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClfKjMEAH5iRSYnXds69Rvd2aM21z36oiEPZO5ycHD0bPqJ_AupnvpIrKIf2F7inaGb_qhIDJI5UIguZQ-EUeSBjwHCIS1vn_BXg1Boi6O3hDCi5jNsHslEhwvXaCpWtEc41cQyrtJ3E3Wv1woHCCvrUGv7D2KiuOPisVSyqswZGTzKEzRk1RRbgc_71nEGyXcoB_z-FOiybfDmTDHVtvpDXI1_plQWgI4M2I5HQjdcRaAnMIZgUfFH0a_0uWViszht06__YgsTNw"/>
+</div>
+<div class="min-w-[200px] h-[360px] rounded-3xl overflow-hidden snap-center">
+<img class="w-full h-full object-cover" data-alt="A mobile interface mockup showcasing a community leaderboard and achievement badges. The design is modern, using a soft palette of whites and greys with vibrant primary pink highlights to denote success and competition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfVeAcvvQVh7Ofk-ZdEB1MyIJ7ByPxg3ZEU9dp6awzXi_wHpUdEIWkhxfIBY4D6AWe3boJEHfD02tQPS7uNWGS0PwXDP-suD_IlRmsmWKXYapvQ9QLoGHybeZeMLAgKG1aTQ6hyVNT_QKfoG-vOuUOph32GL3neocuRRqzXrvkp4qbibVJix8CF1GYuo9hqE44vqKFTv1-WcV1-JueVQ2HWm4o5-bs-WyY8DZg5lD7j9jIR_VfpIiwM96zMGfLBrDLfBAORQ0qm1w"/>
+</div>
+</div>
+</section>
+<!-- Legal Disclosure -->
+<footer class="px-margin-mobile text-center pb-xl">
+<p class="text-[11px] text-on-surface-variant/70 leading-relaxed">
+                By tapping "Get my plan", you agree to the Terms of Service and Privacy Policy. Your subscription will automatically renew at the end of each period unless cancelled at least 24 hours before renewal. Payments will be charged to your card on file. For more information on managing your subscription, visit our Help Center.
+            </p>
+</footer>
+</main>
+<script>
+        // Countdown Timer Logic
+        let time = 599; // 9:59 in seconds
+        const timerElement = document.getElementById('countdown');
+
+        function updateTimer() {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            if (time > 0) {
+                time--;
+            } else {
+                clearInterval(timerInterval);
+            }
+        }
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Plan Selection Logic
+        function selectPlan(container) {
+            // Remove active styles from all cards
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('border-brand-pink');
+                card.classList.add('border-outline-variant');
+                const radio = card.parentElement.querySelector('input');
+                radio.checked = false;
+                const innerCircle = card.querySelector('.inner-circle');
+                if (innerCircle) innerCircle.classList.replace('bg-brand-pink', 'bg-transparent');
+                
+                // For the popular one which already has some static classes
+                const circleBox = card.querySelector('.w-6.h-6');
+                circleBox.classList.replace('border-brand-pink', 'border-outline-variant');
+            });
+
+            // Add active styles to selected card
+            const card = container.querySelector('.plan-card');
+            card.classList.replace('border-outline-variant', 'border-brand-pink');
+            
+            const radio = container.querySelector('input');
+            radio.checked = true;
+
+            const circleBox = card.querySelector('.w-6.h-6');
+            circleBox.classList.replace('border-outline-variant', 'border-brand-pink');
+            
+            const innerDot = card.querySelector('.w-3.h-3');
+            if (innerDot) {
+                innerDot.classList.remove('bg-transparent');
+                innerDot.classList.add('bg-brand-pink');
+            }
+        }
+    </script>
+</body></html>

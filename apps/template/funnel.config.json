@@ -1,0 +1,23 @@
+{
+  "version": "runtime-default",
+  "product": {
+    "appName": "Web2App Funnel",
+    "appCode": "oog126_dev",
+    "placementCode": "O2MGB"
+  },
+  "pages": [
+    {
+      "id": "entry",
+      "pageType": "entry_page",
+      "phase": "entry",
+      "role": "portal",
+      "title": "Build your personalized plan",
+      "subtitle": "Answer a few quick questions to shape a plan around your goal.",
+      "ctaLabel": "Get started",
+      "secondaryCtaLabel": "Log in",
+      "progress": {
+        "visible": false
+      }
+    }
+  ]
+}

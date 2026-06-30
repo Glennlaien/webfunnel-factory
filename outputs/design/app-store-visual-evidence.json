@@ -1,0 +1,87 @@
+{
+  "usable": true,
+  "sourceType": "app_store_visual_evidence",
+  "appStoreId": "839285684",
+  "lookupUrl": "https://itunes.apple.com/lookup?id=839285684&country=us",
+  "selectedPrimary": "#F20562",
+  "rawSelectedPrimary": "#F20562",
+  "background": "#F8F5F7",
+  "confidence": 0.94,
+  "evidence": "Primary color #F20562 was extracted from App Store icon visual evidence for Workout for Women -Lose Weight. Raw extracted color was #F20562; sampled candidates were filtered for saturation, neutrality, and readability.",
+  "reason": "Usable App Store visual color found.",
+  "candidates": [
+    {
+      "hex": "#F20562",
+      "count": 257,
+      "saturation": 0.96,
+      "lightness": 0.484,
+      "score": 1044.5682,
+      "sourceRole": "icon",
+      "sourceWeight": 3
+    },
+    {
+      "hex": "#F00F6E",
+      "count": 288,
+      "saturation": 0.882,
+      "lightness": 0.5,
+      "score": 726.8172,
+      "sourceRole": "icon_small",
+      "sourceWeight": 2
+    },
+    {
+      "hex": "#F1106E",
+      "count": 110,
+      "saturation": 0.889,
+      "lightness": 0.504,
+      "score": 417.3357,
+      "sourceRole": "icon",
+      "sourceWeight": 3
+    },
+    {
+      "hex": "#EF207F",
+      "count": 66,
+      "saturation": 0.866,
+      "lightness": 0.531,
+      "score": 160.2578,
+      "sourceRole": "icon_small",
+      "sourceWeight": 2
+    },
+    {
+      "hex": "#DF1D70",
+      "count": 56,
+      "saturation": 0.77,
+      "lightness": 0.494,
+      "score": 129.5424,
+      "sourceRole": "icon_small",
+      "sourceWeight": 2
+    },
+    {
+      "hex": "#F01D7E",
+      "count": 31,
+      "saturation": 0.876,
+      "lightness": 0.527,
+      "score": 114.1203,
+      "sourceRole": "icon",
+      "sourceWeight": 3
+    },
+    {
+      "hex": "#F20361",
+      "count": 40,
+      "saturation": 0.976,
+      "lightness": 0.48,
+      "score": 110.0062,
+      "sourceRole": "icon_small",
+      "sourceWeight": 2
+    },
+    {
+      "hex": "#D2206D",
+      "count": 46,
+      "saturation": 0.736,
+      "lightness": 0.475,
+      "score": 104.0106,
+      "sourceRole": "icon_small",
+      "sourceWeight": 2
+    }
+  ],
+  "extractedAt": "2026-06-30T07:08:27.576Z"
+}

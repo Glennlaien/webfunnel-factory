@@ -1,0 +1,287 @@
+{
+  "version": "0.1.0",
+  "mode": "codex-subagents",
+  "orchestrator": "main-codex-thread",
+  "sequence": [
+    "strategist",
+    "skeleton-selector",
+    "rules-composer",
+    "page-architect",
+    "copywriter",
+    "ui-designer",
+    "image-planner",
+    "image-asset-generator",
+    "config-builder",
+    "design-handoff",
+    "runtime-assembler",
+    "qa-reviewer"
+  ],
+  "agents": {
+    "strategist": {
+      "prompt": "agents/01-strategist.md",
+      "inputs": [
+        "inputs/product-brief.md",
+        "inputs/funnel-requirements.md",
+        "global-rules/ob-conversion-rules.json",
+        "global-rules/compliance-rules.json"
+      ],
+      "outputs": [
+        "outputs/strategy/product-strategy.md",
+        "outputs/strategy/product-brief.json"
+      ]
+    },
+    "skeleton-selector": {
+      "prompt": "agents/02a-skeleton-selector.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "funnel-skeletons/*.json",
+        "global-rules/company-funnel-rules.json",
+        "global-rules/ob-conversion-rules.json",
+        "funnel-skeletons/README.md",
+        "global-rules/compliance-rules.json"
+      ],
+      "outputs": [
+        "outputs/skeleton/selected-skeleton.json",
+        "outputs/skeleton/selected-skeleton.md"
+      ]
+    },
+    "rules-composer": {
+      "prompt": "agents/02b-rules-composer.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/skeleton/selected-skeleton.json",
+        "global-rules/company-funnel-rules.json",
+        "global-rules/ob-conversion-rules.json",
+        "global-rules/paywall-rules.json",
+        "global-rules/compliance-rules.json",
+        "contracts/*.json",
+        "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+        "contracts/image-generation.contract.json"
+      ],
+      "outputs": [
+        "outputs/rules/composed-rules.json",
+        "outputs/rules/composed-rules.md"
+      ]
+    },
+    "page-architect": {
+      "prompt": "agents/02-page-architect.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/skeleton/selected-skeleton.json",
+        "outputs/rules/composed-rules.json",
+        "configs/page-types.json",
+        "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+        "contracts/paywall.contract.json",
+        "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+        "recipes/funnel-state-machine.md",
+        "outputs/strategy/product-strategy.md",
+        "inputs/funnel-requirements.md",
+        "funnel-skeletons/README.md"
+      ],
+      "outputs": [
+        "outputs/page-map/page-map.json",
+        "outputs/page-map/page-map.md"
+      ]
+    },
+    "copywriter": {
+      "prompt": "agents/03-copywriter.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/page-map/page-map.json",
+        "global-rules/ob-conversion-rules.json",
+        "global-rules/paywall-rules.json",
+        "global-rules/compliance-rules.json",
+        "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+        "contracts/paywall.contract.json"
+      ],
+      "outputs": [
+        "outputs/copy/page-copy.json",
+        "outputs/copy/page-copy.md"
+      ]
+    },
+    "ui-designer": {
+      "prompt": "agents/04-ui-designer.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/page-map/page-map.json",
+        "outputs/copy/page-copy.json",
+        "global-rules/design-rules.json",
+        "global-rules/ob-conversion-rules.json",
+        "global-rules/paywall-rules.json",
+        "global-rules/compliance-rules.json",
+        "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+        "runtime/react-funnel-runtime/adapters/unit-conversion.spec.json",
+        "runtime/react-funnel-runtime/contracts/theme.contract.json",
+        "contracts/ui-style-recipe.contract.json",
+        "docs/ui-style-recipe.md",
+        "docs/runtime-page-capabilities.md",
+        "style-recipes/*.json",
+        "style-recipes/README.md",
+        "recipes/height-weight-input.md"
+      ],
+      "outputs": [
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/design-system.md",
+        "outputs/design/design-prompt.md",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json"
+      ]
+    },
+    "image-asset-generator": {
+      "prompt": "agents/04b-image-asset-generator.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/page-map/page-map.json",
+        "outputs/copy/page-copy.json",
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/design-system.md",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json",
+        "outputs/assets/image-plan.json",
+        "global-rules/image-asset-rules.json",
+        "global-rules/design-rules.json",
+        "global-rules/compliance-rules.json",
+        "runtime/react-funnel-runtime/contracts/theme.contract.json",
+        "contracts/image-plan.contract.json",
+        "contracts/image-generation.contract.json"
+      ],
+      "outputs": [
+        "outputs/assets/asset-manifest.json",
+        "outputs/assets/asset-prompts.md"
+      ]
+    },
+    "image-planner": {
+      "prompt": "agents/04a-image-planner.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/page-map/page-map.json",
+        "outputs/copy/page-copy.json",
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/design-system.md",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json",
+        "global-rules/image-asset-rules.json",
+        "global-rules/design-rules.json",
+        "global-rules/compliance-rules.json",
+        "contracts/image-plan.contract.json",
+        "docs/research/workoutforwomen-image-assets.md"
+      ],
+      "outputs": [
+        "outputs/assets/image-plan.json",
+        "outputs/assets/image-plan.md"
+      ]
+    },
+    "config-builder": {
+      "prompt": "agents/05-config-builder.md",
+      "inputs": [
+        "outputs/strategy/product-brief.json",
+        "outputs/page-map/page-map.json",
+        "outputs/copy/page-copy.json",
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json",
+        "outputs/assets/asset-manifest.json",
+        "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+        "runtime/react-funnel-runtime/adapters/backend-integration.spec.json",
+        "global-rules/paywall-rules.json",
+        "docs/backend-integration-contract.md",
+        "inputs/api-reference.md",
+        "contracts/*.json",
+        "recipes/*.md",
+        "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+        "contracts/image-generation.contract.json",
+        "recipes/funnel-state-machine.md",
+        "contracts/backend-api.contract.json"
+      ],
+      "outputs": [
+        "outputs/config/funnel.config.json",
+        "outputs/config/funnel.config.ts",
+        "outputs/exports/design-prompt.md",
+        "outputs/exports/developer-brief.md"
+      ]
+    },
+    "qa-reviewer": {
+      "prompt": "agents/08-qa-reviewer.md",
+      "inputs": [
+        "outputs/**",
+        "configs/page-types.json",
+        "global-rules/*.json",
+        "runtime/react-funnel-runtime/adapters/*.json",
+        "schemas/**",
+        "docs/backend-integration-contract.md",
+        "inputs/api-reference.md",
+        "contracts/*.json",
+        "recipes/*.md",
+        "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+        "contracts/image-generation.contract.json",
+        "recipes/funnel-state-machine.md",
+        "contracts/backend-api.contract.json",
+        "runtime/react-funnel-runtime/adapters/backend-integration.spec.json"
+      ],
+      "outputs": [
+        "outputs/qa/qa-report.md",
+        "outputs/qa/fixes.json"
+      ]
+    },
+    "design-handoff": {
+      "prompt": "agents/06-design-handoff.md",
+      "inputs": [
+        "outputs/config/funnel.config.json",
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/design-system.md",
+        "outputs/design/design-prompt.md",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json",
+        "outputs/assets/asset-manifest.json",
+        "global-rules/design-rules.json",
+        "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+        "runtime/react-funnel-runtime/contracts/theme.contract.json",
+        "contracts/design-handoff.contract.json"
+      ],
+      "outputs": [
+        "outputs/design-handoff/design-handoff.json",
+        "outputs/design-handoff/page-type-template-map.json",
+        "outputs/design-handoff/implementation-notes.md"
+      ]
+    },
+    "runtime-assembler": {
+      "prompt": "agents/07-runtime-assembler.md",
+      "inputs": [
+        "outputs/config/funnel.config.json",
+        "outputs/design/ui-style-recipe.json",
+        "outputs/design/theme.json",
+        "outputs/design/art-direction.json",
+        "outputs/design/screen-blueprints.json",
+        "outputs/assets/asset-manifest.json",
+        "outputs/design-handoff/implementation-notes.md",
+        "outputs/design-handoff/page-type-template-map.json",
+        "outputs/design-handoff/design-handoff.json",
+        "runtime/react-funnel-runtime/runtime.config.json",
+        "runtime/react-funnel-runtime/renderer-registry.json",
+        "runtime/react-funnel-runtime/contracts/*.json",
+        "runtime/react-funnel-runtime/adapters/*.json",
+        "global-rules/paywall-rules.json",
+        "docs/backend-integration-contract.md",
+        "inputs/api-reference.md",
+        "contracts/*.json",
+        "recipes/*.md",
+        "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+        "recipes/funnel-state-machine.md",
+        "contracts/backend-api.contract.json",
+        "runtime/react-funnel-runtime/adapters/backend-integration.spec.json"
+      ],
+      "outputs": [
+        "outputs/app/package.json",
+        "outputs/app/index.html",
+        "outputs/app/src/runtime/App.tsx",
+        "outputs/app/src/components/ChoiceOptions.tsx",
+        "outputs/app/src/styles.css"
+      ]
+    }
+  }
+}

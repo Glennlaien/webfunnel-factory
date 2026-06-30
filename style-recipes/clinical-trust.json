@@ -1,0 +1,153 @@
+{
+  "version": "0.1.0",
+  "recipeId": "clinical_trust",
+  "recipeName": "Clinical Trust",
+  "recipeMode": "selected_preset",
+  "selection": {
+    "source": "product_strategy",
+    "reason": "For health management, BMI, recovery, pain support, mobility limitations, and credibility-heavy personalization funnels.",
+    "confidence": "high",
+    "productEvidence": [
+      "The product promise requires trust, clarity, and careful health-adjacent communication.",
+      "The user may be sharing sensitive body or health context.",
+      "The design should look credible without making medical claims."
+    ]
+  },
+  "fit": {
+    "productCategories": ["health management", "BMI", "recovery", "pain support", "mobility support", "wellness assessment"],
+    "audience": {
+      "ageBand": "adult_to_senior",
+      "genderFocus": "all_gender",
+      "confidenceLevel": "low_to_medium",
+      "sensitivityNeeds": "high trust and careful claims"
+    },
+    "modality": ["assessment", "recovery", "mobility", "body metrics", "health-adjacent behavior change"],
+    "emotionalPromise": "Understand your starting point and follow a safer, more credible plan."
+  },
+  "visualTone": {
+    "keywords": ["clean", "credible", "measured", "precise", "supportive", "calm"],
+    "avoid": ["alarmist red-heavy UI", "diagnostic claims", "gym aggression", "playful decoration", "fake medical authority"],
+    "differentiationGoal": "Make the funnel feel trustworthy and data-aware without pretending to be a medical product."
+  },
+  "globalTokens": {
+    "background": "#F6F8FA",
+    "surface": "#FFFFFF",
+    "surfaceContainer": "#EAF0F4",
+    "surfaceContainerHigh": "#DDE7ED",
+    "text": "#20262D",
+    "secondary": "#5D6873",
+    "muted": "#8C96A0",
+    "primary": "#2F6F8F",
+    "onPrimary": "#FFFFFF",
+    "outline": "#D3DCE3",
+    "error": "#B3261E"
+  },
+  "typography": {
+    "fontFamily": "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    "headingTone": "clear_structured",
+    "headingWeight": 760,
+    "bodyWeight": 500,
+    "titleScale": "clear_mobile_title",
+    "bodyScale": "readable_mobile_body",
+    "letterSpacing": 0
+  },
+  "shape": {
+    "buttonRadius": 12,
+    "cardRadius": 14,
+    "optionRadius": 14,
+    "imageRadius": 14,
+    "chipRadius": 999
+  },
+  "spacing": {
+    "pagePaddingX": 24,
+    "sectionGap": 26,
+    "optionGap": 12,
+    "contentMaxWidth": 390,
+    "desktopContentMaxWidth": 780
+  },
+  "components": {
+    "cta": {
+      "height": 56,
+      "radius": 12,
+      "fontWeight": 760,
+      "disabledStyle": "muted_solid",
+      "loadingStyle": "fullscreen_overlay"
+    },
+    "optionCard": {
+      "density": "medium",
+      "selectedState": "measured_outline_and_tint",
+      "borderStyle": "clear_outline",
+      "shadowStyle": "none",
+      "checkTreatment": "simple_checkmark"
+    },
+    "input": {
+      "style": "flat_field_or_large_numeric",
+      "focusStyle": "primary_outline"
+    },
+    "progress": {
+      "style": "segmented",
+      "activeColor": "primary",
+      "inactiveColor": "surfaceContainer"
+    },
+    "statusCard": {
+      "style": "data_tinted",
+      "tone": "measured_supportive"
+    }
+  },
+  "choiceSystem": {
+    "defaultSingleChoiceVariant": "plain_list",
+    "defaultMultiChoiceVariant": "plain_list",
+    "iconPolicy": "optional_only_when_semantic",
+    "imageGridPolicy": "use_for_body_state_or_visual_recognition_only"
+  },
+  "mediaSystem": {
+    "imageStyle": "clean realistic health lifestyle photography",
+    "personStyle": "calm approachable subject with neutral expression",
+    "backgroundTreatment": "clean bright neutral interior",
+    "crop": "mobile-first clear subject crop",
+    "lighting": "soft bright clinical-neutral daylight",
+    "assetBackgroundRule": "light_clean_background"
+  },
+  "paywallSystem": {
+    "tone": "credible_plan_recommendation",
+    "primaryEmphasis": "personalized plan based on starting data",
+    "resultComparisonTreatment": "measured_profile_preview",
+    "offerCardTreatment": "clear_selected_plan",
+    "testimonialTreatment": "specific_trust_oriented_reviews",
+    "countdownTreatment": "restrained_discount_reserved_bar"
+  },
+  "desktopSystem": {
+    "layoutMode": "full_width_web_funnel",
+    "contentAlignment": "centered_column",
+    "maxContentWidth": 780,
+    "phoneMockupPolicy": "forbidden"
+  },
+  "pageVariants": {
+    "entry_page": "dominant_hero",
+    "age_group": "image_grid",
+    "age_input_page": "large_numeric",
+    "single_choice_page": "plain_list",
+    "multi_choice_page": "plain_list",
+    "intro_page": "proof_led",
+    "height_input_page": "unit_switching_numeric",
+    "weight_input_page": "unit_switching_numeric",
+    "email_capture_page": "simple_form",
+    "summary_page": "metric_report",
+    "analysis_page": "projection_chart",
+    "plan_generation_page": "circular_progress_with_proof",
+    "plan_ready_page": "chart_led_ready",
+    "paywall_page": "long_checkout_landing",
+    "account_create_page": "simple_form",
+    "login_page": "simple_form",
+    "account_page": "flat_account_center"
+  },
+  "forbiddenOverrides": [
+    "page-level unrelated primary colors",
+    "page-level unrelated font families",
+    "page-level unrelated button styles",
+    "page-level unrelated card radius systems",
+    "changing runtime behavior through recipe",
+    "changing backend/API behavior through recipe",
+    "using reference screenshot colors unless explicitly selected"
+  ]
+}

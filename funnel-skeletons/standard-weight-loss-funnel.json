@@ -1,0 +1,353 @@
+{
+  "version": "0.3.0",
+  "id": "standard-weight-loss-funnel",
+  "name": "Standard Weight Loss Web2App Funnel",
+  "description": "Default 30-40 page Web2App skeleton for weight loss, body slimming, calorie, fasting, diet-adjacent, and women fitness apps where the paywall promise depends on goal, current state, habits, body metrics, timeline, and plan ownership.",
+  "length": {
+    "tier": "standard",
+    "targetPages": {
+      "min": 30,
+      "max": 40
+    },
+    "targetQuestionPages": {
+      "min": 17,
+      "max": 24
+    }
+  },
+  "selectionSignals": [
+    "weight loss",
+    "lose weight",
+    "slimming",
+    "fat loss",
+    "body transformation",
+    "diet",
+    "fasting",
+    "calorie",
+    "women workout",
+    "belly fat"
+  ],
+  "domainAdaptation": {
+    "emphasize": [
+      "body goal",
+      "lifestyle fit",
+      "eating habits",
+      "current versus desired state",
+      "target timeline",
+      "sensitive body metrics late",
+      "prediction and plan ownership before paywall"
+    ],
+    "reduce": [
+      "aggressive gym language",
+      "medical diagnosis",
+      "shame-based body copy",
+      "abstract wellness"
+    ]
+  },
+  "operatingModel": {
+    "principle": "The funnel should feel like a personalized weight-loss plan generator, not a body survey.",
+    "progressPolicy": {
+      "questionPagesOnly": true,
+      "excludePageRoles": [
+        "portal",
+        "trust_builder",
+        "summary",
+        "analysis",
+        "prediction",
+        "plan_generation",
+        "plan_ready",
+        "checkout",
+        "payment_verification",
+        "account"
+      ]
+    },
+    "feedbackPagePolicy": {
+      "minimumForStandardFlow": 4,
+      "recommendedCadence": "After age group, primary goal, biggest barrier, and sensitive measurements.",
+      "assetRequirement": {
+        "required": true,
+        "assetType": "intro_hero"
+      }
+    }
+  },
+  "modules": [
+    {
+      "moduleId": "entry",
+      "sectionLabel": "Start",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        {
+          "slotId": "entry",
+          "required": true,
+          "allowedPageTypes": ["entry_page"],
+          "assetRequirement": { "required": true, "assetType": "entry_hero" },
+          "purpose": "Show product promise, start CTA, and login action before OB."
+        }
+      ]
+    },
+    {
+      "moduleId": "basic_profile",
+      "sectionLabel": "My Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["ageGroup"],
+      "recommendedDataKeys": ["gender", "currentBodyFeeling", "desiredBodyFeeling"],
+      "slots": [
+        {
+          "slotId": "age_group",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "recommendedVariants": ["image_grid"],
+          "dataKey": "ageGroup",
+          "optionCount": 4,
+          "assetRequirement": { "required": true, "assetType": "age_group_option", "perOption": true },
+          "purpose": "Segment tone, claims, intensity, and imagery by life stage."
+        },
+        {
+          "slotId": "age_reassurance_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "age_group",
+          "usesAnswers": ["ageGroup"],
+          "purpose": "Build early trust and explain age-aware personalization."
+        },
+        {
+          "slotId": "current_body_feeling",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "currentBodyFeeling",
+          "purpose": "Capture non-shaming current state for later contrast."
+        },
+        {
+          "slotId": "desired_body_feeling",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "desiredBodyFeeling",
+          "purpose": "Create desired-state ownership before asking metrics."
+        }
+      ]
+    },
+    {
+      "moduleId": "goals",
+      "sectionLabel": "Goals",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["mainGoal", "focusAreas"],
+      "recommendedDataKeys": ["targetAreas", "successDefinition", "targetFeeling"],
+      "slots": [
+        {
+          "slotId": "main_goal",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "mainGoal",
+          "purpose": "Anchor the paywall promise around the user's primary outcome."
+        },
+        {
+          "slotId": "focus_areas",
+          "required": true,
+          "allowedPageTypes": ["multi_choice_page"],
+          "dataKey": "focusAreas",
+          "minSelections": 1,
+          "purpose": "Collect visible personalization hooks such as belly, hips, legs, full body, or energy."
+        },
+        {
+          "slotId": "goal_bridge_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "main_goal",
+          "usesAnswers": ["mainGoal", "focusAreas"],
+          "purpose": "Turn selected goals into plan ownership."
+        },
+        {
+          "slotId": "success_definition",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "successDefinition",
+          "purpose": "Capture the user's definition of meaningful progress."
+        }
+      ]
+    },
+    {
+      "moduleId": "current_state_and_barriers",
+      "sectionLabel": "Current State",
+      "required": true,
+      "minQuestionPages": 4,
+      "maxQuestionPages": 6,
+      "requiredDataKeys": ["activityLevel", "biggestBarrier"],
+      "recommendedDataKeys": ["pastAttempts", "energyLevel", "timeAvailable", "motivationBlocker"],
+      "slots": [
+        {
+          "slotId": "activity_level",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "activityLevel",
+          "purpose": "Set starting intensity and reduce fear of a plan that is too hard."
+        },
+        {
+          "slotId": "past_attempts",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "pastAttempts",
+          "purpose": "Acknowledge previous attempts and position the product as different."
+        },
+        {
+          "slotId": "biggest_barrier",
+          "required": true,
+          "allowedPageTypes": ["multi_choice_page", "single_choice_page"],
+          "dataKey": "biggestBarrier",
+          "minSelections": 1,
+          "purpose": "Surface objections before paywall and personalize solution framing."
+        },
+        {
+          "slotId": "barrier_reframe_intro",
+          "required": true,
+          "allowedPageTypes": ["intro_page"],
+          "feedbackAfter": "biggest_barrier",
+          "usesAnswers": ["biggestBarrier"],
+          "purpose": "Reframe blockers as solvable through a realistic plan."
+        },
+        {
+          "slotId": "daily_time_available",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "dailyTimeAvailable",
+          "purpose": "Create realistic plan duration and paywall promise."
+        }
+      ]
+    },
+    {
+      "moduleId": "habits_and_lifestyle",
+      "sectionLabel": "Lifestyle",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "recommendedDataKeys": ["waterIntake", "sleepQuality", "mealPattern", "cravings", "routineTime"],
+      "slots": [
+        {
+          "slotId": "meal_pattern",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "mealPattern",
+          "purpose": "Adapt plan messaging around real eating rhythm without turning the funnel into medical nutrition advice."
+        },
+        {
+          "slotId": "cravings_or_snacking",
+          "required": false,
+          "allowedPageTypes": ["multi_choice_page"],
+          "dataKey": "cravings",
+          "minSelections": 1,
+          "purpose": "Collect diet-adjacent friction for summary and plan positioning."
+        },
+        {
+          "slotId": "sleep_quality",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "sleepQuality",
+          "purpose": "Use lifestyle data to make results feel more personalized."
+        }
+      ]
+    },
+    {
+      "moduleId": "body_metrics_and_timeline",
+      "sectionLabel": "Body Profile",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["height", "currentWeight"],
+      "recommendedDataKeys": ["targetWeight", "eventGoal", "targetDate"],
+      "sensitive": true,
+      "slots": [
+        {
+          "slotId": "height",
+          "required": true,
+          "allowedPageTypes": ["height_input_page"],
+          "dataKey": "height",
+          "measurementType": "height",
+          "units": ["in", "cm"],
+          "defaultUnit": "in",
+          "purpose": "Collect height late with live unit conversion and a visible default."
+        },
+        {
+          "slotId": "current_weight",
+          "required": true,
+          "allowedPageTypes": ["weight_input_page"],
+          "dataKey": "currentWeight",
+          "measurementType": "weight",
+          "units": ["lbs", "kg"],
+          "defaultUnit": "lbs",
+          "purpose": "Collect current weight after trust has been built."
+        },
+        {
+          "slotId": "target_weight",
+          "required": false,
+          "allowedPageTypes": ["weight_input_page", "input_page"],
+          "dataKey": "targetWeight",
+          "purpose": "Create target-state personalization when compliant and appropriate."
+        },
+        {
+          "slotId": "timeline_goal",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page", "date_input_page"],
+          "dataKey": "timelineGoal",
+          "purpose": "Support prediction and plan duration framing."
+        }
+      ]
+    },
+    {
+      "moduleId": "motivation_and_commitment",
+      "sectionLabel": "Motivation",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "recommendedDataKeys": ["targetFeeling", "motivationReason", "commitmentLevel"],
+      "slots": [
+        {
+          "slotId": "target_feeling",
+          "required": true,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "targetFeeling",
+          "purpose": "Capture emotional payoff for plan ready and paywall bridge."
+        },
+        {
+          "slotId": "commitment_level",
+          "required": false,
+          "allowedPageTypes": ["single_choice_page"],
+          "dataKey": "commitmentLevel",
+          "purpose": "Frame the plan as achievable and matched to readiness."
+        }
+      ]
+    },
+    {
+      "moduleId": "pre_paywall_result",
+      "sectionLabel": "Your Results",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "email_capture", "required": true, "allowedPageTypes": ["email_capture_page"], "purpose": "Save results and create continuity before showing the plan." },
+        { "slotId": "summary", "required": true, "allowedPageTypes": ["summary_page"], "purpose": "Package answers into a profile, not a raw recap." },
+        { "slotId": "analysis", "required": true, "allowedPageTypes": ["analysis_page", "prediction_page"], "purpose": "Show insight or timeline with careful claims." },
+        { "slotId": "plan_generation", "required": true, "allowedPageTypes": ["plan_generation_page"], "purpose": "Build anticipation and perceived personalization." },
+        { "slotId": "plan_ready", "required": true, "allowedPageTypes": ["plan_ready_page"], "purpose": "Bridge into paywall with plan ownership." }
+      ]
+    },
+    {
+      "moduleId": "monetization_and_account",
+      "sectionLabel": "Checkout",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "paywall", "required": true, "allowedPageTypes": ["paywall_page"], "purpose": "Unlock the personalized plan with backend products and Stripe checkout." },
+        { "slotId": "payment_success", "required": true, "allowedPageTypes": ["payment_success_page"], "purpose": "Verify backend payment/subscription/entitlement state." },
+        { "slotId": "account_create", "required": true, "allowedPageTypes": ["account_create_page"], "purpose": "Upgrade anonymous uid into a formal email account." },
+        { "slotId": "login", "required": true, "allowedPageTypes": ["login_page"], "purpose": "Allow returning users from entry portal." },
+        { "slotId": "account", "required": true, "allowedPageTypes": ["account_page"], "purpose": "Show subscription and entitlement information." },
+        { "slotId": "subscription_manage", "required": true, "allowedPageTypes": ["subscription_manage_page"], "purpose": "Manage or cancel subscription." }
+      ]
+    }
+  ]
+}

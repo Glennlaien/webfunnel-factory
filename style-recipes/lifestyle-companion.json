@@ -1,0 +1,153 @@
+{
+  "version": "0.1.0",
+  "recipeId": "lifestyle_companion",
+  "recipeName": "Lifestyle Companion",
+  "recipeMode": "selected_preset",
+  "selection": {
+    "source": "product_strategy",
+    "reason": "For habit building, light movement, daily routines, beginner-friendly plans, and long-term lifestyle support products.",
+    "confidence": "high",
+    "productEvidence": [
+      "The product promise centers on consistency, daily support, and sustainable lifestyle change.",
+      "The audience needs encouragement and simplicity more than intensity.",
+      "The funnel should feel friendly and practical, not clinical or aggressive."
+    ]
+  },
+  "fit": {
+    "productCategories": ["habit building", "light fitness", "daily routine", "lifestyle wellness", "walking", "beginner movement"],
+    "audience": {
+      "ageBand": "adult_broad",
+      "genderFocus": "all_gender",
+      "confidenceLevel": "low_to_medium",
+      "sensitivityNeeds": "support motivation without pressure"
+    },
+    "modality": ["daily habits", "light movement", "routine building", "wellness companion"],
+    "emotionalPromise": "Make small daily choices easier to repeat and turn them into a steady routine."
+  },
+  "visualTone": {
+    "keywords": ["friendly", "warm", "practical", "steady", "human", "encouraging"],
+    "avoid": ["hardcore gym language", "medical coldness", "luxury wellness abstraction", "overly playful gamification"],
+    "differentiationGoal": "Make the funnel feel like a supportive companion for daily progress rather than a strict training program."
+  },
+  "globalTokens": {
+    "background": "#F7F4EF",
+    "surface": "#FFFFFF",
+    "surfaceContainer": "#EFE9DF",
+    "surfaceContainerHigh": "#E5DCCF",
+    "text": "#25231F",
+    "secondary": "#6B665E",
+    "muted": "#969087",
+    "primary": "#7A5EAF",
+    "onPrimary": "#FFFFFF",
+    "outline": "#DCD3C6",
+    "error": "#B3261E"
+  },
+  "typography": {
+    "fontFamily": "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    "headingTone": "friendly_confident",
+    "headingWeight": 760,
+    "bodyWeight": 500,
+    "titleScale": "friendly_mobile_title",
+    "bodyScale": "comfortable_mobile_body",
+    "letterSpacing": 0
+  },
+  "shape": {
+    "buttonRadius": 18,
+    "cardRadius": 20,
+    "optionRadius": 18,
+    "imageRadius": 20,
+    "chipRadius": 999
+  },
+  "spacing": {
+    "pagePaddingX": 24,
+    "sectionGap": 28,
+    "optionGap": 14,
+    "contentMaxWidth": 390,
+    "desktopContentMaxWidth": 760
+  },
+  "components": {
+    "cta": {
+      "height": 58,
+      "radius": 18,
+      "fontWeight": 760,
+      "disabledStyle": "muted_solid",
+      "loadingStyle": "fullscreen_overlay"
+    },
+    "optionCard": {
+      "density": "comfortable",
+      "selectedState": "soft_filled_selected",
+      "borderStyle": "quiet_outline",
+      "shadowStyle": "none_or_soft",
+      "checkTreatment": "friendly_checkmark"
+    },
+    "input": {
+      "style": "flat_field_or_large_numeric",
+      "focusStyle": "primary_outline"
+    },
+    "progress": {
+      "style": "segmented",
+      "activeColor": "primary",
+      "inactiveColor": "surfaceContainer"
+    },
+    "statusCard": {
+      "style": "warm_tinted",
+      "tone": "encouraging_practical"
+    }
+  },
+  "choiceSystem": {
+    "defaultSingleChoiceVariant": "plain_list",
+    "defaultMultiChoiceVariant": "plain_list",
+    "iconPolicy": "optional_only_when_semantic",
+    "imageGridPolicy": "use_for_age_group_routine_context_or_visual_self_identification"
+  },
+  "mediaSystem": {
+    "imageStyle": "realistic warm lifestyle photography",
+    "personStyle": "approachable everyday subject",
+    "backgroundTreatment": "clean home or outdoor everyday setting",
+    "crop": "mobile-first natural subject crop",
+    "lighting": "warm natural daylight",
+    "assetBackgroundRule": "light_clean_background"
+  },
+  "paywallSystem": {
+    "tone": "supportive_continuation",
+    "primaryEmphasis": "daily consistency and easy plan ownership",
+    "resultComparisonTreatment": "gentle_progress_preview",
+    "offerCardTreatment": "clear_selected_plan",
+    "testimonialTreatment": "relatable_daily_life_reviews",
+    "countdownTreatment": "friendly_discount_reserved_bar"
+  },
+  "desktopSystem": {
+    "layoutMode": "full_width_web_funnel",
+    "contentAlignment": "centered_column",
+    "maxContentWidth": 760,
+    "phoneMockupPolicy": "forbidden"
+  },
+  "pageVariants": {
+    "entry_page": "dominant_hero",
+    "age_group": "image_grid",
+    "age_input_page": "large_numeric",
+    "single_choice_page": "plain_list",
+    "multi_choice_page": "plain_list",
+    "intro_page": "hero_top",
+    "height_input_page": "unit_switching_numeric",
+    "weight_input_page": "unit_switching_numeric",
+    "email_capture_page": "simple_form",
+    "summary_page": "metric_report",
+    "analysis_page": "projection_chart",
+    "plan_generation_page": "circular_progress_with_proof",
+    "plan_ready_page": "chart_led_ready",
+    "paywall_page": "long_checkout_landing",
+    "account_create_page": "simple_form",
+    "login_page": "simple_form",
+    "account_page": "flat_account_center"
+  },
+  "forbiddenOverrides": [
+    "page-level unrelated primary colors",
+    "page-level unrelated font families",
+    "page-level unrelated button styles",
+    "page-level unrelated card radius systems",
+    "changing runtime behavior through recipe",
+    "changing backend/API behavior through recipe",
+    "using reference screenshot colors unless explicitly selected"
+  ]
+}

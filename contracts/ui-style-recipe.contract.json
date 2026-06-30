@@ -1,0 +1,242 @@
+{
+  "version": "0.1.0",
+  "name": "ui-style-recipe-contract",
+  "description": "Machine-readable contract for the global UI style recipe consumed by design agents and React Runtime. A UI recipe is global to the whole funnel; page-level config may choose variants but must not define unrelated visual systems.",
+  "outputPath": "outputs/design/ui-style-recipe.json",
+  "requiredTopLevelFields": [
+    "version",
+    "recipeId",
+    "recipeName",
+    "selection",
+    "fit",
+    "visualTone",
+    "globalTokens",
+    "typography",
+    "shape",
+    "spacing",
+    "components",
+    "mediaSystem",
+    "paywallSystem",
+    "desktopSystem",
+    "pageVariants",
+    "forbiddenOverrides"
+  ],
+  "identity": {
+    "recipeId": "Stable snake_case id, such as hard_training, calm_wellness, energetic_fitness, clinical_trust, or lifestyle_companion.",
+    "recipeName": "Human-readable recipe name.",
+    "recipeMode": {
+      "allowed": [
+        "selected_preset",
+        "generated_product_specific",
+        "preset_with_overrides"
+      ],
+      "description": "Whether the recipe came from an existing preset, was generated for this product, or combines a preset with product-specific overrides."
+    }
+  },
+  "selection": {
+    "requiredFields": [
+      "source",
+      "reason",
+      "confidence",
+      "productEvidence"
+    ],
+    "source": {
+      "allowed": [
+        "product_strategy",
+        "app_store_visual_evidence",
+        "user_requirement",
+        "neutral_fallback"
+      ]
+    },
+    "confidence": {
+      "allowed": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "productEvidence": "Array of concrete observations used to justify the selected visual direction."
+  },
+  "fit": {
+    "fields": {
+      "productCategories": "Array of product/category tags this recipe fits.",
+      "audience": "Audience descriptors such as age band, gender focus, confidence level, and sensitivity needs.",
+      "modality": "Movement/training modality such as strength, yoga, tai chi, Pilates, walking, fasting, or general wellness.",
+      "emotionalPromise": "What the user should feel the product can help them achieve."
+    }
+  },
+  "visualTone": {
+    "fields": {
+      "keywords": "3-8 visual tone keywords.",
+      "avoid": "Specific visual/copy traps to avoid for this product.",
+      "differentiationGoal": "How this recipe should differ from previous generic runs."
+    }
+  },
+  "globalTokens": {
+    "requiredFields": [
+      "background",
+      "surface",
+      "surfaceContainer",
+      "text",
+      "secondary",
+      "muted",
+      "primary",
+      "onPrimary",
+      "outline",
+      "error"
+    ],
+    "rule": "Tokens apply across the whole funnel. Do not set unrelated page-level colors."
+  },
+  "typography": {
+    "requiredFields": [
+      "fontFamily",
+      "headingTone",
+      "headingWeight",
+      "bodyWeight",
+      "titleScale",
+      "bodyScale",
+      "letterSpacing"
+    ],
+    "letterSpacing": {
+      "requiredValue": 0
+    }
+  },
+  "shape": {
+    "requiredFields": [
+      "buttonRadius",
+      "cardRadius",
+      "optionRadius",
+      "imageRadius",
+      "chipRadius"
+    ],
+    "unit": "px"
+  },
+  "spacing": {
+    "requiredFields": [
+      "pagePaddingX",
+      "sectionGap",
+      "optionGap",
+      "contentMaxWidth",
+      "desktopContentMaxWidth"
+    ],
+    "unit": "px"
+  },
+  "components": {
+    "requiredFields": [
+      "cta",
+      "optionCard",
+      "input",
+      "progress",
+      "statusCard"
+    ],
+    "cta": [
+      "height",
+      "radius",
+      "fontWeight",
+      "disabledStyle",
+      "loadingStyle"
+    ],
+    "optionCard": [
+      "density",
+      "selectedState",
+      "borderStyle",
+      "shadowStyle",
+      "checkTreatment"
+    ],
+    "rule": "Component styles are global defaults. Page variants may use the same component tokens differently but must not create a different brand language."
+  },
+  "choiceSystem": {
+    "requiredFields": [
+      "defaultSingleChoiceVariant",
+      "defaultMultiChoiceVariant",
+      "iconPolicy",
+      "imageGridPolicy"
+    ],
+    "allowedVariants": [
+      "plain_list",
+      "image_grid",
+      "icon_list"
+    ],
+    "iconPolicy": "Icons are optional and should be used only when semantic. The default should not force icons."
+  },
+  "mediaSystem": {
+    "requiredFields": [
+      "imageStyle",
+      "personStyle",
+      "backgroundTreatment",
+      "crop",
+      "lighting",
+      "assetBackgroundRule"
+    ],
+    "assetBackgroundRule": {
+      "allowed": [
+        "light_clean_background",
+        "dark_clean_background",
+        "transparent_when_available"
+      ]
+    }
+  },
+  "paywallSystem": {
+    "requiredFields": [
+      "tone",
+      "primaryEmphasis",
+      "resultComparisonTreatment",
+      "offerCardTreatment",
+      "testimonialTreatment",
+      "countdownTreatment"
+    ],
+    "rule": "Paywall must stay visually related to the same global recipe while allowing a stronger sales-page hierarchy."
+  },
+  "desktopSystem": {
+    "requiredFields": [
+      "layoutMode",
+      "contentAlignment",
+      "maxContentWidth",
+      "phoneMockupPolicy"
+    ],
+    "layoutMode": {
+      "requiredValue": "full_width_web_funnel"
+    },
+    "phoneMockupPolicy": {
+      "requiredValue": "forbidden"
+    }
+  },
+  "pageVariants": {
+    "description": "Controlled page-template choices under the global recipe. These are not page-specific themes.",
+    "allowedKeys": [
+      "entry_page",
+      "age_group",
+      "age_input_page",
+      "single_choice_page",
+      "multi_choice_page",
+      "intro_page",
+      "height_input_page",
+      "weight_input_page",
+      "email_capture_page",
+      "summary_page",
+      "analysis_page",
+      "plan_generation_page",
+      "plan_ready_page",
+      "paywall_page",
+      "account_create_page",
+      "login_page",
+      "account_page"
+    ],
+    "rule": "Page variants may choose layout/component forms, such as image_grid or metric_report, but must inherit global tokens."
+  },
+  "forbiddenOverrides": [
+    "page-level unrelated primary colors",
+    "page-level unrelated font families",
+    "page-level unrelated button styles",
+    "page-level unrelated card radius systems",
+    "changing runtime behavior through recipe",
+    "changing backend/API behavior through recipe",
+    "using reference screenshot colors unless explicitly selected"
+  ],
+  "derivedOutputs": {
+    "themeJson": "outputs/design/theme.json should derive tokens from this recipe.",
+    "artDirection": "outputs/design/art-direction.json should explain the product-specific visual rationale.",
+    "screenBlueprints": "outputs/design/screen-blueprints.json should apply pageVariants without breaking global recipe consistency.",
+    "runtimeConfig": "outputs/config/funnel.config.json may reference selected page variants, but runtime behavior remains in runtime adapters."
+  }
+}

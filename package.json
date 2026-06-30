@@ -1,0 +1,30 @@
+{
+  "name": "web2app-subagent-factory",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "workflow": "node scripts/workflow.mjs",
+    "workflow:status": "node scripts/workflow.mjs status",
+    "workflow:next": "node scripts/workflow.mjs next",
+    "workflow:prompt": "node scripts/workflow.mjs prompt",
+    "workflow:validate": "node scripts/workflow.mjs validate",
+    "workflow:init": "node scripts/workflow.mjs init",
+    "workflow:run": "node scripts/workflow.mjs run",
+    "workflow:doctor": "node scripts/workflow.mjs doctor",
+    "images:prepare": "node scripts/prepare-image-assets.mjs",
+    "images:generate": "node scripts/generate-images.mjs",
+    "run:production": "node scripts/run-production-funnel.mjs",
+    "workflow:reset": "node scripts/reset.mjs",
+    "validate": "node scripts/validate.mjs",
+    "validate:runtime": "node scripts/validate-runtime.mjs",
+    "status": "node scripts/status.mjs",
+    "clean": "node scripts/clean-outputs.mjs",
+    "clean:outputs": "node scripts/clean-outputs.mjs",
+    "workflow:production": "node scripts/run-production-funnel.mjs",
+    "reset": "node scripts/reset.mjs"
+  },
+  "devDependencies": {
+    "pngjs": "^7.0.0"
+  }
+}

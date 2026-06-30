@@ -1,0 +1,186 @@
+{
+  "version": "0.3.0",
+  "id": "standard-walking-funnel",
+  "name": "Standard Walking And Step Habit Web2App Funnel",
+  "description": "Default 28-38 page Web2App skeleton for walking, step counter, walk-to-lose-weight, daily movement, beginner cardio, and habit-building subscription apps.",
+  "length": {
+    "tier": "standard",
+    "targetPages": {
+      "min": 28,
+      "max": 38
+    },
+    "targetQuestionPages": {
+      "min": 16,
+      "max": 23
+    }
+  },
+  "selectionSignals": [
+    "walking",
+    "walk",
+    "step counter",
+    "steps",
+    "daily walk",
+    "walk at home",
+    "walking weight loss",
+    "habit",
+    "cardio beginner"
+  ],
+  "domainAdaptation": {
+    "emphasize": [
+      "daily routine",
+      "step habit",
+      "schedule fit",
+      "starting activity level",
+      "motivation",
+      "event or timeline goal",
+      "progress prediction",
+      "low-friction consistency"
+    ],
+    "reduce": [
+      "complex exercise science",
+      "gym language",
+      "diet detail unless weight loss is central",
+      "intense body transformation claims"
+    ]
+  },
+  "operatingModel": {
+    "principle": "The funnel should make walking feel like an achievable daily plan that fits the user's life and builds visible progress.",
+    "progressPolicy": {
+      "questionPagesOnly": true,
+      "excludePageRoles": ["portal", "trust_builder", "summary", "analysis", "prediction", "plan_generation", "plan_ready", "checkout", "payment_verification", "account"]
+    },
+    "feedbackPagePolicy": {
+      "minimumForStandardFlow": 4,
+      "recommendedCadence": "After age group, main walking goal, barriers, and schedule context.",
+      "assetRequirement": { "required": true, "assetType": "intro_hero" }
+    }
+  },
+  "modules": [
+    {
+      "moduleId": "entry",
+      "sectionLabel": "Start",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "entry", "required": true, "allowedPageTypes": ["entry_page"], "assetRequirement": { "required": true, "assetType": "entry_hero" }, "purpose": "Show walking outcome promise, start CTA, and login action." }
+      ]
+    },
+    {
+      "moduleId": "basic_profile",
+      "sectionLabel": "My Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["ageGroup"],
+      "recommendedDataKeys": ["currentWalkingLevel", "currentRoutine", "desiredRoutineIdentity"],
+      "slots": [
+        { "slotId": "age_group", "required": true, "allowedPageTypes": ["single_choice_page"], "recommendedVariants": ["image_grid"], "dataKey": "ageGroup", "optionCount": 4, "assetRequirement": { "required": true, "assetType": "age_group_option", "perOption": true }, "purpose": "Tune step goals, imagery, tone, and plan claims by life stage." },
+        { "slotId": "age_reassurance_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "age_group", "usesAnswers": ["ageGroup"], "purpose": "Reassure that walking progress can start from the user's current level." },
+        { "slotId": "current_walking_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "currentWalkingLevel", "purpose": "Set starting plan intensity and first-week step target." },
+        { "slotId": "current_routine", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "currentRoutine", "purpose": "Understand how walking currently fits or does not fit into the user's day." }
+      ]
+    },
+    {
+      "moduleId": "goals",
+      "sectionLabel": "Goals",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["mainGoal", "successDefinition"],
+      "recommendedDataKeys": ["targetSteps", "focusOutcome", "targetFeeling"],
+      "slots": [
+        { "slotId": "main_goal", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "mainGoal", "purpose": "Anchor around weight loss, energy, consistency, endurance, stress relief, or active routine." },
+        { "slotId": "success_definition", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "successDefinition", "purpose": "Capture what walking progress should mean emotionally and practically." },
+        { "slotId": "goal_bridge_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "main_goal", "usesAnswers": ["mainGoal", "successDefinition"], "purpose": "Turn walking goal into a realistic plan promise." },
+        { "slotId": "target_steps", "required": false, "allowedPageTypes": ["single_choice_page", "input_page"], "dataKey": "targetSteps", "purpose": "Give the plan a concrete step-goal anchor when appropriate." }
+      ]
+    },
+    {
+      "moduleId": "barriers_and_schedule",
+      "sectionLabel": "Routine",
+      "required": true,
+      "minQuestionPages": 4,
+      "maxQuestionPages": 6,
+      "requiredDataKeys": ["biggestBarrier", "preferredWalkTime"],
+      "recommendedDataKeys": ["dailyTimeAvailable", "scheduleType", "walkingEnvironment", "weatherBarrier"],
+      "slots": [
+        { "slotId": "daily_time_available", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "dailyTimeAvailable", "purpose": "Set realistic walking session duration." },
+        { "slotId": "preferred_walk_time", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "preferredWalkTime", "purpose": "Fit walking into the user's real day." },
+        { "slotId": "walking_environment", "required": false, "allowedPageTypes": ["single_choice_page", "multi_choice_page"], "dataKey": "walkingEnvironment", "purpose": "Adapt plan for outdoor, treadmill, indoor, office, or at-home walking." },
+        { "slotId": "biggest_barrier", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "biggestBarrier", "minSelections": 1, "purpose": "Surface weather, time, motivation, fatigue, safety, or consistency objections." },
+        { "slotId": "barrier_reframe_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "biggest_barrier", "usesAnswers": ["biggestBarrier"], "purpose": "Reframe blockers as solvable through flexible walking plan design." }
+      ]
+    },
+    {
+      "moduleId": "lifestyle_and_habits",
+      "sectionLabel": "Lifestyle",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "recommendedDataKeys": ["energyLevel", "sleepQuality", "mealPattern", "hydration", "sittingTime"],
+      "slots": [
+        { "slotId": "energy_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "energyLevel", "purpose": "Adapt walking plan intensity and copy around fatigue or energy." },
+        { "slotId": "sitting_time", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "sittingTime", "purpose": "Position walking as a practical daily movement break." },
+        { "slotId": "sleep_quality", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "sleepQuality", "purpose": "Make plan context feel more personalized." }
+      ]
+    },
+    {
+      "moduleId": "body_metrics_and_timeline",
+      "sectionLabel": "Body Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["height", "currentWeight"],
+      "recommendedDataKeys": ["targetWeight", "eventGoal", "targetDate"],
+      "sensitive": true,
+      "slots": [
+        { "slotId": "height", "required": true, "allowedPageTypes": ["height_input_page"], "dataKey": "height", "measurementType": "height", "units": ["in", "cm"], "defaultUnit": "in", "purpose": "Collect height late with live unit conversion and default value." },
+        { "slotId": "current_weight", "required": true, "allowedPageTypes": ["weight_input_page"], "dataKey": "currentWeight", "measurementType": "weight", "units": ["lbs", "kg"], "defaultUnit": "lbs", "purpose": "Collect current weight after trust and goal context." },
+        { "slotId": "event_goal", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "eventGoal", "purpose": "Create timeline motivation when relevant." }
+      ]
+    },
+    {
+      "moduleId": "motivation_and_commitment",
+      "sectionLabel": "Motivation",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["targetFeeling"],
+      "recommendedDataKeys": ["motivationReason", "commitmentLevel"],
+      "slots": [
+        { "slotId": "target_feeling", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "targetFeeling", "purpose": "Capture emotional payoff for plan ready and paywall bridge." },
+        { "slotId": "commitment_level", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "commitmentLevel", "purpose": "Adjust plan confidence and expected cadence." }
+      ]
+    },
+    {
+      "moduleId": "pre_paywall_result",
+      "sectionLabel": "Your Results",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "email_capture", "required": true, "allowedPageTypes": ["email_capture_page"], "purpose": "Save walking plan and results." },
+        { "slotId": "summary", "required": true, "allowedPageTypes": ["summary_page"], "purpose": "Package answers into walking habit profile." },
+        { "slotId": "analysis", "required": true, "allowedPageTypes": ["analysis_page", "prediction_page"], "purpose": "Show recommended walking cadence, daily time, or progress timeline." },
+        { "slotId": "plan_generation", "required": true, "allowedPageTypes": ["plan_generation_page"], "purpose": "Build anticipation while matching schedule, goal, and barriers." },
+        { "slotId": "plan_ready", "required": true, "allowedPageTypes": ["plan_ready_page"], "purpose": "Bridge into paywall with plan ownership." }
+      ]
+    },
+    {
+      "moduleId": "monetization_and_account",
+      "sectionLabel": "Checkout",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "paywall", "required": true, "allowedPageTypes": ["paywall_page"], "purpose": "Unlock the personalized walking plan." },
+        { "slotId": "payment_success", "required": true, "allowedPageTypes": ["payment_success_page"], "purpose": "Verify payment and subscription state." },
+        { "slotId": "account_create", "required": true, "allowedPageTypes": ["account_create_page"], "purpose": "Upgrade anonymous uid into email account." },
+        { "slotId": "login", "required": true, "allowedPageTypes": ["login_page"], "purpose": "Returning-user login." },
+        { "slotId": "account", "required": true, "allowedPageTypes": ["account_page"], "purpose": "View subscription and entitlements." },
+        { "slotId": "subscription_manage", "required": true, "allowedPageTypes": ["subscription_manage_page"], "purpose": "Cancel or manage subscription." }
+      ]
+    }
+  ]
+}

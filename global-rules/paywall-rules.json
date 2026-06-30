@@ -1,0 +1,59 @@
+{
+  "version": "0.2.0",
+  "name": "paywall-rules",
+  "description": "Business and conversion principles for Web2App paywalls. API shapes, Stripe checkout mechanics, and renderer requirements are owned by contracts, recipes, and runtime adapters.",
+  "ownershipBoundary": {
+    "owns": [
+      "paywall conversion intent",
+      "required business sections at a conceptual level",
+      "personalization principles",
+      "renewal/disclosure clarity"
+    ],
+    "doesNotOwn": [
+      "offer API fields",
+      "Stripe embedded checkout implementation",
+      "environment variable names",
+      "mock pricing data",
+      "React renderer details"
+    ],
+    "implementationSources": [
+      "contracts/paywall.contract.json",
+      "contracts/backend-api.contract.json",
+      "runtime/react-funnel-runtime/adapters/backend-integration.spec.json",
+      "recipes/paywall-product-loading.md",
+      "recipes/stripe-embedded-checkout.md"
+    ]
+  },
+  "rules": [
+    {
+      "id": "paywall_is_checkout_landing",
+      "category": "monetization_strategy",
+      "severity": "hard",
+      "description": "The paywall should be a full checkout landing screen connected to the user's generated plan, not a simple title, bullet list, and CTA."
+    },
+    {
+      "id": "required_paywall_sections",
+      "category": "structure_strategy",
+      "severity": "hard",
+      "description": "Paywalls should include a personalized result preview, plan-ready headline, urgency or offer-reservation cue, selectable plans, primary checkout CTA, renewal disclosure, plan highlights, social proof, FAQ, money-back guarantee, and legal links. The exact render contract is defined in contracts/paywall.contract.json."
+    },
+    {
+      "id": "paywall_reuses_ob_answers",
+      "category": "personalization_strategy",
+      "severity": "hard",
+      "description": "Paywall copy and preview modules should reuse onboarding answers such as goal, age group, constraints, schedule, focus areas, and readiness signals so the offer feels generated from the user's own context."
+    },
+    {
+      "id": "renewal_terms_must_be_clear",
+      "category": "disclosure_strategy",
+      "severity": "hard",
+      "description": "The selected offer's renewal terms must be shown in clear language near the checkout CTA. Price, initial period, renewal price, and renewal period should be understandable before the user starts checkout."
+    },
+    {
+      "id": "paywall_supports_second_offer_moment",
+      "category": "conversion_strategy",
+      "severity": "recommended",
+      "description": "When the backend supports a follow-up discount type, the paywall may show a second offer moment after countdown expiry or checkout dismissal. This is a conversion strategy; the discountType contract belongs to the offer API and paywall runtime."
+    }
+  ]
+}

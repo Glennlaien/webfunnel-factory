@@ -1,0 +1,487 @@
+{
+  "version": "0.5.0",
+  "product": "Workout for Women -Lose Weight",
+  "pages": [
+    {
+      "id": "entry",
+      "title": "Create a plan that fits your starting point",
+      "subtitle": "Answer a few simple questions so your plan can match your goal, routine, and body profile.",
+      "ctaLabel": "Get started"
+    },
+    {
+      "id": "age_group",
+      "title": "Select your age to start",
+      "subtitle": "This helps tune recovery, difficulty, and weekly pacing.",
+      "options": [
+        {
+          "value": "18_25",
+          "label": "Age: 18-25",
+          "icon": "ArrowRightCircle",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "age_group_option"
+          }
+        },
+        {
+          "value": "26_35",
+          "label": "Age: 26-35",
+          "icon": "ArrowRightCircle",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "age_group_option"
+          }
+        },
+        {
+          "value": "36_45",
+          "label": "Age: 36-45",
+          "icon": "ArrowRightCircle",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "age_group_option"
+          }
+        },
+        {
+          "value": "46_plus",
+          "label": "Age: 46+",
+          "icon": "ArrowRightCircle",
+          "assetRequirement": {
+            "required": true,
+            "assetType": "age_group_option"
+          }
+        }
+      ]
+    },
+    {
+      "id": "exact_age",
+      "title": "What is your age?",
+      "subtitle": "A precise age helps us personalize intensity and recovery.",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "fitness_goal_discovery",
+      "title": "What is your main goal?",
+      "options": [
+        {
+          "value": "build_strength",
+          "label": "Build strength",
+          "icon": "Dumbbell"
+        },
+        {
+          "value": "lose_fat",
+          "label": "Lose fat",
+          "icon": "Flame"
+        },
+        {
+          "value": "look_more_defined",
+          "label": "Look more defined",
+          "icon": "Activity"
+        },
+        {
+          "value": "build_discipline",
+          "label": "Build discipline",
+          "icon": "Target"
+        }
+      ]
+    },
+    {
+      "id": "fitness_body_focus",
+      "title": "Which areas should we focus on?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "chest",
+          "label": "Chest",
+          "icon": "Badge"
+        },
+        {
+          "value": "arms",
+          "label": "Arms",
+          "icon": "Dumbbell"
+        },
+        {
+          "value": "core",
+          "label": "Core",
+          "icon": "CircleDot"
+        },
+        {
+          "value": "legs",
+          "label": "Legs",
+          "icon": "Footprints"
+        },
+        {
+          "value": "full_body",
+          "label": "Full body",
+          "icon": "Activity"
+        }
+      ]
+    },
+    {
+      "id": "fitness_goal_trust_bridge",
+      "title": "Your goal gives the plan direction",
+      "subtitle": "The next answers help us make it realistic.",
+      "body": "A strong plan is not just harder exercises. It needs the right starting point, the right schedule, and a progression you can keep repeating.",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "fitness_experience_level",
+      "title": "How familiar are you with home fitness?",
+      "options": [
+        {
+          "value": "beginner",
+          "label": "Beginner",
+          "icon": "Circle"
+        },
+        {
+          "value": "returning",
+          "label": "Returning after a break",
+          "icon": "Circle"
+        },
+        {
+          "value": "intermediate",
+          "label": "Intermediate",
+          "icon": "Circle"
+        },
+        {
+          "value": "advanced",
+          "label": "Advanced",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_training_readiness",
+      "title": "What is your current starting level?",
+      "options": [
+        {
+          "value": "low",
+          "label": "I need a simple start",
+          "icon": "Circle"
+        },
+        {
+          "value": "medium",
+          "label": "I can handle a challenge",
+          "icon": "Circle"
+        },
+        {
+          "value": "high",
+          "label": "Push me harder",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_current_activity",
+      "title": "How active are you now?",
+      "options": [
+        {
+          "value": "not_active",
+          "label": "Not active",
+          "icon": "Circle"
+        },
+        {
+          "value": "light",
+          "label": "Light movement sometimes",
+          "icon": "Circle"
+        },
+        {
+          "value": "moderate",
+          "label": "I move a few days a week",
+          "icon": "Circle"
+        },
+        {
+          "value": "high",
+          "label": "I already stay active",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_blockers",
+      "title": "What usually gets in your way?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "no_time",
+          "label": "No time",
+          "icon": "Circle"
+        },
+        {
+          "value": "low_motivation",
+          "label": "Low motivation",
+          "icon": "Circle"
+        },
+        {
+          "value": "too_hard",
+          "label": "Plans feel too hard",
+          "icon": "Circle"
+        },
+        {
+          "value": "no_plan",
+          "label": "I do not know what to do",
+          "icon": "Circle"
+        },
+        {
+          "value": "slow_results",
+          "label": "Results feel too slow",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_limitations",
+      "title": "Any areas that need extra care?",
+      "subtitle": "Choose all that apply",
+      "options": [
+        {
+          "value": "wrists",
+          "label": "Wrists",
+          "icon": "Circle"
+        },
+        {
+          "value": "shoulders",
+          "label": "Shoulders",
+          "icon": "Circle"
+        },
+        {
+          "value": "back",
+          "label": "Back",
+          "icon": "Circle"
+        },
+        {
+          "value": "knees",
+          "label": "Knees",
+          "icon": "Circle"
+        },
+        {
+          "value": "none",
+          "label": "No special limitations",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_routine_trust_bridge",
+      "title": "Your routine should fit your real week",
+      "subtitle": "Consistency matters more than a perfect schedule.",
+      "body": "Most people stop because the training plan asks for a version of their week that does not exist. We will use your schedule to shape a home fitness plan that feels easier to repeat.",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "fitness_time_budget",
+      "title": "How much time feels realistic?",
+      "options": [
+        {
+          "value": "10",
+          "label": "10 minutes",
+          "icon": "Circle"
+        },
+        {
+          "value": "15",
+          "label": "15 minutes",
+          "icon": "Circle"
+        },
+        {
+          "value": "20",
+          "label": "20 minutes",
+          "icon": "Circle"
+        },
+        {
+          "value": "25",
+          "label": "25 minutes",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_weekly_frequency",
+      "title": "How many days per week can you commit?",
+      "options": [
+        {
+          "value": "2_3",
+          "label": "2-3 days",
+          "icon": "Circle"
+        },
+        {
+          "value": "4_5",
+          "label": "4-5 days",
+          "icon": "Circle"
+        },
+        {
+          "value": "6_7",
+          "label": "6-7 days",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_preferred_time",
+      "title": "When would you prefer to practice?",
+      "options": [
+        {
+          "value": "morning",
+          "label": "Morning",
+          "icon": "Circle"
+        },
+        {
+          "value": "afternoon",
+          "label": "Afternoon",
+          "icon": "Circle"
+        },
+        {
+          "value": "evening",
+          "label": "Evening",
+          "icon": "Circle"
+        },
+        {
+          "value": "varies",
+          "label": "It changes",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_energy_level",
+      "title": "How is your energy on most days?",
+      "options": [
+        {
+          "value": "low",
+          "label": "Low",
+          "icon": "Circle"
+        },
+        {
+          "value": "mixed",
+          "label": "It changes",
+          "icon": "Circle"
+        },
+        {
+          "value": "steady",
+          "label": "Steady",
+          "icon": "Circle"
+        },
+        {
+          "value": "high",
+          "label": "High",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_motivation_reason",
+      "title": "What would make this plan worth it?",
+      "options": [
+        {
+          "value": "confidence",
+          "label": "Feel more confident",
+          "icon": "Circle"
+        },
+        {
+          "value": "discipline",
+          "label": "Build discipline",
+          "icon": "Circle"
+        },
+        {
+          "value": "appearance",
+          "label": "See visible change",
+          "icon": "Circle"
+        },
+        {
+          "value": "health",
+          "label": "Feel healthier",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "fitness_support_style",
+      "title": "What kind of guidance helps you most?",
+      "options": [
+        {
+          "value": "simple",
+          "label": "Simple instructions",
+          "icon": "Circle"
+        },
+        {
+          "value": "encouraging",
+          "label": "Encourage me",
+          "icon": "Circle"
+        },
+        {
+          "value": "progress",
+          "label": "Show progress",
+          "icon": "Circle"
+        },
+        {
+          "value": "challenge",
+          "label": "Challenge me gradually",
+          "icon": "Circle"
+        }
+      ]
+    },
+    {
+      "id": "height",
+      "title": "How tall are you?",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "current_weight",
+      "title": "What is your current weight?",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "target_weight",
+      "title": "What is your target weight?",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "email",
+      "title": "Where should we send your plan?",
+      "subtitle": "Use an email you can access later.",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "summary",
+      "title": "Summary of your fitness level",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "plan_generation",
+      "title": "Creating your home fitness plan",
+      "subtitle": "Matching your baseline, goal, and weekly schedule."
+    },
+    {
+      "id": "plan_ready",
+      "title": "Your personalized plan is ready",
+      "subtitle": "A structured path built around your starting point.",
+      "ctaLabel": "Continue"
+    },
+    {
+      "id": "paywall",
+      "title": "Unlock your personalized plan",
+      "subtitle": "Start with a plan shaped around your goal, body profile, and schedule.",
+      "ctaLabel": "Get my plan"
+    },
+    {
+      "id": "payment_success",
+      "title": "Payment confirmed",
+      "subtitle": "Create your account to keep access to your plan.",
+      "ctaLabel": "Create account"
+    },
+    {
+      "id": "account_create",
+      "title": "Create your account",
+      "subtitle": "Save your plan and subscription access.",
+      "ctaLabel": "Create account"
+    },
+    {
+      "id": "login",
+      "title": "Log in",
+      "subtitle": "Access your plan and subscription.",
+      "ctaLabel": "Log in"
+    },
+    {
+      "id": "profile",
+      "title": "Profile",
+      "subtitle": "Your plan and subscription."
+    }
+  ]
+}

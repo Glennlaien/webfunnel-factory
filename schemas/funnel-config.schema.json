@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://web2app.local/schemas/funnel-config.schema.json",
+  "title": "Developer Funnel Config",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "product", "theme", "pages"],
+  "properties": {
+    "id": { "type": "string", "minLength": 2 },
+    "product": { "type": "object" },
+    "theme": { "type": "object" },
+    "pages": {
+      "type": "array",
+      "items": { "type": "object" }
+    }
+  }
+}

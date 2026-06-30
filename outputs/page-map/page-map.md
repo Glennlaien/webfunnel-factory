@@ -1,0 +1,32 @@
+# Page Map
+
+1. entry - entry_page - entry
+2. age_group - single_choice_page - onboarding
+3. exact_age - age_input_page - onboarding
+4. fitness_goal_discovery - single_choice_page - onboarding
+5. fitness_body_focus - multi_choice_page - onboarding
+6. fitness_goal_trust_bridge - intro_page - onboarding
+7. fitness_experience_level - single_choice_page - onboarding
+8. fitness_training_readiness - single_choice_page - onboarding
+9. fitness_current_activity - single_choice_page - onboarding
+10. fitness_blockers - multi_choice_page - onboarding
+11. fitness_limitations - multi_choice_page - onboarding
+12. fitness_routine_trust_bridge - intro_page - onboarding
+13. fitness_time_budget - single_choice_page - onboarding
+14. fitness_weekly_frequency - single_choice_page - onboarding
+15. fitness_preferred_time - single_choice_page - onboarding
+16. fitness_energy_level - single_choice_page - onboarding
+17. fitness_motivation_reason - single_choice_page - onboarding
+18. fitness_support_style - single_choice_page - onboarding
+19. height - height_input_page - onboarding
+20. current_weight - weight_input_page - onboarding
+21. target_weight - weight_input_page - onboarding
+22. email - email_capture_page - onboarding
+23. summary - summary_page - result
+24. plan_generation - plan_generation_page - result
+25. plan_ready - plan_ready_page - result
+26. paywall - paywall_page - paywall
+27. payment_success - payment_success_page - paid
+28. account_create - account_create_page - account
+29. login - login_page - account
+30. profile - account_page - account

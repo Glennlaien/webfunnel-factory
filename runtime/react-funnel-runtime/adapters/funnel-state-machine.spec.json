@@ -1,0 +1,48 @@
+{
+  "version": "0.1.0",
+  "name": "funnel-state-machine",
+  "description": "Runtime state machine for Web2App milestone commits, completed-session page states, and authenticated account data loading.",
+  "phaseRank": {
+    "entry": 0,
+    "onboarding": 1,
+    "result": 2,
+    "paywall": 3,
+    "checkout": 4,
+    "paid": 5,
+    "account": 6
+  },
+  "stateKeys": {
+    "currentPage": "page",
+    "committedPhase": "committedPhase",
+    "identity": "identity",
+    "answers": "answers"
+  },
+  "storageScope": {
+    "browserStorage": "sessionStorage",
+    "newTabPolicy": "new browser tab starts a new Web2App visitor session",
+    "startNewPlanPolicy": "clear answers, identity, selected plan, checkout, subscription, entitlements, answer queue, and committedPhase in the current tab before routing to the first OB question"
+  },
+  "guards": {
+    "urlAccess": "URLs are generally navigable; do not hard-redirect solely because page.phase is earlier than committedPhase",
+    "closedSessionPageState": "when committedPhase is paid/account and page.phase is onboarding/result/paywall/checkout, render completed-session actions instead of active quiz/checkout controls",
+    "authenticatedAccountData": "subscription and entitlement calls require uid and Firebase idToken",
+    "protectedPostPaymentPages": "payment success, account creation, account, subscription management, and cancellation pages require an existing session identity and must not create anonymous identity"
+  },
+  "commitEvents": [
+    {
+      "event": "payment_verified",
+      "phase": "paid",
+      "historyPolicy": "replace"
+    },
+    {
+      "event": "account_authenticated",
+      "phase": "account",
+      "historyPolicy": "replace"
+    }
+  ],
+  "fallbackRoutes": {
+    "entry": "entry",
+    "account": "account",
+    "startNewPlan": "age_group"
+  }
+}

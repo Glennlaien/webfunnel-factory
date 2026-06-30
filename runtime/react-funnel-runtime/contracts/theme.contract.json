@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0",
+  "description": "Theme fields consumed by React Funnel Runtime.",
+  "styleSystem": {
+    "default": "runtime_style_recipe",
+    "allowed": ["runtime_style_recipe", "product_specific_tokens"]
+  },
+  "backgroundMode": {
+    "default": "quiet_single_canvas",
+    "allowed": ["quiet_single_canvas", "white", "black", "light_tinted_neutral", "dark_neutral"]
+  },
+  "colors": {
+    "background": "Main app canvas background. Must be a quiet single background token chosen from product/audience evidence, not copied from layout references by default.",
+    "surface": "Primary content surface.",
+    "surfaceContainer": "Subtle grouped content surface.",
+    "surfaceContainerHigh": "Higher-emphasis content surface.",
+    "text": "Primary text color.",
+    "secondary": "Secondary text color.",
+    "muted": "Muted text color.",
+    "primary": "Primary action color.",
+    "onPrimary": "Text/icon on primary action color.",
+    "outline": "Borders and outlines.",
+    "error": "Error state."
+  },
+  "typography": {
+    "family": "CSS font-family string.",
+    "title": "Screen title token.",
+    "subtitle": "Subtitle token.",
+    "body": "Body token.",
+    "option": "Option label token.",
+    "caption": "Caption token.",
+    "letterSpacing": "Must be 0."
+  },
+  "shape": {
+    "cardRadius": "Card radius in px.",
+    "buttonRadius": "Button radius in px.",
+    "imageRadius": "Image radius in px.",
+    "chipRadius": "Chip radius in px."
+  },
+  "layout": {
+    "mobileWidth": "Target mobile canvas width, usually 390.",
+    "desktopBehavior": "Expected value: full_width_web_funnel. Desktop uses a top brand/progress bar and centered content column, not a phone shell."
+  }
+}

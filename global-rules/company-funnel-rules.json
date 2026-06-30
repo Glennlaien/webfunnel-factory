@@ -1,0 +1,83 @@
+{
+  "version": "0.2.0",
+  "name": "company-funnel-rules",
+  "description": "Company-wide business defaults for generated Web2App funnels. This file owns funnel intent and reusable product-flow preferences only; runtime mechanics live in runtime adapters, contracts, and recipes.",
+  "ownershipBoundary": {
+    "owns": [
+      "default funnel structure",
+      "business-level page presence",
+      "conversion sequencing",
+      "company preferences that product runs may override"
+    ],
+    "doesNotOwn": [
+      "backend endpoint paths",
+      "Firebase or Stripe implementation",
+      "unit conversion formulas",
+      "CTA validation mechanics",
+      "renderer/component code",
+      "icon library choices"
+    ],
+    "implementationSources": [
+      "runtime/react-funnel-runtime/adapters/*.json",
+      "runtime/react-funnel-runtime/renderer-registry.json",
+      "contracts/*.json",
+      "recipes/*.md"
+    ]
+  },
+  "overridePolicy": {
+    "default": "Rules are enforced as company defaults unless an explicit product/user requirement overrides them.",
+    "hard": "Hard rules should be preserved by default and surfaced by validation when missing.",
+    "overrideAllowed": "When true, a product requirement may replace the rule, but generated outputs must record the reason."
+  },
+  "rules": [
+    {
+      "id": "first_page_entry_portal",
+      "category": "flow_strategy",
+      "severity": "hard",
+      "overrideAllowed": true,
+      "description": "Every generated Web2App funnel should start with an entry_page portal screen before quiz progress begins. The page should communicate the product promise, show a dominant hero image, offer a start-funnel CTA, and provide a returning-user login route."
+    },
+    {
+      "id": "age_group_early_profile_image_grid",
+      "category": "profile_strategy",
+      "severity": "hard",
+      "overrideAllowed": true,
+      "description": "An age_group page should appear early after the entry portal because age is a high-value personalization signal. Age ranges should be derived from product audience analysis, not copied as a universal fixed set."
+    },
+    {
+      "id": "age_group_four_option_default",
+      "category": "profile_strategy",
+      "severity": "recommended",
+      "overrideAllowed": true,
+      "description": "Age group normally uses four scannable options for mobile ergonomics. Product strategy may adjust the ranges, labels, or count when the audience clearly requires it."
+    },
+    {
+      "id": "profile_feedback_after_age",
+      "category": "conversion_strategy",
+      "severity": "hard",
+      "overrideAllowed": true,
+      "description": "Standard fitness funnels should include a trust-building intro_page shortly after age_group. It should use the user's age context to create reassurance, momentum, or relevance without copying competitor wording."
+    },
+    {
+      "id": "current_desired_state_pair",
+      "category": "personalization_strategy",
+      "severity": "recommended",
+      "overrideAllowed": true,
+      "description": "When relevant, pair a current-state question with a desired-state question, such as current body identity and desired body identity, current ability and desired ability, or current discomfort and desired comfort."
+    },
+    {
+      "id": "paywall_after_result_bridge",
+      "category": "monetization_strategy",
+      "severity": "hard",
+      "overrideAllowed": false,
+      "description": "Paywall should appear only after the user has seen a believable result bridge, such as summary, analysis, plan generation, or plan ready. The user should feel the offer was shaped from their answers."
+    },
+    {
+      "id": "post_purchase_account_center",
+      "category": "post_purchase_strategy",
+      "severity": "hard",
+      "overrideAllowed": true,
+      "description": "After purchase and account creation/login, generated funnels should provide an account center where users can view subscription information and manage cancellation. The entry_page login route should lead to the same account path for returning users."
+    }
+  ]
+}

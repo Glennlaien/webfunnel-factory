@@ -1,0 +1,42 @@
+{
+  "version": "0.1.0",
+  "name": "paywall-contract",
+  "purpose": "Required structure and behavior for generated Web2App paywalls.",
+  "requiredConfigFields": [
+    "paymentProvider",
+    "stripeMode",
+    "pricingMode",
+    "plans",
+    "placementCode",
+    "resultPreview",
+    "promo",
+    "renewalDisclosure",
+    "highlights",
+    "testimonials",
+    "faq",
+    "moneyBackGuarantee",
+    "legalLinks"
+  ],
+  "requiredRenderedSections": [
+    "personalized_result_preview",
+    "promo_or_scarcity",
+    "selectable_plan_cards",
+    "plan_highlights",
+    "social_proof",
+    "faq",
+    "money_back_guarantee",
+    "renewal_disclosure",
+    "legal_links",
+    "embedded_checkout_mount"
+  ],
+  "planShape": {
+    "required": ["id", "productId", "priceId", "label", "price", "billingPeriod"],
+    "optional": ["providerPriceId", "durationLabel", "originalPrice", "dailyPrice", "currency", "badge", "trialText", "discountText", "discountType", "isDefault"]
+  },
+  "behavior": {
+    "productLoading": "contracts/backend-api.contract.json#/paywallProductLoading",
+    "checkout": "contracts/backend-api.contract.json#/checkout",
+    "paymentSuccess": "contracts/backend-api.contract.json#/verification",
+    "mockPlans": "fallback_only"
+  }
+}

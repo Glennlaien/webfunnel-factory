@@ -1,0 +1,184 @@
+{
+  "version": "0.3.0",
+  "id": "standard-strength-funnel",
+  "name": "Standard Strength And Bodyweight Web2App Funnel",
+  "description": "Default 28-38 page Web2App skeleton for strength, calisthenics, bodyweight training, home muscle, military-style fitness, toning, and no-equipment workout subscription apps.",
+  "length": {
+    "tier": "standard",
+    "targetPages": {
+      "min": 28,
+      "max": 38
+    },
+    "targetQuestionPages": {
+      "min": 16,
+      "max": 23
+    }
+  },
+  "selectionSignals": [
+    "strength",
+    "calisthenics",
+    "bodyweight",
+    "muscle",
+    "tone",
+    "military workout",
+    "home workout",
+    "no equipment",
+    "fitness challenge"
+  ],
+  "domainAdaptation": {
+    "emphasize": [
+      "capability",
+      "experience level",
+      "training confidence",
+      "body focus",
+      "available time",
+      "equipment access",
+      "progressive structure",
+      "routine consistency"
+    ],
+    "reduce": [
+      "diet detail unless product is weight-loss led",
+      "harsh bootcamp language",
+      "combat imagery",
+      "medical claims"
+    ]
+  },
+  "operatingModel": {
+    "principle": "The funnel should make the user feel that a structured strength plan can meet their current capability and build confidence step by step.",
+    "progressPolicy": {
+      "questionPagesOnly": true,
+      "excludePageRoles": ["portal", "trust_builder", "summary", "analysis", "plan_generation", "plan_ready", "checkout", "payment_verification", "account"]
+    },
+    "feedbackPagePolicy": {
+      "minimumForStandardFlow": 3,
+      "recommendedCadence": "After age group, primary strength goal, and biggest training barrier.",
+      "assetRequirement": { "required": true, "assetType": "intro_hero" }
+    }
+  },
+  "modules": [
+    {
+      "moduleId": "entry",
+      "sectionLabel": "Start",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "entry", "required": true, "allowedPageTypes": ["entry_page"], "assetRequirement": { "required": true, "assetType": "entry_hero" }, "purpose": "Show the strength promise, start CTA, and login action." }
+      ]
+    },
+    {
+      "moduleId": "basic_profile",
+      "sectionLabel": "My Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["ageGroup"],
+      "recommendedDataKeys": ["experienceLevel", "currentStrengthConfidence", "desiredTrainingIdentity"],
+      "slots": [
+        { "slotId": "age_group", "required": true, "allowedPageTypes": ["single_choice_page"], "recommendedVariants": ["image_grid"], "dataKey": "ageGroup", "optionCount": 4, "assetRequirement": { "required": true, "assetType": "age_group_option", "perOption": true }, "purpose": "Segment intensity, proof, and tone by age group." },
+        { "slotId": "age_strength_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "age_group", "usesAnswers": ["ageGroup"], "purpose": "Reassure the user that strength training can adapt to their starting point." },
+        { "slotId": "experience_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "experienceLevel", "purpose": "Set beginner/intermediate/advanced plan language and difficulty." },
+        { "slotId": "current_strength_confidence", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "currentStrengthConfidence", "purpose": "Capture confidence and reduce intimidation." }
+      ]
+    },
+    {
+      "moduleId": "goals",
+      "sectionLabel": "Goals",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["mainGoal", "focusAreas"],
+      "recommendedDataKeys": ["trainingStylePreference", "successDefinition"],
+      "slots": [
+        { "slotId": "main_goal", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "mainGoal", "purpose": "Anchor the plan around strength, tone, posture, energy, confidence, or consistency." },
+        { "slotId": "focus_areas", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "focusAreas", "minSelections": 1, "purpose": "Collect body or capability focus areas for visible plan personalization." },
+        { "slotId": "goal_bridge_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "main_goal", "usesAnswers": ["mainGoal", "focusAreas"], "purpose": "Translate goals into a structured plan promise." },
+        { "slotId": "training_style_preference", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "trainingStylePreference", "purpose": "Learn whether the user wants quick sessions, challenge format, low-impact strength, or progressive routines." }
+      ]
+    },
+    {
+      "moduleId": "capability_and_constraints",
+      "sectionLabel": "Capability",
+      "required": true,
+      "minQuestionPages": 4,
+      "maxQuestionPages": 6,
+      "requiredDataKeys": ["activityLevel", "biggestBarrier"],
+      "recommendedDataKeys": ["equipmentAccess", "dailyTimeAvailable", "limitations", "preferredIntensity"],
+      "slots": [
+        { "slotId": "activity_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "activityLevel", "purpose": "Set starting volume and avoid overpromising intensity." },
+        { "slotId": "equipment_access", "required": false, "allowedPageTypes": ["single_choice_page", "multi_choice_page"], "dataKey": "equipmentAccess", "purpose": "Personalize bodyweight/no-equipment/home-equipment plan framing." },
+        { "slotId": "daily_time_available", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "dailyTimeAvailable", "purpose": "Tie plan realism to session length." },
+        { "slotId": "biggest_barrier", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "biggestBarrier", "minSelections": 1, "purpose": "Surface consistency, motivation, time, uncertainty, or discomfort objections." },
+        { "slotId": "barrier_reframe_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "biggest_barrier", "usesAnswers": ["biggestBarrier"], "purpose": "Show that the plan adapts around common training blockers." }
+      ]
+    },
+    {
+      "moduleId": "routine_context",
+      "sectionLabel": "Routine",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "recommendedDataKeys": ["preferredWorkoutTime", "weeklyFrequency", "recoveryNeed", "motivationStyle"],
+      "slots": [
+        { "slotId": "weekly_frequency", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "weeklyFrequency", "purpose": "Set realistic weekly plan cadence." },
+        { "slotId": "preferred_workout_time", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "preferredWorkoutTime", "purpose": "Make the plan feel fitted to the user's day." },
+        { "slotId": "recovery_need", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "recoveryNeed", "purpose": "Adjust intensity messaging and plan safety." }
+      ]
+    },
+    {
+      "moduleId": "body_metrics",
+      "sectionLabel": "Body Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["height", "currentWeight"],
+      "sensitive": true,
+      "slots": [
+        { "slotId": "height", "required": true, "allowedPageTypes": ["height_input_page"], "dataKey": "height", "measurementType": "height", "units": ["in", "cm"], "defaultUnit": "in", "purpose": "Collect height late with live unit conversion and default value." },
+        { "slotId": "current_weight", "required": true, "allowedPageTypes": ["weight_input_page"], "dataKey": "currentWeight", "measurementType": "weight", "units": ["lbs", "kg"], "defaultUnit": "lbs", "purpose": "Collect current weight after trust is established." }
+      ]
+    },
+    {
+      "moduleId": "motivation_and_commitment",
+      "sectionLabel": "Motivation",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["targetFeeling"],
+      "recommendedDataKeys": ["motivationReason", "commitmentLevel"],
+      "slots": [
+        { "slotId": "target_feeling", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "targetFeeling", "purpose": "Capture emotional payoff for plan-ready and paywall copy." },
+        { "slotId": "commitment_level", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "commitmentLevel", "purpose": "Frame plan difficulty and confidence." }
+      ]
+    },
+    {
+      "moduleId": "pre_paywall_result",
+      "sectionLabel": "Your Results",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "email_capture", "required": true, "allowedPageTypes": ["email_capture_page"], "purpose": "Save plan summary before plan reveal." },
+        { "slotId": "summary", "required": true, "allowedPageTypes": ["summary_page"], "purpose": "Package answers into a strength profile." },
+        { "slotId": "analysis", "required": true, "allowedPageTypes": ["analysis_page"], "purpose": "Explain why structure is the user's advantage." },
+        { "slotId": "plan_generation", "required": true, "allowedPageTypes": ["plan_generation_page"], "purpose": "Build anticipation with plan-building steps." },
+        { "slotId": "plan_ready", "required": true, "allowedPageTypes": ["plan_ready_page"], "purpose": "Create ownership before the paywall." }
+      ]
+    },
+    {
+      "moduleId": "monetization_and_account",
+      "sectionLabel": "Checkout",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "paywall", "required": true, "allowedPageTypes": ["paywall_page"], "purpose": "Unlock the personalized strength plan." },
+        { "slotId": "payment_success", "required": true, "allowedPageTypes": ["payment_success_page"], "purpose": "Verify payment and subscription state." },
+        { "slotId": "account_create", "required": true, "allowedPageTypes": ["account_create_page"], "purpose": "Upgrade anonymous uid into email account." },
+        { "slotId": "login", "required": true, "allowedPageTypes": ["login_page"], "purpose": "Returning-user login." },
+        { "slotId": "account", "required": true, "allowedPageTypes": ["account_page"], "purpose": "View subscription and entitlements." },
+        { "slotId": "subscription_manage", "required": true, "allowedPageTypes": ["subscription_manage_page"], "purpose": "Cancel or manage subscription." }
+      ]
+    }
+  ]
+}

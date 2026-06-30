@@ -1,0 +1,184 @@
+{
+  "version": "0.1.0",
+  "pageTypes": [
+    {
+      "id": "entry_page",
+      "category": "entry",
+      "description": "First screen that starts the quiz and sets the product promise.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "intro_page",
+      "category": "transition",
+      "description": "Copy-only transition or trust-building screen between onboarding sections. Does not collect input but should build momentum, explain the next section, or increase paywall readiness.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "single_choice_page",
+      "category": "question",
+      "description": "A page where the user selects exactly one option.",
+      "requiresDataKey": true,
+      "supportsOptions": true,
+      "variants": ["image_grid", "plain_list", "icon_list"],
+      "required": true
+    },
+    {
+      "id": "multi_choice_page",
+      "category": "question",
+      "description": "A page where the user selects one or more options.",
+      "requiresDataKey": true,
+      "supportsOptions": true,
+      "variants": ["image_grid", "plain_list", "icon_list"],
+      "required": false
+    },
+    {
+      "id": "measurement_picker_page",
+      "category": "input",
+      "description": "Optional picker-style page for body measurements such as height, current weight, target weight, waist, or other numeric body metrics. Supports unit switching, real-time conversion, and validation.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "variants": ["height_picker", "weight_picker", "generic_measurement_picker"],
+      "required": false
+    },
+    {
+      "id": "age_input_page",
+      "category": "input",
+      "description": "Exact age numeric input page. Uses a large centered numeric input, default value, placeholder 0 when empty, range validation, and a short explanation card.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "height_input_page",
+      "category": "input",
+      "description": "Height input page. Uses segmented unit tabs and large numeric input fields: one cm input for metric, two ft/in inputs for imperial. If multiple units are supported, switching units must recalculate the displayed value immediately. Do not use ruler sliders, wheel pickers, steppers as the primary control, BMI cards, or explanatory measurement cards.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "weight_input_page",
+      "category": "input",
+      "description": "Weight input page. Uses segmented unit tabs and one large numeric input with lb/kg unit label. If multiple units are supported, switching units must recalculate the displayed value immediately. Do not use ruler sliders, wheel pickers, steppers as the primary control, BMI cards, or explanatory measurement cards.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "date_input_page",
+      "category": "input",
+      "description": "Date or target-date input page.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "email_capture_page",
+      "category": "lead",
+      "description": "Email capture page before plan reveal or paywall.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": true
+    },
+    {
+      "id": "name_capture_page",
+      "category": "lead",
+      "description": "Name capture page for personalization and account creation.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "summary_page",
+      "category": "result",
+      "description": "Personalized summary of user profile and quiz answers.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": true
+    },
+    {
+      "id": "analysis_page",
+      "category": "result",
+      "description": "Insight, score, prediction, or diagnosis-style result page.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "plan_generation_page",
+      "category": "result",
+      "description": "Loading or progress page that builds anticipation before plan ready.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": true
+    },
+    {
+      "id": "plan_ready_page",
+      "category": "result",
+      "description": "Final bridge page that tells the user their personalized plan is ready.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": true
+    },
+    {
+      "id": "paywall_page",
+      "category": "monetization",
+      "description": "Subscription offer page with plan cards, value proposition, and checkout CTA.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": true
+    },
+    {
+      "id": "payment_success_page",
+      "category": "post_purchase",
+      "description": "Confirmation page after successful payment. Should route to account creation or account overview after backend verification.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "account_create_page",
+      "category": "account",
+      "description": "Account creation page after payment or plan unlock. After successful registration and identity merge, route to account_page.",
+      "requiresDataKey": true,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "login_page",
+      "category": "account",
+      "description": "Returning user login page. Used by the entry portal login action and account routes.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "account_page",
+      "category": "account",
+      "description": "Member account overview page that shows user subscription status, entitlements, and links to subscription management.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "subscription_manage_page",
+      "category": "account",
+      "description": "Subscription management page that shows plan, billing period, renewal state, provider subscription id, and cancellation/resume actions.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    },
+    {
+      "id": "cancel_subscription_page",
+      "category": "account",
+      "description": "Cancellation confirmation flow page. It can include a brief retention message, but must let users continue to cancel through the backend cancel endpoint.",
+      "requiresDataKey": false,
+      "supportsOptions": false,
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "runtime-default",
+  "product": "Web2App Funnel",
+  "pages": {
+    "entry": {
+      "title": "Build your personalized plan",
+      "subtitle": "Answer a few quick questions to shape a plan around your goal.",
+      "cta": "Get started"
+    }
+  }
+}

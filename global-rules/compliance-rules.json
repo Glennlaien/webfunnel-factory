@@ -1,0 +1,31 @@
+{
+  "version": "0.1.0",
+  "name": "compliance-rules",
+  "description": "Company-wide compliance and claim-safety rules for generated Web2App funnels.",
+  "rules": [
+    {
+      "id": "no_medical_or_guaranteed_claims",
+      "category": "claims",
+      "severity": "hard",
+      "description": "Avoid medical claims, guaranteed transformation claims, diagnosis language, and shame-based messaging."
+    },
+    {
+      "id": "no_fabricated_proof",
+      "category": "proof",
+      "severity": "hard",
+      "description": "Do not fabricate reviews, statistics, certifications, clinical proof, press mentions, or before/after outcomes."
+    },
+    {
+      "id": "supportive_body_language",
+      "category": "tone",
+      "severity": "hard",
+      "description": "Use supportive, capability-building language. Do not use fear, disgust, body shame, or social humiliation as motivation."
+    },
+    {
+      "id": "fitness_wellness_disclaimer",
+      "category": "disclaimer",
+      "severity": "recommendation",
+      "description": "When the funnel discusses fitness, weight, wellness, injury, pregnancy, or health limitations, keep copy general and include appropriate non-medical framing."
+    }
+  ]
+}

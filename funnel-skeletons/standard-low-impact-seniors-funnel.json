@@ -1,0 +1,186 @@
+{
+  "version": "0.3.0",
+  "id": "standard-low-impact-seniors-funnel",
+  "name": "Standard Low-Impact Seniors Web2App Funnel",
+  "description": "Default 28-38 page Web2App skeleton for seniors fitness, chair workout, chair yoga, tai chi, balance, mobility, stretching, joint-friendly, and low-impact home routine subscription apps.",
+  "length": {
+    "tier": "standard",
+    "targetPages": {
+      "min": 28,
+      "max": 38
+    },
+    "targetQuestionPages": {
+      "min": 15,
+      "max": 22
+    }
+  },
+  "selectionSignals": [
+    "senior",
+    "seniors",
+    "chair workout",
+    "chair yoga",
+    "tai chi",
+    "low impact",
+    "mobility",
+    "balance",
+    "joint friendly",
+    "older adults",
+    "at home"
+  ],
+  "domainAdaptation": {
+    "emphasize": [
+      "comfort",
+      "balance confidence",
+      "mobility",
+      "stiffness relief",
+      "low-impact safety",
+      "daily independence",
+      "routine ease",
+      "beginner reassurance"
+    ],
+    "reduce": [
+      "weight-loss pressure",
+      "intense transformation claims",
+      "aggressive fitness language",
+      "young athletic imagery"
+    ]
+  },
+  "operatingModel": {
+    "principle": "The funnel should make the user feel safe, understood, and capable of starting a gentle plan at home.",
+    "progressPolicy": {
+      "questionPagesOnly": true,
+      "excludePageRoles": ["portal", "trust_builder", "summary", "analysis", "plan_generation", "plan_ready", "checkout", "payment_verification", "account"]
+    },
+    "feedbackPagePolicy": {
+      "minimumForStandardFlow": 4,
+      "recommendedCadence": "After age group, mobility concerns, barriers, and routine context.",
+      "assetRequirement": { "required": true, "assetType": "intro_hero" }
+    }
+  },
+  "modules": [
+    {
+      "moduleId": "entry",
+      "sectionLabel": "Start",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "entry", "required": true, "allowedPageTypes": ["entry_page"], "assetRequirement": { "required": true, "assetType": "entry_hero" }, "purpose": "Show a large calm at-home movement hero, start CTA, and login action." }
+      ]
+    },
+    {
+      "moduleId": "basic_profile",
+      "sectionLabel": "My Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["ageGroup"],
+      "recommendedDataKeys": ["mobilityConfidence", "movementExperience", "supportNeed"],
+      "slots": [
+        { "slotId": "age_group", "required": true, "allowedPageTypes": ["single_choice_page"], "recommendedVariants": ["image_grid"], "dataKey": "ageGroup", "optionCount": 4, "assetRequirement": { "required": true, "assetType": "age_group_option", "perOption": true }, "purpose": "Tune tone, support level, and claims for older adult segments." },
+        { "slotId": "age_reassurance_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "age_group", "usesAnswers": ["ageGroup"], "purpose": "Reassure that gentle movement can start from the user's current level." },
+        { "slotId": "movement_experience", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "movementExperience", "purpose": "Understand familiarity with chair exercise, tai chi, yoga, stretching, or guided workouts." },
+        { "slotId": "mobility_confidence", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "mobilityConfidence", "purpose": "Capture confidence without medical diagnosis." }
+      ]
+    },
+    {
+      "moduleId": "comfort_goals",
+      "sectionLabel": "Goals",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["mainGoal", "supportAreas"],
+      "recommendedDataKeys": ["dailyComfortGoal", "desiredOutcome"],
+      "slots": [
+        { "slotId": "main_goal", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "mainGoal", "purpose": "Anchor the plan around mobility, balance, strength, flexibility, comfort, or routine." },
+        { "slotId": "support_areas", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "supportAreas", "minSelections": 1, "purpose": "Collect body areas or situations where support is wanted, such as hips, back, shoulders, balance, or morning stiffness." },
+        { "slotId": "goal_reassurance_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "main_goal", "usesAnswers": ["mainGoal", "supportAreas"], "purpose": "Explain gentle personalization and reduce fear of overexertion." },
+        { "slotId": "daily_comfort_goal", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "dailyComfortGoal", "purpose": "Connect the plan to real-life outcomes such as stairs, walking, sitting, or morning movement." }
+      ]
+    },
+    {
+      "moduleId": "mobility_and_limitations",
+      "sectionLabel": "Mobility",
+      "required": true,
+      "minQuestionPages": 4,
+      "maxQuestionPages": 6,
+      "requiredDataKeys": ["activityLevel", "mobilityLimitations"],
+      "recommendedDataKeys": ["balanceConcern", "jointConcern", "chairSupport", "pacePreference"],
+      "slots": [
+        { "slotId": "activity_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "activityLevel", "purpose": "Set starting pace and beginner support." },
+        { "slotId": "mobility_limitations", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "mobilityLimitations", "minSelections": 1, "purpose": "Collect practical support needs without diagnosing health conditions." },
+        { "slotId": "balance_concern", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "balanceConcern", "purpose": "Adapt plan language around stability and confidence." },
+        { "slotId": "chair_support", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "chairSupport", "purpose": "Determine whether chair-supported movement should be emphasized." },
+        { "slotId": "mobility_reframe_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "mobility_limitations", "usesAnswers": ["mobilityLimitations"], "purpose": "Reframe limitations as plan design inputs." }
+      ]
+    },
+    {
+      "moduleId": "routine_context",
+      "sectionLabel": "Routine",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "recommendedDataKeys": ["preferredSessionLength", "preferredTime", "weeklyFrequency", "homeEnvironment", "energyTime"],
+      "slots": [
+        { "slotId": "preferred_session_length", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "preferredSessionLength", "purpose": "Keep the plan realistic and gentle." },
+        { "slotId": "preferred_time", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "preferredTime", "purpose": "Fit routine into the user's day." },
+        { "slotId": "weekly_frequency", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "weeklyFrequency", "purpose": "Set plan cadence and expectation." }
+      ]
+    },
+    {
+      "moduleId": "body_profile",
+      "sectionLabel": "Body Profile",
+      "required": false,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 2,
+      "recommendedDataKeys": ["height", "currentWeight"],
+      "sensitive": true,
+      "slots": [
+        { "slotId": "height", "required": false, "allowedPageTypes": ["height_input_page"], "dataKey": "height", "measurementType": "height", "units": ["in", "cm"], "defaultUnit": "in", "purpose": "Collect only if plan logic needs body metrics." },
+        { "slotId": "current_weight", "required": false, "allowedPageTypes": ["weight_input_page"], "dataKey": "currentWeight", "measurementType": "weight", "units": ["lbs", "kg"], "defaultUnit": "lbs", "purpose": "Collect only if relevant; do not make weight central for comfort-led senior products." }
+      ]
+    },
+    {
+      "moduleId": "motivation_and_confidence",
+      "sectionLabel": "Motivation",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["targetFeeling"],
+      "recommendedDataKeys": ["motivationReason", "confidenceLevel"],
+      "slots": [
+        { "slotId": "target_feeling", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "targetFeeling", "purpose": "Capture emotional payoff such as steadier, lighter, more confident, or less stiff." },
+        { "slotId": "confidence_level", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "confidenceLevel", "purpose": "Frame plan support and reassurance." }
+      ]
+    },
+    {
+      "moduleId": "pre_paywall_result",
+      "sectionLabel": "Your Results",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "email_capture", "required": true, "allowedPageTypes": ["email_capture_page"], "purpose": "Save the gentle movement plan." },
+        { "slotId": "summary", "required": true, "allowedPageTypes": ["summary_page"], "purpose": "Package answers into a comfort and mobility profile." },
+        { "slotId": "analysis", "required": true, "allowedPageTypes": ["analysis_page"], "purpose": "Explain why a low-impact plan fits the user's needs." },
+        { "slotId": "plan_generation", "required": true, "allowedPageTypes": ["plan_generation_page"], "purpose": "Build anticipation while emphasizing safety and support." },
+        { "slotId": "plan_ready", "required": true, "allowedPageTypes": ["plan_ready_page"], "purpose": "Bridge into paywall with confidence and plan ownership." }
+      ]
+    },
+    {
+      "moduleId": "monetization_and_account",
+      "sectionLabel": "Checkout",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "paywall", "required": true, "allowedPageTypes": ["paywall_page"], "purpose": "Unlock the personalized low-impact plan." },
+        { "slotId": "payment_success", "required": true, "allowedPageTypes": ["payment_success_page"], "purpose": "Verify payment and subscription state." },
+        { "slotId": "account_create", "required": true, "allowedPageTypes": ["account_create_page"], "purpose": "Upgrade anonymous uid into email account." },
+        { "slotId": "login", "required": true, "allowedPageTypes": ["login_page"], "purpose": "Returning-user login." },
+        { "slotId": "account", "required": true, "allowedPageTypes": ["account_page"], "purpose": "View subscription and entitlements." },
+        { "slotId": "subscription_manage", "required": true, "allowedPageTypes": ["subscription_manage_page"], "purpose": "Cancel or manage subscription." }
+      ]
+    }
+  ]
+}

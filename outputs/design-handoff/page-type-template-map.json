@@ -1,0 +1,72 @@
+{
+  "version": "0.5.0",
+  "source": "stitch",
+  "templates": [
+    {
+      "pageType": "entry_page",
+      "nodeId": "stitch:entry",
+      "htmlFile": "outputs/stitch/screens/01-entry.html",
+      "component": "EntryPage"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:age_group",
+      "htmlFile": "outputs/stitch/screens/02-age_group.html",
+      "component": "ChoicePage"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:single_choice",
+      "htmlFile": "outputs/stitch/screens/03-single_choice.html",
+      "component": "ChoicePage"
+    },
+    {
+      "pageType": "multi_choice_page",
+      "nodeId": "stitch:multi_choice",
+      "htmlFile": "outputs/stitch/screens/04-multi_choice.html",
+      "component": "ChoicePage"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:intro_transition",
+      "htmlFile": "outputs/stitch/screens/05-intro_transition.html",
+      "component": "ChoicePage"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:metric_input",
+      "htmlFile": "outputs/stitch/screens/06-metric_input.html",
+      "component": "ChoicePage"
+    },
+    {
+      "pageType": "summary_page",
+      "nodeId": "stitch:summary",
+      "htmlFile": "outputs/stitch/screens/07-summary.html",
+      "component": "SummaryPage"
+    },
+    {
+      "pageType": "plan_generation_page",
+      "nodeId": "stitch:plan_generation",
+      "htmlFile": "outputs/stitch/screens/08-plan_generation.html",
+      "component": "PlanGenerationPage"
+    },
+    {
+      "pageType": "plan_ready_page",
+      "nodeId": "stitch:plan_ready",
+      "htmlFile": "outputs/stitch/screens/09-plan_ready.html",
+      "component": "PlanReadyPage"
+    },
+    {
+      "pageType": "paywall_page",
+      "nodeId": "stitch:paywall",
+      "htmlFile": "outputs/stitch/screens/10-paywall.html",
+      "component": "PaywallPage"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:account_auth_profile",
+      "htmlFile": "outputs/stitch/screens/11-account_auth_profile.html",
+      "component": "ChoicePage"
+    }
+  ]
+}

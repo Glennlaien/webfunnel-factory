@@ -1,0 +1,314 @@
+{
+  "version": "0.1.0",
+  "name": "backend-integration-adapter",
+  "purpose": "Runtime adapter contract for identity, product loading, Stripe checkout, payment verification, and post-purchase account flow.",
+  "canonicalApiReference": "inputs/api-reference.md",
+  "defaultBaseUrl": "https://billing-dev.cloud.7mfitness.com",
+  "sourceReference": [
+    "docs/backend-integration-contract.md",
+    "inputs/api-reference.md",
+    "contracts/backend-api.contract.json",
+    "recipes/firebase-custom-token-auth.md",
+    "recipes/stripe-embedded-checkout.md",
+    "recipes/account-subscription-center.md"
+  ],
+  "environment": {
+    "baseUrl": "VITE_BILLING_API_BASE_URL",
+    "appCode": "VITE_BILLING_APP_CODE",
+    "stripePublishableKey": "VITE_STRIPE_PUBLISHABLE_KEY",
+    "firestoreFunnelCollection": "VITE_FIRESTORE_FUNNEL_COLLECTION",
+    "firebase": {
+      "apiKey": "VITE_FIREBASE_API_KEY",
+      "authDomain": "VITE_FIREBASE_AUTH_DOMAIN",
+      "projectId": "VITE_FIREBASE_PROJECT_ID",
+      "appId": "VITE_FIREBASE_APP_ID"
+    }
+  },
+  "storageKeys": {
+    "identity": "web2app.identity",
+    "answers": "web2app.answers",
+    "answerQueue": "web2app.answerQueue",
+    "attribution": "web2app.attribution",
+    "selectedPlan": "web2app.selectedPlan",
+    "checkout": "web2app.checkout",
+    "subscription": "web2app.subscription",
+    "subscriptionList": "web2app.subscriptionList",
+    "entitlements": "web2app.entitlements"
+  },
+  "storageScope": {
+    "browserStorage": "sessionStorage",
+    "firebaseAuthPersistence": "browserSessionPersistence",
+    "reason": "Each browser tab is treated as a separate Web2App session. A new tab or an explicit Start new plan action creates a fresh visitor context.",
+    "forbidden": [
+      "localStorage for funnel answers",
+      "localStorage for runtime identity",
+      "anonymous identity creation on entry page",
+      "anonymous identity creation on start CTA"
+    ]
+  },
+  "identity": {
+    "createAnonymous": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/anonymous",
+      "auth": "none",
+      "trigger": "first_real_ob_answer_input",
+      "firstSubmissionPolicy": {
+        "blocking": true,
+        "steps": [
+          "save answer to React state and sessionStorage",
+          "disable selected option or CTA and show loading",
+          "create anonymous identity",
+          "exchange customToken through Firebase Auth",
+          "write first answer to Firestore",
+          "navigate only after identity and Firestore write succeed"
+        ],
+        "failureBehavior": "stay on the same page with a retryable error"
+      },
+      "forbiddenTriggers": [
+        "app_boot",
+        "entry_page_view",
+        "start_funnel_cta",
+        "login_page_view",
+        "account_page_view"
+      ],
+      "body": null,
+      "responseData": [
+        "uid",
+        "customToken",
+        "tokenType",
+        "appCode",
+        "status"
+      ],
+      "tokenExchange": {
+        "library": "firebase/auth",
+        "method": "signInWithCustomToken",
+        "input": "customToken",
+        "output": "idToken from credential.user.getIdToken()",
+        "warning": "customToken must not be sent as Billing API bearer token"
+      }
+    },
+    "sessionPolicy": {
+      "startNewPlan": "clear current tab session keys, sign out Firebase Auth, reset committedPhase to entry, then route to the first OB question",
+      "protectedPages": "payment_success, account_create, account, subscription management, and cancellation require an existing session identity; if missing, route to login or entry instead of creating anonymous identity",
+      "paywallCheckout": "requires the session identity that should have been created after the first OB answer; direct paywall access without identity must not silently create a new anonymous user"
+    },
+    "upsertCurrentUser": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/current",
+      "auth": "bearer_idToken",
+      "body": [
+        "uid",
+        "firebaseUid",
+        "email"
+      ]
+    },
+    "registerEmailUser": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/register-from-anonymous",
+      "auth": "bearer_idToken",
+      "body": [
+        "uid",
+        "email",
+        "password"
+      ],
+      "responseData": [
+        "uid",
+        "customToken",
+        "tokenType",
+        "appCode",
+        "status"
+      ],
+      "tokenExchange": "same as createAnonymous"
+    },
+    "loginEmailUser": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/login",
+      "auth": "none",
+      "body": [
+        "email",
+        "password"
+      ],
+      "responseData": [
+        "uid",
+        "customToken",
+        "tokenType",
+        "appCode",
+        "status"
+      ],
+      "tokenExchange": "same as createAnonymous"
+    }
+  },
+  "products": {
+    "resolveOffers": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/paywalls/resolve/offers?placementCode={placementCode}",
+      "auth": "none",
+      "placementCodeSource": "URL query lpid first, then explicit run config placementCode",
+      "usage": "only frontend product/price display endpoint"
+    },
+    "normalizedPlanFields": [
+      "id",
+      "productId",
+      "priceId",
+      "providerPriceId",
+      "label",
+      "durationLabel",
+      "originalPrice",
+      "price",
+      "dailyPrice",
+      "currency",
+      "billingPeriod",
+      "badge",
+      "discountType",
+      "isDefault"
+    ],
+    "frontendRecommended": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/paywalls/resolve/offers?placementCode={placementCode}",
+      "auth": "none",
+      "placementCodeSource": "URL query lpid or explicit run config",
+      "warning": "placementCode/lpid must not be used as paywallCode. /products and /paywalls/{paywallCode}/* are internal/debug fallback endpoints only."
+    }
+  },
+  "checkout": {
+    "standardProvider": "stripe",
+    "standardMode": "embedded_checkout",
+    "createEmbeddedSession": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/checkout/stripe/embedded-session",
+      "auth": "bearer_idToken",
+      "body": [
+        "uid",
+        "email",
+        "priceId",
+        "returnUrl",
+        "idempotencyKey",
+        "visitor"
+      ],
+      "forbiddenBody": [
+        "successUrl",
+        "cancelUrl",
+        "providerPriceId",
+        "visitor.answers"
+      ],
+      "responseData": [
+        "paymentOrderId",
+        "sessionId",
+        "clientSecret",
+        "mode"
+      ],
+      "fieldTypes": {
+        "uid": "string",
+        "email": "string_optional",
+        "priceId": "billing_price_id_from_resolve_offers",
+        "returnUrl": "string_with_checkout_session_placeholder",
+        "idempotencyKey": "stable_string",
+        "visitor": "boolean"
+      },
+      "warning": "visitor must be true or false. Do not put answers or attribution inside visitor; answers are persisted to Firestore by uid and attribution uses its dedicated endpoint when configured."
+    },
+    "stripeMount": {
+      "library": "@stripe/stripe-js",
+      "requiredMethod": "createEmbeddedCheckoutPage",
+      "input": "clientSecret"
+    }
+  },
+  "verification": {
+    "retry": {
+      "maxAttempts": 8,
+      "intervalMs": 2000
+    },
+    "subscriptionStatus": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/subscriptions/status?uid={uid}",
+      "auth": "bearer_idToken"
+    },
+    "entitlements": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/entitlements?uid={uid}",
+      "auth": "bearer_idToken"
+    },
+    "subscriptionList": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/subscriptions?uid={uid}",
+      "auth": "bearer_idToken"
+    },
+    "paymentVerificationPolicy": "api-reference.md exposes subscription status, subscription list, and entitlements as the frontend verification surface. Do not require payments/by-provider-session unless a later API reference adds it."
+  },
+  "subscriptionManagement": {
+    "accountHomeRoute": "account_page",
+    "loginRoute": "login_page",
+    "manageRoute": "subscription_manage_page",
+    "cancelRoute": "cancel_subscription_page",
+    "loadAccountData": [
+      "subscriptionStatus",
+      "subscriptionList",
+      "entitlements"
+    ],
+    "cancelSubscription": "not currently exposed in inputs/api-reference.md; UI may show a management placeholder or external support path until backend provides a frontend cancel endpoint",
+    "resumeSubscription": "not currently exposed in inputs/api-reference.md"
+  },
+  "stateMachine": [
+    "boot",
+    "identity_restoring",
+    "anonymous_creating",
+    "anonymous_ready",
+    "attribution_ready",
+    "ob_collecting",
+    "plan_ready",
+    "paywall_loading_products",
+    "paywall_ready",
+    "user_upserting",
+    "checkout_creating",
+    "checkout_mounting",
+    "checkout_ready",
+    "payment_returned",
+    "payment_verifying",
+    "subscription_active",
+    "account_collecting",
+    "registered_user_creating",
+    "identity_merging",
+    "account_ready",
+    "login_collecting",
+    "login_ready",
+    "subscription_loading",
+    "subscription_ready",
+    "subscription_cancel_requires_backend_contract"
+  ],
+  "fallbackPolicy": {
+    "productApiFailure": "Use API-ready mock plans with visible development status.",
+    "identityFailure": "Block authenticated checkout and show a recoverable error.",
+    "answerPersistenceFailure": "Keep answers in runtime state/session storage. First-answer persistence failure must stay on the same page with retry; later Firestore failures must not block OB progress.",
+    "subscriptionLoadFailure": "Show a recoverable account-page error and keep the user logged in.",
+    "cancelSubscriptionFailure": "Do not claim cancellation is available unless inputs/api-reference.md exposes a frontend cancel endpoint.",
+    "checkoutFailure": "Do not fake payment success when backend is configured.",
+    "mockMode": "Allowed only when the run explicitly declares mock mode or no backend API reference is provided."
+  },
+  "answerPersistence": {
+    "collection": "test",
+    "collectionEnv": "VITE_FIRESTORE_FUNNEL_COLLECTION",
+    "documentId": "{uid}",
+    "writeMode": "setDoc merge",
+    "shape": "flat_user_answers_only",
+    "fields": "{answers_by_page_dataKey}",
+    "forbiddenFields": [
+      "project",
+      "uid",
+      "data",
+      "updatedAt",
+      "appCode",
+      "placementCode",
+      "eventType",
+      "dataKey",
+      "value",
+      "sessionStorageKey"
+    ],
+    "trigger": "after first-answer identity is available, and after each later answer/snapshot",
+    "failurePolicy": "first answer blocks until Firestore succeeds; later writes do not block OB and may be retried by the app if implemented"
+  },
+  "attribution": {
+    "method": "POST",
+    "path": "/billing/{appCode}/v1/attribution",
+    "auth": "bearer_idToken"
+  }
+}

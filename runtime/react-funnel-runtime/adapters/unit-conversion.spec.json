@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "height": {
+    "supportedUnits": ["cm", "ft_in"],
+    "defaultUnit": "ft_in",
+    "defaultValue": { "cm": 165 },
+    "conversion": {
+      "ft_in_to_cm": "round((feet * 12 + inches) * 2.54)",
+      "cm_to_ft_in": "totalInches = round(cm / 2.54); feet = floor(totalInches / 12); inches = totalInches % 12"
+    },
+    "runtimeRequirement": "Switching units must recalculate and update the displayed value immediately. The renderer must initialize with a visible selected unit, a valid numeric value, and an enabled CTA that saves the default value when the user continues without editing."
+  },
+  "weight": {
+    "supportedUnits": ["lb", "kg"],
+    "defaultUnit": "lb",
+    "defaultValue": { "kg": 70 },
+    "conversion": {
+      "lb_to_kg": "round((lb / 2.20462) * 10) / 10",
+      "kg_to_lb": "round(kg * 2.20462)"
+    },
+    "runtimeRequirement": "Switching units must recalculate and update the displayed value immediately. The renderer must initialize with a visible selected unit, a valid numeric value, and an enabled CTA that saves the default value when the user continues without editing."
+  }
+}

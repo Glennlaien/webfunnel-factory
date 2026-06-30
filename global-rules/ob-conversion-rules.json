@@ -1,0 +1,114 @@
+{
+  "version": "0.2.0",
+  "name": "ob-conversion-rules",
+  "description": "Conversion strategy principles for Web2App onboarding before paywall. Progress rendering and navigation mechanics are owned by runtime adapters.",
+  "mentalModel": "Treat the entire OB as a conversion-focused pre-sale experience. The user completes OB, sees the paywall, pays, creates or continues an account, is guided to download the app, and only then experiences the real app.",
+  "ownershipBoundary": {
+    "owns": [
+      "conversion purpose",
+      "section intent",
+      "trust-building sequence",
+      "result-to-paywall readiness"
+    ],
+    "doesNotOwn": [
+      "progress count calculation",
+      "CTA auto-advance behavior",
+      "back behavior",
+      "page validation mechanics"
+    ],
+    "implementationSources": [
+      "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+      "runtime/react-funnel-runtime/adapters/funnel-state-machine.spec.json",
+      "runtime/react-funnel-runtime/renderer-registry.json"
+    ]
+  },
+  "rules": [
+    {
+      "id": "ob_is_pre_paywall_advertorial",
+      "category": "conversion_strategy",
+      "severity": "hard",
+      "description": "The onboarding flow should be written and structured like a direct-response advertorial for a personalized plan, not a neutral survey. Every page should build belief, trust, plan ownership, or paywall readiness."
+    },
+    {
+      "id": "paywall_conversion_is_primary_goal",
+      "category": "conversion_strategy",
+      "severity": "hard",
+      "description": "Product strategy, page architecture, copy, design, and result pages must ladder toward paywall conversion. The user should believe the paid plan can realistically improve their life before seeing the offer."
+    },
+    {
+      "id": "sectioned_question_progress",
+      "category": "progress_strategy",
+      "severity": "hard",
+      "description": "Every OB question or input page before result/paywall should belong to a purposeful section. Sections are product-specific and may include Basic Info, Goals, Activity, Diet, Body Metrics, Lifestyle, Barriers, Plan Setup, and Results."
+    },
+    {
+      "id": "intro_pages_between_sections",
+      "category": "flow_strategy",
+      "severity": "hard",
+      "description": "Insert intro_page screens between major sections when they help transition, explain why the next questions matter, reinforce product promise, or build trust. Intro pages do not collect user input."
+    },
+    {
+      "id": "intro_pages_have_conversion_purpose",
+      "category": "copy_strategy",
+      "severity": "hard",
+      "description": "Intro pages may be pure copy pages, but they are not purposeless. Their purpose is momentum, reassurance, education, objection handling, identity reinforcement, or trust building."
+    },
+    {
+      "id": "answer_triggered_feedback_pages",
+      "category": "flow_strategy",
+      "severity": "hard",
+      "description": "Standard Web2App funnels should use answer-triggered intro_page screens after high-signal answers such as age, primary goal, biggest barrier, and measurements. These pages should turn user answers into trust, social proof, reassurance, or plan ownership."
+    },
+    {
+      "id": "current_to_desired_state_gap",
+      "category": "conversion_strategy",
+      "severity": "hard",
+      "description": "The onboarding should create a clear current-versus-desired-state gap before sensitive inputs and paywall. Ask where the user is now, where they want to be, and what has blocked them before presenting analysis or the paid plan."
+    },
+    {
+      "id": "reasonable_direct_response_claims",
+      "category": "copy_strategy",
+      "severity": "hard",
+      "description": "Copy may use direct-response advertising framing and aspirational language, but it must remain plausible, non-medical, non-diagnostic, and not guarantee a specific outcome."
+    },
+    {
+      "id": "trust_before_sensitive_data",
+      "category": "flow_strategy",
+      "severity": "hard",
+      "description": "Build trust and personalization value before asking sensitive measurements such as height, current weight, target weight, health limitations, or email."
+    },
+    {
+      "id": "result_sequence_owns_the_plan",
+      "category": "monetization_strategy",
+      "severity": "hard",
+      "description": "Summary, analysis, plan generation, and plan ready pages must make users feel the plan was created from their answers before the paywall appears."
+    },
+    {
+      "id": "post_purchase_continuation",
+      "category": "post_purchase_strategy",
+      "severity": "hard",
+      "description": "After payment, the flow should confirm unlock, create or continue account identity, and guide users toward app download or app continuation."
+    }
+  ],
+  "sectionDefaultsByCategory": {
+    "fitness": [
+      { "sectionId": "basic_info", "sectionLabel": "Basic Info", "purpose": "Identify who the user is and make the first interaction low friction." },
+      { "sectionId": "my_profile", "sectionLabel": "My Profile", "purpose": "Collect age, identity, current-state, and desired-state signals while keeping the first questions low friction." },
+      { "sectionId": "goals", "sectionLabel": "Goals", "purpose": "Capture the outcome the user wants and frame the product around it." },
+      { "sectionId": "activity", "sectionLabel": "Activity", "purpose": "Understand current fitness level, routines, preferences, and training constraints." },
+      { "sectionId": "body_metrics", "sectionLabel": "Body Metrics", "purpose": "Collect body context after trust has been established." },
+      { "sectionId": "lifestyle", "sectionLabel": "Lifestyle", "purpose": "Understand schedule, energy, sleep, hydration, diet, and habits when relevant." },
+      { "sectionId": "barriers", "sectionLabel": "Barriers", "purpose": "Surface objections and adapt the plan to user limitations." },
+      { "sectionId": "plan_setup", "sectionLabel": "Plan Setup", "purpose": "Configure frequency, time, intensity, equipment, and plan format." },
+      { "sectionId": "results", "sectionLabel": "Results", "purpose": "Summarize, analyze, generate, and prepare the personalized plan before paywall." }
+    ],
+    "default": [
+      { "sectionId": "my_profile", "sectionLabel": "My Profile", "purpose": "Identify who the user is and reduce first-step friction." },
+      { "sectionId": "goals", "sectionLabel": "Goals", "purpose": "Capture the desired outcome." },
+      { "sectionId": "current_state", "sectionLabel": "Current State", "purpose": "Understand where the user is starting from." },
+      { "sectionId": "barriers", "sectionLabel": "Barriers", "purpose": "Surface obstacles and objections." },
+      { "sectionId": "plan_setup", "sectionLabel": "Plan Setup", "purpose": "Configure the personalized plan." },
+      { "sectionId": "results", "sectionLabel": "Results", "purpose": "Build plan ownership before paywall." }
+    ]
+  }
+}

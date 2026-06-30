@@ -1,0 +1,38 @@
+{
+  "version": "0.1.0",
+  "description": "Unified design handoff contract consumed by Runtime Assembler. A workflow can use generated config or Figma as the design source.",
+  "requiredTopLevelFields": [
+    "version",
+    "source",
+    "status",
+    "templates"
+  ],
+  "allowedSources": [
+    "figma",
+    "config"
+  ],
+  "allowedStatuses": [
+    "designed_in_figma",
+    "implemented_from_design",
+    "prototype_from_config"
+  ],
+  "templateRequiredFields": [
+    "key",
+    "pageType",
+    "providerTemplateId"
+  ],
+  "figmaSource": {
+    "requiredFile": "outputs/figma/figma-file.json",
+    "requiredTemplateMap": "outputs/figma/page-type-template-map.json",
+    "providerTemplateIdField": "nodeId"
+  },
+  "configSource": {
+    "requiredFiles": [
+      "outputs/config/funnel.config.json",
+      "outputs/design/theme.json",
+      "outputs/config/app-config/page-visual-map.json"
+    ],
+    "providerTemplateIdField": "pageType"
+  },
+  "rule": "React must read outputs/design-handoff/design-handoff.json first, then Figma provider files only when source is figma. Config prototype runs must not require provider-specific visual files."
+}

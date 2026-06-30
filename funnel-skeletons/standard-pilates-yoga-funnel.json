@@ -1,0 +1,185 @@
+{
+  "version": "0.3.0",
+  "id": "standard-pilates-yoga-funnel",
+  "name": "Standard Pilates And Yoga Web2App Funnel",
+  "description": "Default 28-38 page Web2App skeleton for Pilates, yoga, stretching, posture, flexibility, mobility, core, stress-relief movement, and beginner-friendly home practice subscription apps.",
+  "length": {
+    "tier": "standard",
+    "targetPages": {
+      "min": 28,
+      "max": 38
+    },
+    "targetQuestionPages": {
+      "min": 16,
+      "max": 22
+    }
+  },
+  "selectionSignals": [
+    "pilates",
+    "yoga",
+    "stretching",
+    "flexibility",
+    "posture",
+    "core",
+    "mobility",
+    "beginner yoga",
+    "home pilates",
+    "wall pilates"
+  ],
+  "domainAdaptation": {
+    "emphasize": [
+      "posture",
+      "flexibility",
+      "core confidence",
+      "stress relief",
+      "low-friction beginner start",
+      "routine fit",
+      "body comfort",
+      "gentle progress"
+    ],
+    "reduce": [
+      "aggressive strength language",
+      "heavy weight-loss framing unless product requires it",
+      "clinical mobility claims",
+      "generic green wellness defaults"
+    ]
+  },
+  "operatingModel": {
+    "principle": "The funnel should make the user feel that a calm, guided practice can improve how their body feels and moves.",
+    "progressPolicy": {
+      "questionPagesOnly": true,
+      "excludePageRoles": ["portal", "trust_builder", "summary", "analysis", "plan_generation", "plan_ready", "checkout", "payment_verification", "account"]
+    },
+    "feedbackPagePolicy": {
+      "minimumForStandardFlow": 4,
+      "recommendedCadence": "After age group, posture/flexibility goal, barriers, and body profile.",
+      "assetRequirement": { "required": true, "assetType": "intro_hero" }
+    }
+  },
+  "modules": [
+    {
+      "moduleId": "entry",
+      "sectionLabel": "Start",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "entry", "required": true, "allowedPageTypes": ["entry_page"], "assetRequirement": { "required": true, "assetType": "entry_hero" }, "purpose": "Show the calm movement promise, start CTA, and login action." }
+      ]
+    },
+    {
+      "moduleId": "basic_profile",
+      "sectionLabel": "My Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "requiredDataKeys": ["ageGroup"],
+      "recommendedDataKeys": ["practiceExperience", "currentBodyComfort", "desiredBodyFeeling"],
+      "slots": [
+        { "slotId": "age_group", "required": true, "allowedPageTypes": ["single_choice_page"], "recommendedVariants": ["image_grid"], "dataKey": "ageGroup", "optionCount": 4, "assetRequirement": { "required": true, "assetType": "age_group_option", "perOption": true }, "purpose": "Tune tone, practice pace, imagery, and plan difficulty." },
+        { "slotId": "age_reassurance_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "age_group", "usesAnswers": ["ageGroup"], "purpose": "Show that practice can adapt to age and starting level." },
+        { "slotId": "practice_experience", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "practiceExperience", "purpose": "Differentiate beginner reassurance from experienced-user progression." },
+        { "slotId": "current_body_comfort", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "currentBodyComfort", "purpose": "Capture how the user currently feels in their body without shame." }
+      ]
+    },
+    {
+      "moduleId": "goals",
+      "sectionLabel": "Goals",
+      "required": true,
+      "minQuestionPages": 3,
+      "maxQuestionPages": 5,
+      "requiredDataKeys": ["mainGoal", "focusAreas"],
+      "recommendedDataKeys": ["postureGoal", "flexibilityGoal", "stressGoal"],
+      "slots": [
+        { "slotId": "main_goal", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "mainGoal", "purpose": "Anchor around posture, flexibility, core, tone, stress relief, or routine." },
+        { "slotId": "focus_areas", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "focusAreas", "minSelections": 1, "purpose": "Collect areas like core, back, hips, shoulders, legs, or full-body flow." },
+        { "slotId": "goal_bridge_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "main_goal", "usesAnswers": ["mainGoal", "focusAreas"], "purpose": "Explain that the practice will adapt around the user's desired feeling and focus areas." },
+        { "slotId": "success_definition", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "successDefinition", "purpose": "Capture what improvement should feel like: looser, taller, calmer, stronger, or more consistent." }
+      ]
+    },
+    {
+      "moduleId": "current_state_and_barriers",
+      "sectionLabel": "Current State",
+      "required": true,
+      "minQuestionPages": 4,
+      "maxQuestionPages": 6,
+      "requiredDataKeys": ["activityLevel", "biggestBarrier"],
+      "recommendedDataKeys": ["stiffnessAreas", "mobilityLevel", "stressLevel", "timeAvailable"],
+      "slots": [
+        { "slotId": "activity_level", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "activityLevel", "purpose": "Set plan intensity and pace." },
+        { "slotId": "stiffness_or_tension", "required": false, "allowedPageTypes": ["multi_choice_page"], "dataKey": "stiffnessAreas", "minSelections": 1, "purpose": "Collect body comfort inputs that make the plan feel specific." },
+        { "slotId": "biggest_barrier", "required": true, "allowedPageTypes": ["multi_choice_page"], "dataKey": "biggestBarrier", "minSelections": 1, "purpose": "Surface time, motivation, uncertainty, stiffness, or beginner anxiety objections." },
+        { "slotId": "barrier_reframe_intro", "required": true, "allowedPageTypes": ["intro_page"], "feedbackAfter": "biggest_barrier", "usesAnswers": ["biggestBarrier"], "purpose": "Reframe blockers as solvable with short guided practice." },
+        { "slotId": "daily_time_available", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "dailyTimeAvailable", "purpose": "Set realistic session length." }
+      ]
+    },
+    {
+      "moduleId": "routine_and_context",
+      "sectionLabel": "Routine",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 4,
+      "recommendedDataKeys": ["preferredPracticeTime", "weeklyFrequency", "practiceEnvironment", "energyTime"],
+      "slots": [
+        { "slotId": "preferred_practice_time", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "preferredPracticeTime", "purpose": "Fit the routine into the user's day." },
+        { "slotId": "weekly_frequency", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "weeklyFrequency", "purpose": "Set cadence and commitment." },
+        { "slotId": "practice_environment", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "practiceEnvironment", "purpose": "Personalize home, wall, chair, or mat setup framing." }
+      ]
+    },
+    {
+      "moduleId": "body_profile",
+      "sectionLabel": "Body Profile",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["height", "currentWeight"],
+      "sensitive": true,
+      "slots": [
+        { "slotId": "height", "required": true, "allowedPageTypes": ["height_input_page"], "dataKey": "height", "measurementType": "height", "units": ["in", "cm"], "defaultUnit": "in", "purpose": "Collect height late with live unit conversion and default value." },
+        { "slotId": "current_weight", "required": true, "allowedPageTypes": ["weight_input_page"], "dataKey": "currentWeight", "measurementType": "weight", "units": ["lbs", "kg"], "defaultUnit": "lbs", "purpose": "Collect weight only after value and trust are established." }
+      ]
+    },
+    {
+      "moduleId": "motivation_and_commitment",
+      "sectionLabel": "Motivation",
+      "required": true,
+      "minQuestionPages": 2,
+      "maxQuestionPages": 3,
+      "requiredDataKeys": ["targetFeeling"],
+      "recommendedDataKeys": ["motivationReason", "confidenceLevel"],
+      "slots": [
+        { "slotId": "target_feeling", "required": true, "allowedPageTypes": ["single_choice_page"], "dataKey": "targetFeeling", "purpose": "Capture the emotional payoff for plan-ready and paywall copy." },
+        { "slotId": "confidence_level", "required": false, "allowedPageTypes": ["single_choice_page"], "dataKey": "confidenceLevel", "purpose": "Adapt reassurance and plan difficulty framing." }
+      ]
+    },
+    {
+      "moduleId": "pre_paywall_result",
+      "sectionLabel": "Your Results",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "email_capture", "required": true, "allowedPageTypes": ["email_capture_page"], "purpose": "Save the practice plan." },
+        { "slotId": "summary", "required": true, "allowedPageTypes": ["summary_page"], "purpose": "Package answers into a posture/flexibility/routine profile." },
+        { "slotId": "analysis", "required": true, "allowedPageTypes": ["analysis_page", "prediction_page"], "purpose": "Explain why a short guided practice can match the user's goals and barriers." },
+        { "slotId": "plan_generation", "required": true, "allowedPageTypes": ["plan_generation_page"], "purpose": "Build anticipation while matching focus areas and practice level." },
+        { "slotId": "plan_ready", "required": true, "allowedPageTypes": ["plan_ready_page"], "purpose": "Bridge into paywall with plan ownership." }
+      ]
+    },
+    {
+      "moduleId": "monetization_and_account",
+      "sectionLabel": "Checkout",
+      "required": true,
+      "minQuestionPages": 0,
+      "maxQuestionPages": 0,
+      "slots": [
+        { "slotId": "paywall", "required": true, "allowedPageTypes": ["paywall_page"], "purpose": "Unlock the personalized practice plan." },
+        { "slotId": "payment_success", "required": true, "allowedPageTypes": ["payment_success_page"], "purpose": "Verify payment and subscription state." },
+        { "slotId": "account_create", "required": true, "allowedPageTypes": ["account_create_page"], "purpose": "Upgrade anonymous uid into email account." },
+        { "slotId": "login", "required": true, "allowedPageTypes": ["login_page"], "purpose": "Returning-user login." },
+        { "slotId": "account", "required": true, "allowedPageTypes": ["account_page"], "purpose": "View subscription and entitlements." },
+        { "slotId": "subscription_manage", "required": true, "allowedPageTypes": ["subscription_manage_page"], "purpose": "Cancel or manage subscription." }
+      ]
+    }
+  ]
+}

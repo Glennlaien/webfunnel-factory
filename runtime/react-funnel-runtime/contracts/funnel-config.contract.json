@@ -1,0 +1,63 @@
+{
+  "version": "0.1.0",
+  "description": "Minimum config shape required by React Funnel Runtime.",
+  "requiredTopLevelFields": ["id", "product", "theme", "pages"],
+  "pageRequiredFields": ["id", "order", "pageType", "title", "phase", "role"],
+  "pageOptionalFields": [
+    "variant",
+    "subtitle",
+    "body",
+    "cta",
+    "sectionId",
+    "sectionLabel",
+    "sectionOrder",
+    "progressBehavior",
+    "trustPurpose",
+    "paywallBridgeRole",
+    "assets",
+    "dataKey",
+    "options",
+    "measurementType",
+    "units",
+    "defaultUnit",
+    "defaultValue",
+    "designOverride",
+    "assetRequirement",
+    "positionRequirement",
+    "accountRoute",
+    "authMode",
+    "subscriptionManagement",
+    "requiresAuthenticatedUser",
+    "milestone",
+    "commitPhase",
+    "accessPolicy",
+    "historyPolicy"
+  ],
+  "optionRequiredFields": ["value", "label"],
+  "answerStorage": {
+    "browserStorage": "sessionStorage",
+    "identityStorage": "sessionStorage",
+    "newTabPolicy": "new_browser_tab_is_new_user",
+    "startNewPlanPolicy": "clear_current_tab_session_before_first_ob_question",
+    "key": "dataKey",
+    "fallback": "page.id",
+    "multiChoiceValue": "string[]",
+    "singleChoiceValue": "string",
+    "measurementValue": {
+      "unit": "string",
+      "value": "number",
+      "feet": "number | optional",
+      "inches": "number | optional"
+    }
+  },
+  "firstPageRule": {
+    "id": "entry",
+    "pageType": "entry_page"
+  },
+  "earlyProfileRule": {
+    "id": "age_group",
+    "pageType": "single_choice_page",
+    "variant": "image_grid",
+    "allowedAfter": ["entry_page", "optional_low_friction_split"]
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "version": "0.5.0",
+  "source": "stitch",
+  "status": "implemented_from_design",
+  "note": "Stitch generated key screen HTML. React Runtime consumes extracted visual traits while preserving app-template business logic.",
+  "themeFile": "outputs/design/theme.json",
+  "pageMapFile": "outputs/page-map/page-map.json",
+  "assetManifestFile": "outputs/assets/asset-manifest.json",
+  "stitchHandoffFile": "outputs/design-handoff/stitch-handoff.json",
+  "stitchGlobalBriefFile": "outputs/design/stitch-global-brief.md",
+  "stitchPromptsFile": "outputs/design/stitch-prompts.json",
+  "templates": [
+    {
+      "pageType": "entry_page",
+      "nodeId": "stitch:entry",
+      "htmlFile": "outputs/stitch/screens/01-entry.html"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:age_group",
+      "htmlFile": "outputs/stitch/screens/02-age_group.html"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:single_choice",
+      "htmlFile": "outputs/stitch/screens/03-single_choice.html"
+    },
+    {
+      "pageType": "multi_choice_page",
+      "nodeId": "stitch:multi_choice",
+      "htmlFile": "outputs/stitch/screens/04-multi_choice.html"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:intro_transition",
+      "htmlFile": "outputs/stitch/screens/05-intro_transition.html"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:metric_input",
+      "htmlFile": "outputs/stitch/screens/06-metric_input.html"
+    },
+    {
+      "pageType": "summary_page",
+      "nodeId": "stitch:summary",
+      "htmlFile": "outputs/stitch/screens/07-summary.html"
+    },
+    {
+      "pageType": "plan_generation_page",
+      "nodeId": "stitch:plan_generation",
+      "htmlFile": "outputs/stitch/screens/08-plan_generation.html"
+    },
+    {
+      "pageType": "plan_ready_page",
+      "nodeId": "stitch:plan_ready",
+      "htmlFile": "outputs/stitch/screens/09-plan_ready.html"
+    },
+    {
+      "pageType": "paywall_page",
+      "nodeId": "stitch:paywall",
+      "htmlFile": "outputs/stitch/screens/10-paywall.html"
+    },
+    {
+      "pageType": "single_choice_page",
+      "nodeId": "stitch:account_auth_profile",
+      "htmlFile": "outputs/stitch/screens/11-account_auth_profile.html"
+    }
+  ]
+}

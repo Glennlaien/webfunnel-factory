@@ -1,0 +1,115 @@
+{
+  "version": "0.5.0",
+  "product": "Workout for Women -Lose Weight",
+  "blueprints": [
+    {
+      "pageId": "entry",
+      "pageType": "entry_page",
+      "conversionPurpose": "Open with the product promise and route new or returning users correctly.",
+      "userMoment": "portal",
+      "visualJob": "Make the product feel real through a strong hero image and direct start action.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Brand",
+        "Login action",
+        "Hero image",
+        "Headline",
+        "Primary CTA"
+      ]
+    },
+    {
+      "pageId": "age_group",
+      "pageType": "single_choice_page",
+      "conversionPurpose": "Create anonymous identity after the first real answer and make the start visual and low friction.",
+      "userMoment": "question",
+      "visualJob": "Make the first answer visual and low friction.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Top navigation",
+        "Title",
+        "Subtitle",
+        "Options or content",
+        "CTA where required"
+      ]
+    },
+    {
+      "pageId": "fitness_body_focus",
+      "pageType": "multi_choice_page",
+      "conversionPurpose": "Collect a meaningful personalization signal while increasing confidence in the paid plan.",
+      "userMoment": "question",
+      "visualJob": "Collect multiple personalization signals without forcing decorative icons.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Top navigation",
+        "Title",
+        "Subtitle",
+        "Options or content",
+        "CTA where required"
+      ]
+    },
+    {
+      "pageId": "height",
+      "pageType": "height_input_page",
+      "conversionPurpose": "Collect a meaningful personalization signal while increasing confidence in the paid plan.",
+      "userMoment": "question",
+      "visualJob": "Capture body baseline through large numeric input and unit conversion.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Top navigation",
+        "Title",
+        "Unit switch",
+        "Numeric input",
+        "Support card",
+        "CTA"
+      ]
+    },
+    {
+      "pageId": "summary",
+      "pageType": "summary_page",
+      "conversionPurpose": "Show that the user's answers are being used before monetization.",
+      "userMoment": "personalized_result",
+      "visualJob": "Prove previous answers are used through computed rows, BMI, and body-state visual.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Top navigation",
+        "BMI visualization",
+        "Personalized rows",
+        "Body image",
+        "Insight card",
+        "CTA"
+      ]
+    },
+    {
+      "pageId": "plan_ready",
+      "pageType": "plan_ready_page",
+      "conversionPurpose": "Reveal the expected path and move into monetization with confidence.",
+      "userMoment": "plan_ready",
+      "visualJob": "Bridge result to paywall with a believable animated progress path.",
+      "composition": "Mobile-first vertical layout, centered title, stable content area, bottom CTA when needed.",
+      "componentHierarchy": [
+        "Top navigation",
+        "Title",
+        "Subtitle",
+        "Options or content",
+        "CTA where required"
+      ]
+    },
+    {
+      "pageId": "paywall",
+      "pageType": "paywall_page",
+      "conversionPurpose": "Convert users with personalized proof, real offers, Stripe checkout, app screenshots, and subscription reassurance.",
+      "userMoment": "monetization",
+      "visualJob": "Convert with personalized proof, offer selection, checkout, and reassurance.",
+      "composition": "Vertical sales page with sticky countdown, comparison, offers, proof, FAQ, and full-screen checkout route.",
+      "componentHierarchy": [
+        "Sticky countdown",
+        "Result comparison",
+        "Offer list",
+        "Primary CTA",
+        "Proof sections",
+        "FAQ",
+        "Legal links"
+      ]
+    }
+  ]
+}

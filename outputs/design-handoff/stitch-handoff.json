@@ -1,0 +1,642 @@
+{
+  "version": "0.1.0",
+  "source": "stitch",
+  "status": "html_captured",
+  "htmlSourceDir": "outputs/stitch/screens",
+  "globalBriefFile": "outputs/design/stitch-global-brief.md",
+  "promptsFile": "outputs/design/stitch-prompts.json",
+  "style": {
+    "primary": "#F20562",
+    "background": "#F8F5F7",
+    "surface": "#FFFFFF",
+    "text": "#22242A",
+    "radius": 5001,
+    "buttonShape": "rounded",
+    "imageTreatment": "large_editorial",
+    "density": "structured",
+    "fontFamily": "'Inter', sans-serif",
+    "headingWeight": 800
+  },
+  "screens": [
+    {
+      "file": "outputs/stitch/screens/01-entry.html",
+      "pageKey": "entry",
+      "htmlBytes": 9306,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#900037",
+          "count": 1
+        },
+        {
+          "color": "#FFD9E2",
+          "count": 1
+        },
+        {
+          "color": "#A23761",
+          "count": 1
+        },
+        {
+          "color": "#FFB1C8",
+          "count": 1
+        },
+        {
+          "color": "#FFFBFF",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "low"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/02-age_group.html",
+      "pageKey": "age_group",
+      "htmlBytes": 14389,
+      "colorInventory": [
+        {
+          "color": "#E6E1E4",
+          "count": 6
+        },
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#B80048",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#22242A",
+          "count": 2
+        },
+        {
+          "color": "#FE80AB",
+          "count": 1
+        },
+        {
+          "color": "#00210D",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "high"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/03-single_choice.html",
+      "pageKey": "single_choice",
+      "htmlBytes": 11549,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 6
+        },
+        {
+          "color": "#E6E1E4",
+          "count": 5
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#F8F5F7",
+          "count": 2
+        },
+        {
+          "color": "#22242A",
+          "count": 2
+        },
+        {
+          "color": "#F20562",
+          "count": 2
+        },
+        {
+          "color": "#FFE1E4",
+          "count": 1
+        },
+        {
+          "color": "#BA1A1A",
+          "count": 1
+        },
+        {
+          "color": "#005229",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": 9999,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "medium"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/04-multi_choice.html",
+      "pageKey": "multi_choice",
+      "htmlBytes": 15436,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#F20562",
+          "count": 3
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FFD9E2",
+          "count": 2
+        },
+        {
+          "color": "#281719",
+          "count": 2
+        },
+        {
+          "color": "#FDE6EF",
+          "count": 2
+        },
+        {
+          "color": "#F3D2D6",
+          "count": 1
+        },
+        {
+          "color": "#008647",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": 2,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "high"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/05-intro_transition.html",
+      "pageKey": "intro_transition",
+      "htmlBytes": 10152,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#281719",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#F8F5F7",
+          "count": 1
+        },
+        {
+          "color": "#FFFBFF",
+          "count": 1
+        },
+        {
+          "color": "#FE80AB",
+          "count": 1
+        },
+        {
+          "color": "#FFDAD6",
+          "count": 1
+        },
+        {
+          "color": "#FFECEE",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "low"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/06-metric_input.html",
+      "pageKey": "metric_input",
+      "htmlBytes": 12057,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 3
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#B80048",
+          "count": 2
+        },
+        {
+          "color": "#6BDD90",
+          "count": 1
+        },
+        {
+          "color": "#93000A",
+          "count": 1
+        },
+        {
+          "color": "#FFE1E4",
+          "count": 1
+        },
+        {
+          "color": "#FFECEE",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {
+        "fontFamily": "'Inter', sans-serif"
+      },
+      "visualTraits": {
+        "hasLargeHero": false,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "low"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/07-summary.html",
+      "pageKey": "summary",
+      "htmlBytes": 13697,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#281719",
+          "count": 3
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#E5BCC1",
+          "count": 1
+        },
+        {
+          "color": "#400014",
+          "count": 1
+        },
+        {
+          "color": "#F6FFF4",
+          "count": 1
+        },
+        {
+          "color": "#FFDAD6",
+          "count": 1
+        },
+        {
+          "color": "#6BDD90",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "high"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/08-plan_generation.html",
+      "pageKey": "plan_generation",
+      "htmlBytes": 5374,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 3
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FFD9DD",
+          "count": 1
+        },
+        {
+          "color": "#FFD9E2",
+          "count": 1
+        },
+        {
+          "color": "#00210D",
+          "count": 1
+        },
+        {
+          "color": "#5C3F43",
+          "count": 1
+        },
+        {
+          "color": "#A23761",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {
+        "fontFamily": "'Inter', sans-serif"
+      },
+      "visualTraits": {
+        "hasLargeHero": false,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "low"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/09-plan_ready.html",
+      "pageKey": "plan_ready",
+      "htmlBytes": 13992,
+      "colorInventory": [
+        {
+          "color": "#F20562",
+          "count": 6
+        },
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#E6E1E4",
+          "count": 5
+        },
+        {
+          "color": "#281719",
+          "count": 3
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#93000A",
+          "count": 1
+        },
+        {
+          "color": "#005229",
+          "count": 1
+        },
+        {
+          "color": "#F3D2D6",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "medium"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/10-paywall.html",
+      "pageKey": "paywall",
+      "htmlBytes": 18275,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#FFD700",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 2
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#008647",
+          "count": 1
+        },
+        {
+          "color": "#88FAAA",
+          "count": 1
+        },
+        {
+          "color": "#BC004A",
+          "count": 1
+        },
+        {
+          "color": "#FE80AB",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "high"
+      }
+    },
+    {
+      "file": "outputs/stitch/screens/11-account_auth_profile.html",
+      "pageKey": "account_auth_profile",
+      "htmlBytes": 14144,
+      "colorInventory": [
+        {
+          "color": "#FFFFFF",
+          "count": 5
+        },
+        {
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
+          "count": 3
+        },
+        {
+          "color": "#FFB2BD",
+          "count": 2
+        },
+        {
+          "color": "#FCDADE",
+          "count": 2
+        },
+        {
+          "color": "#F1EEF0",
+          "count": 2
+        },
+        {
+          "color": "#006A37",
+          "count": 1
+        },
+        {
+          "color": "#FFF0F1",
+          "count": 1
+        },
+        {
+          "color": "#FFFBFF",
+          "count": 1
+        },
+        {
+          "color": "#E6005C",
+          "count": 1
+        }
+      ],
+      "primaryCandidate": "#F20562",
+      "radius": null,
+      "font": {},
+      "visualTraits": {
+        "hasLargeHero": true,
+        "hasSticky": false,
+        "hasPill": false,
+        "cardDensity": "medium"
+      }
+    }
+  ]
+}

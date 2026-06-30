@@ -1,0 +1,135 @@
+{
+  "version": "0.1.0",
+  "name": "backend-api-contract",
+  "purpose": "Machine-readable backend contract for generated React Web2App funnels.",
+  "sourceOfTruth": "inputs/api-reference.md",
+  "defaultBaseUrl": "https://billing-dev.cloud.7mfitness.com",
+  "environment": {
+    "requiredFrontendEnv": [
+      "VITE_BILLING_API_BASE_URL",
+      "VITE_BILLING_APP_CODE",
+      "VITE_STRIPE_PUBLISHABLE_KEY",
+      "VITE_FIREBASE_API_KEY",
+      "VITE_FIREBASE_AUTH_DOMAIN",
+      "VITE_FIREBASE_PROJECT_ID",
+      "VITE_FIREBASE_APP_ID"
+    ],
+    "forbiddenFrontendEnv": [
+      "STRIPE_SECRET_KEY",
+      "STRIPE_WEBHOOK_SECRET",
+      "FIREBASE_ADMIN_*"
+    ]
+  },
+  "fetchPolicy": {
+    "credentials": "omit",
+    "developmentHeaders": {
+      "ngrok-skip-browser-warning": "true"
+    },
+    "corsNotes": [
+      "Billing API auth uses Authorization Bearer Firebase ID Token, not cookies.",
+      "If a custom request header is sent, backend OPTIONS must allow it."
+    ]
+  },
+  "identity": {
+    "anonymousEndpoint": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/anonymous",
+      "auth": "none",
+      "body": null,
+      "responseData": ["uid", "customToken", "tokenType", "appCode", "status"]
+    },
+    "tokenExchange": {
+      "library": "firebase/auth",
+      "method": "signInWithCustomToken",
+      "input": "customToken",
+      "output": "credential.user.getIdToken()",
+      "billingAuthHeader": "Authorization: Bearer <idToken>"
+    },
+    "currentUserEndpoint": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/current",
+      "auth": "bearer_idToken",
+      "body": ["uid", "firebaseUid", "email"]
+    },
+    "registerEndpoint": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/register-from-anonymous",
+      "auth": "bearer_idToken",
+      "body": ["uid", "email", "password"],
+      "responseData": ["uid", "customToken", "tokenType", "appCode", "status"]
+    },
+    "loginEndpoint": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/users/login",
+      "auth": "none",
+      "body": ["email", "password"],
+      "responseData": ["uid", "customToken", "tokenType", "appCode", "status"]
+    }
+  },
+  "paywallProductLoading": {
+    "frontendRecommendedEndpoint": {
+      "method": "GET",
+      "path": "/billing/{appCode}/v1/paywalls/resolve/offers?placementCode={lpid}",
+      "auth": "none"
+    },
+    "lpidSourcePriority": [
+      "url.query.lpid",
+      "config.placementCode"
+    ],
+    "responseProductPath": "data.products[]",
+    "responsePricePath": "data.products[].prices[]",
+    "checkoutPriceId": "price.priceId",
+    "displayFieldPriority": {
+      "planLabel": ["product.display.name", "product.productName", "price.display.name", "price.priceName"],
+      "price": ["price.display.priceText", "price.priceText", "price.amount + price.currency"],
+      "billingPeriod": ["price.display.billingPeriodText", "price.billingPeriodText", "product.display.billingPeriodText"],
+      "badge": ["price.display.badgeText", "price.badge", "product.display.badgeText"],
+      "discount": ["price.display.discountText", "price.discountText"],
+      "trial": ["price.display.trialText", "price.trialText"]
+    },
+    "internalOrDebugOnlyEndpoints": [
+      "GET /billing/{appCode}/v1/products",
+      "GET /billing/{appCode}/v1/paywalls/{paywallCode}/products",
+      "GET /billing/{appCode}/v1/paywalls/{paywallCode}/offers"
+    ]
+  },
+  "checkout": {
+    "stripeEmbeddedEndpoint": {
+      "method": "POST",
+      "path": "/billing/{appCode}/v1/checkout/stripe/embedded-session",
+      "auth": "bearer_idToken",
+      "body": ["uid", "email", "priceId", "returnUrl", "idempotencyKey", "visitor"],
+      "fieldTypes": {
+        "visitor": "boolean"
+      },
+      "responseData": ["paymentOrderId", "sessionId", "clientSecret", "mode"]
+    },
+    "stripeJsMethod": "initEmbeddedCheckout"
+  },
+  "verification": {
+    "preferredAfterReturn": [
+      "GET /billing/{appCode}/v1/subscriptions/status?uid={uid}",
+      "GET /billing/{appCode}/v1/subscriptions?uid={uid}",
+      "GET /billing/{appCode}/v1/entitlements?uid={uid}"
+    ],
+    "auth": "bearer_idToken",
+    "retry": {
+      "maxAttempts": 8,
+      "intervalMs": 2000
+    }
+  },
+  "account": {
+    "subscriptionDataSources": [
+      "subscriptionStatus",
+      "subscriptionList",
+      "entitlements"
+    ],
+    "cancelEndpoint": null,
+    "cancelEndpointStatus": "not exposed in inputs/api-reference.md"
+  },
+  "templateEmail": {
+    "endpoint": "POST /billing/{appCode}/v1/emails/template",
+    "auth": "bearer_idToken",
+    "usage": "optional explicit lifecycle email only"
+  }
+}

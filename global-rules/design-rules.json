@@ -1,0 +1,113 @@
+{
+  "version": "0.2.0",
+  "name": "design-rules",
+  "description": "Company-wide visual strategy principles for Web2App funnels. Component implementation details belong to runtime components, renderer registry, and theme contracts.",
+  "ownershipBoundary": {
+    "owns": [
+      "visual strategy",
+      "palette decision principles",
+      "layout quality principles",
+      "anti-generic design guidance"
+    ],
+    "doesNotOwn": [
+      "specific component code",
+      "viewport meta implementation",
+      "measurement input behavior",
+      "unit conversion",
+      "icon library selection",
+      "exact CTA dimensions"
+    ],
+    "implementationSources": [
+      "runtime/react-funnel-runtime/contracts/theme.contract.json",
+      "runtime/react-funnel-runtime/renderer-registry.json",
+      "runtime/react-funnel-runtime/adapters/navigation-behavior.spec.json",
+      "docs/runtime-page-capabilities.md"
+    ]
+  },
+  "rules": [
+    {
+      "id": "product_specific_visual_strategy",
+      "category": "visual_direction",
+      "severity": "hard",
+      "description": "Every funnel should derive its visual direction from the actual product, audience, movement style, intensity, and emotional promise. Do not default to a generic health-app look."
+    },
+    {
+      "id": "audience_and_modality_before_palette",
+      "category": "color_system",
+      "severity": "hard",
+      "description": "Before choosing a palette, analyze age band, gender focus, intensity, movement style, confidence level, and emotional promise. Fitness/health/wellness category alone is not a valid reason to choose green, teal, pink, black, military colors, or any other palette."
+    },
+    {
+      "id": "primary_color_requires_source",
+      "category": "color_system",
+      "severity": "hard",
+      "description": "The primary action color must come from a named source: App Store visual evidence, product brand assets, explicit user direction, or a deliberate strategy fallback. Do not invent saturated colors as generic defaults."
+    },
+    {
+      "id": "reference_screenshots_do_not_define_palette",
+      "category": "color_system",
+      "severity": "hard",
+      "description": "When screenshots are provided as layout or interaction references, do not copy their brand colors unless the user explicitly asks for those colors."
+    },
+    {
+      "id": "quiet_single_canvas_background",
+      "category": "background",
+      "severity": "hard",
+      "description": "Use one quiet app canvas background that supports the product without competing with content. The background may be white, dark neutral, off-white, or a subtle product-tinted neutral selected by strategy."
+    },
+    {
+      "id": "mobile_app_not_landing_page",
+      "category": "layout",
+      "severity": "hard",
+      "description": "The funnel should feel like a focused app onboarding experience, not a generic marketing landing page. The entry portal may be immersive, but the rest of the flow should remain task-focused."
+    },
+    {
+      "id": "desktop_web_funnel_layout",
+      "category": "responsive_layout",
+      "severity": "hard",
+      "description": "Desktop should render as a real Web2App page with a centered content column and full-width top context, not as a decorative phone mockup."
+    },
+    {
+      "id": "entry_portal_hero",
+      "category": "entry",
+      "severity": "hard",
+      "description": "The entry_page portal should use a dominant hero image, brand/product promise, start-funnel button, and login button. It should feel like a direct app portal rather than a multi-section landing page."
+    },
+    {
+      "id": "no_decorative_ai_defaults",
+      "category": "visual_quality",
+      "severity": "hard",
+      "description": "Avoid decorative gradient blobs, bokeh orbs, abstract SVG waves, fake glassmorphism, generic AI dashboard decoration, and nested card-on-card compositions."
+    },
+    {
+      "id": "typography_fit",
+      "category": "typography",
+      "severity": "hard",
+      "description": "Typography should fit mobile widths, avoid awkward wrapping, use letter spacing 0, and keep hierarchy appropriate to the page density."
+    },
+    {
+      "id": "paywall_app_screen",
+      "category": "monetization",
+      "severity": "hard",
+      "description": "Paywalls should look like real mobile subscription screens connected to the generated plan, not SaaS pricing tables."
+    },
+    {
+      "id": "account_pages_match_global_style",
+      "category": "account",
+      "severity": "hard",
+      "description": "Login, account overview, subscription management, and cancellation pages should use the same theme direction, typography, and layout language as the rest of the funnel."
+    }
+  ],
+  "designPromptRequirements": [
+    "Product context",
+    "Audience and modality",
+    "Conversion role",
+    "Visual direction",
+    "Theme token intent",
+    "Key page templates",
+    "Image requirements",
+    "Interaction/state expectations",
+    "Quality bar",
+    "Avoid list"
+  ]
+}

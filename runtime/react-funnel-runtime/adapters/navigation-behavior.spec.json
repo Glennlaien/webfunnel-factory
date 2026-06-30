@@ -1,0 +1,75 @@
+{
+  "version": "0.1.0",
+  "name": "navigation-behavior",
+  "description": "Canonical source of truth for default page navigation behavior. Other files should reference this spec instead of repeating CTA and auto-advance rules.",
+  "defaultBehaviors": {
+    "entry_page": "requires_cta",
+    "intro_page": "requires_cta",
+    "single_choice_page": "auto_advance_on_select",
+    "multi_choice_page": "requires_cta",
+    "age_input_page": "requires_cta",
+    "height_input_page": "requires_cta",
+    "weight_input_page": "requires_cta",
+    "measurement_picker_page": "requires_cta",
+    "date_input_page": "requires_cta",
+    "email_capture_page": "requires_cta",
+    "name_capture_page": "requires_cta",
+    "account_create_page": "requires_cta",
+    "login_page": "requires_cta",
+    "account_page": "requires_cta",
+    "subscription_manage_page": "requires_cta",
+    "cancel_subscription_page": "requires_cta",
+    "summary_page": "requires_cta",
+    "analysis_page": "requires_cta",
+    "plan_generation_page": "auto_advance_or_requires_cta",
+    "plan_ready_page": "requires_cta",
+    "paywall_page": "requires_cta",
+    "payment_success_page": "requires_cta"
+  },
+  "rules": [
+    {
+      "id": "entry_requires_start_cta",
+      "description": "Entry portal pages show a start-funnel CTA and an optional login action. They do not show quiz progress.",
+      "appliesTo": ["entry_page"],
+      "behavior": "requires_cta"
+    },
+    {
+      "id": "intro_requires_cta",
+      "description": "Intro pages show a CTA because they are copy-only transition screens and the user must intentionally continue.",
+      "appliesTo": ["intro_page"],
+      "behavior": "requires_cta"
+    },
+    {
+      "id": "single_choice_auto_advance",
+      "description": "Single choice pages do not show a CTA by default. Selecting an option saves the answer and advances to the next page.",
+      "appliesTo": ["single_choice_page"],
+      "behavior": "auto_advance_on_select"
+    },
+    {
+      "id": "multi_choice_requires_cta",
+      "description": "Multi choice pages show a CTA because users may select several options before confirming.",
+      "appliesTo": ["multi_choice_page"],
+      "behavior": "requires_cta"
+    },
+    {
+      "id": "multi_choice_requires_min_selection",
+      "description": "Multi choice CTAs must stay disabled until the user selects at least minSelections options. Default minSelections is 1 unless the page explicitly sets allowEmptySelection: true for a deliberate skip-style question.",
+      "appliesTo": ["multi_choice_page"],
+      "behavior": "disable_cta_until_min_selection"
+    },
+    {
+      "id": "input_requires_cta",
+      "description": "Input pages show a CTA because users need to confirm typed, selected, or adjusted values.",
+      "appliesTo": ["age_input_page", "height_input_page", "weight_input_page", "measurement_picker_page", "date_input_page", "email_capture_page", "name_capture_page", "account_create_page", "login_page"],
+      "behavior": "requires_cta"
+    },
+    {
+      "id": "account_pages_require_explicit_actions",
+      "description": "Account and subscription pages use explicit actions for viewing details, cancelling, resuming, returning to the funnel, or logging out.",
+      "appliesTo": ["account_page", "subscription_manage_page", "cancel_subscription_page"],
+      "behavior": "requires_cta"
+    }
+  ],
+  "overrideField": "navigationBehavior",
+  "allowedOverrides": ["auto_advance_on_select", "requires_cta", "auto_advance_or_requires_cta"]
+}

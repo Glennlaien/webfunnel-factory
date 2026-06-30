@@ -1,0 +1,227 @@
+{
+  "version": "0.1.0",
+  "name": "image-asset-rules",
+  "description": "Canonical rules for large raster image planning and gpt-image-2 generated assets used by Web2App funnels.",
+  "rules": [
+    {
+      "id": "image_plan_before_generation",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Every product run must create outputs/assets/image-plan.json before image generation. The image plan is the reviewable source of truth for large visual slots, source policy, prompt briefs, and reuse decisions."
+    },
+    {
+      "id": "large_images_only_in_image_plan",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Image planning and generation only cover large visual assets such as hero images, option-card images, body/result visuals, and App Store screenshot-style assets. Tiny option icons, payment logos, progress bars, charts, UI glyphs, and code-generated visuals are excluded."
+    },
+    {
+      "id": "must_use_codex_gpt_image_2",
+      "category": "generation",
+      "severity": "hard",
+      "description": "All AI-generated project image assets must be generated through the approved gpt-image-2 image pipeline, currently Codex native image generation or the Sub2API image bridge. Do not create SVG, CSS, canvas, or hand-coded placeholder images for production assets."
+    },
+    {
+      "id": "raster_assets_only",
+      "category": "format",
+      "severity": "hard",
+      "description": "Generated assets consumed by Figma or React must be raster files: PNG, JPG, JPEG, or WebP. SVG is not allowed for generated product imagery."
+    },
+    {
+      "id": "asset_requirements_become_manifest_items",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Every approved large-image slot in outputs/assets/image-plan.json must become an item in outputs/assets/asset-manifest.json unless its sourcePolicy is skip."
+    },
+    {
+      "id": "generate_before_figma_and_react",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Generate images with the approved gpt-image-2 pipeline before Figma and React implementation so both design and frontend use the same local raster files."
+    },
+    {
+      "id": "local_assets_for_runtime",
+      "category": "development",
+      "severity": "hard",
+      "description": "React must consume local raster assets from outputs/assets and copy or import them into outputs/app. Do not rely on transient generation URLs in frontend code."
+    },
+    {
+      "id": "current_run_asset_provenance_required",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Ready gpt-image-2 assets must be traceable to the current workflow run. Record the original generated image path or generation id in the manifest. Do not select files from a shared Codex generated_images directory by latest modified time, because that directory can contain assets from previous products."
+    },
+    {
+      "id": "no_cross_product_asset_reuse_without_intent",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Do not reuse images from a previous app/product run unless the manifest marks source as provided and explains the user-approved reuse. If an image subject, exercise modality, age/gender, environment, or product category conflicts with the current product strategy, mark the asset pending_generation instead of ready."
+    },
+    {
+      "id": "product_specific_visuals",
+      "category": "creative_direction",
+      "severity": "hard",
+      "description": "Images must be product-specific and page-specific. Avoid generic stock-like, dark, blurred, purely atmospheric, or irrelevant imagery."
+    },
+    {
+      "id": "scene_based_images",
+      "category": "creative_direction",
+      "severity": "hard",
+      "description": "Every generated image must be based on a concrete funnel scene: the page context, user moment, emotional job, visual job, subject, environment, composition, and negative prompt must be explicit. Do not generate images merely to fill an empty image slot."
+    },
+    {
+      "id": "image_serves_conversion_purpose",
+      "category": "conversion_strategy",
+      "severity": "hard",
+      "description": "Images must help the page do its conversion job: self-identification, trust building, reassurance, objection handling, plan ownership, progress preview, or checkout confidence."
+    },
+    {
+      "id": "page_architect_owns_visual_decision",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "The Page Architect must decide whether each page needs a large visual by writing a machine-readable visualDecision. Downstream image planning must consume that decision instead of guessing from product-specific page names."
+    },
+    {
+      "id": "visual_decision_is_function_based",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Conditional image usage must be based on visual function, not page labels. Use large images when a page needs visual recognition, result imagination, trust building, complex concept explanation, emotional reinforcement, or visual option differentiation."
+    },
+    {
+      "id": "default_no_large_image_for_simple_pages",
+      "category": "workflow",
+      "severity": "hard",
+      "description": "Simple yes/no, frequency, text preference, email, login, registration, profile, subscription, legal, FAQ, height, weight, age, chart, and animation pages should default to visualRole none unless a product or page-specific visualDecision explains a real conversion purpose for a large image."
+    },
+    {
+      "id": "age_group_per_option_images",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "When age_group uses single_choice_page/image_grid, plan and generate one image per option. The four images must have clear age differentiation while keeping consistent style, crop, lighting, product relevance, and visible racial diversity. Backgrounds must match the funnel theme with a hard plain-color rule: solid white #FFFFFF for light funnels and solid black #050505 for dark funnels. Prompts must forbid gradients, vignettes, studio sweeps, shadowed backdrops, colored tints, textures, floor planes, and environmental scenes."
+    },
+    {
+      "id": "intro_page_hero_images",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "Every intro_page in the page map must have a planned hero image. The number of intro images follows the generated funnel; do not assume a fixed count. Each intro image must match that intro page's copy, section purpose, and conversion job."
+    },
+    {
+      "id": "conditional_rich_question_images",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "Rich question images are conditional and must be driven by page visualDecision. Do not hard-code page labels such as focus area, sleep, flexibility, or special need as universal image requirements. Plan a rich question image only when visualNecessity is required, recommended, or optional with a clear visual function and reason."
+    },
+    {
+      "id": "summary_body_set_required",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "Fitness, weight, body-shaping, yoga, Pilates, strength, and wellness funnels with BMI/body result summary must plan a summary_body_set: four consistent images of the same face/person identity across different body states. These assets may also power the paywall top comparison. The body-state image background must follow the funnel theme with a hard plain-color rule: solid white #FFFFFF for light funnels and solid black #050505 for dark funnels. Prompts must forbid gradients, vignettes, studio sweeps, shadowed backdrops, colored tints, textures, floor planes, and environmental scenes."
+    },
+    {
+      "id": "no_plan_generation_image",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "Plan Generation pages must not request large generated images. Use runtime animation, progress state copy, and optional testimonial/content modules instead."
+    },
+    {
+      "id": "paywall_reuses_summary_and_app_store",
+      "category": "page_type",
+      "severity": "hard",
+      "description": "Paywall top result comparison should reuse summary body assets when possible. Paywall companion app screenshot modules should use real App Store screenshots when available, not AI-generated app screenshots."
+    },
+    {
+      "id": "consistent_style_across_assets",
+      "category": "creative_direction",
+      "severity": "hard",
+      "description": "Assets within a funnel should share lighting, crop style, subject treatment, background simplicity, and product tone."
+    },
+    {
+      "id": "safe_representative_people",
+      "category": "safety",
+      "severity": "hard",
+      "description": "People imagery should be respectful, non-shaming, non-sexualized, and aligned with the target audience. Do not imply guaranteed body outcomes."
+    }
+  ],
+  "visualDecisionContract": {
+    "owner": "agents/02-page-architect.md",
+    "consumer": "agents/04a-image-planner.md",
+    "requiredOnEveryPage": true,
+    "fields": {
+      "visualRole": ["none", "option_image", "page_hero", "explanatory_visual", "result_visual", "proof_visual"],
+      "visualNecessity": ["required", "recommended", "optional", "none"],
+      "visualFunction": [
+        "none",
+        "recognition",
+        "visual_difference",
+        "result_imagination",
+        "trust_building",
+        "concept_explanation",
+        "emotional_reinforcement",
+        "proof"
+      ],
+      "visualScope": ["none", "page", "option", "asset_set"],
+      "reason": "Short explanation of why the page does or does not need a large image.",
+      "promptBrief": "Only required when visualRole is not none. Describe the visual job without writing the final generation prompt."
+    },
+    "requiredStructuralSlots": [
+      "entry hero",
+      "age group option images when age_group uses image_grid",
+      "one intro hero per intro_page",
+      "summary body/result visual when the funnel has BMI or body-result summary",
+      "paywall result comparison reusing summary/result assets",
+      "paywall app screenshots from App Store when available"
+    ],
+    "conditionalVisualFunctions": [
+      "The option difference is primarily visual and text alone is weak.",
+      "The page asks the user to recognize a current/desired state.",
+      "The page needs to help the user imagine a concrete future result.",
+      "The page explains a concept that benefits from a scene or example.",
+      "The page is a trust bridge where a scene helps belief before paywall.",
+      "The page carries high emotional value and a visual improves momentum."
+    ],
+    "defaultNoImageFunctions": [
+      "Simple yes/no decision",
+      "Frequency or duration selection",
+      "Plain preference selection",
+      "Email capture",
+      "Login, registration, account, or subscription management",
+      "Height, weight, age, or other numeric input",
+      "Legal, FAQ, checkout, or payment UI",
+      "Pages already represented by code-generated charts or animation"
+    ]
+  },
+  "manifestContract": {
+    "file": "outputs/assets/asset-manifest.json",
+    "assetFields": [
+      "id",
+      "source",
+      "type",
+      "pageId",
+      "slot",
+      "optionValue",
+      "prompt",
+      "alt",
+      "localPath",
+      "usage",
+      "scene",
+      "userMoment",
+      "emotionalJob",
+      "visualJob",
+      "composition",
+      "negativePrompt",
+      "aspectRatio"
+    ],
+    "localPathRoot": "outputs/assets",
+    "allowedOutputFormats": ["png", "jpg", "jpeg", "webp"],
+    "requiredGenerationModel": "gpt-image-2",
+    "forbiddenFormats": ["svg"]
+  },
+  "recommendedAspectRatios": {
+    "age_group_option": "4:3",
+    "intro_hero": "16:9",
+    "option_card_thumbnail": "4:3",
+    "summary_body": "3:4",
+    "paywall_app_screenshot": "9:19.5",
+    "paywall_plan_visual": "1:1"
+  }
+}

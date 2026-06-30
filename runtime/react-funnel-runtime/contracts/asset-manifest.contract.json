@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "description": "Codex gpt-image-2 raster image asset manifest consumed by the selected design handoff provider and React Funnel Runtime.",
+  "requiredTopLevelFields": ["version", "productId", "productName", "assets"],
+  "assetRequiredFields": ["id", "source", "type", "pageId", "prompt", "alt", "localPath", "usage", "scene", "userMoment", "emotionalJob", "visualJob", "composition", "negativePrompt"],
+  "assetOptionalFields": ["slot", "optionValue", "aspectRatio", "status", "width", "height", "model", "generatedAt", "generationTool"],
+  "allowedGeneratedModel": "gpt-image-2",
+  "allowedRasterExtensions": ["png", "jpg", "jpeg", "webp"],
+  "forbiddenExtensions": ["svg"],
+  "lookup": {
+    "pageHero": "pageId + type",
+    "optionImage": "pageId + optionValue"
+  },
+  "runtimeRule": "React app must import or copy localPath assets into outputs/app and must not depend on transient external URLs."
+}

@@ -1,0 +1,39 @@
+{
+  "version": "0.1.0",
+  "name": "image-generation-contract",
+  "purpose": "Prevent placeholder raster files from being treated as completed gpt-image-2 assets.",
+  "requiredForProduction": true,
+  "requiredReadyFields": [
+    "id",
+    "source",
+    "model",
+    "status",
+    "prompt",
+    "scene",
+    "userMoment",
+    "emotionalJob",
+    "visualJob",
+    "composition",
+    "negativePrompt",
+    "localPath",
+    "generatedAt",
+    "generationTool"
+  ],
+  "allowedSources": ["gpt-image-2", "provided", "stock", "app_store"],
+  "readyGeneratedAsset": {
+    "source": "gpt-image-2",
+    "model": "gpt-image-2",
+    "status": "ready",
+    "allowedGenerationTools": ["codex-image-generation", "sub2api-image-generation"]
+  },
+  "pendingGeneratedAsset": {
+    "source": "gpt-image-2",
+    "model": "gpt-image-2",
+    "status": "pending_generation"
+  },
+  "forbidden": [
+    "hand-coded placeholder PNGs marked as ready",
+    "SVG generated product imagery",
+    "transient generation URLs without local file handoff"
+  ]
+}

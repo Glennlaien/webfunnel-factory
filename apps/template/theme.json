@@ -1,0 +1,30 @@
+{
+  "version": "runtime-default",
+  "colorTokens": {
+    "primary": "#D93278",
+    "accent": "#6A4C93",
+    "background": "#F7F6F9",
+    "surface": "#FFFFFF",
+    "surfaceAlt": "#EFEAF1",
+    "text": "#25282D",
+    "muted": "#71737A",
+    "border": "#E4DFE8",
+    "disabled": "#B5BEC8",
+    "warning": "#F0A43A",
+    "info": "#DCEAF9"
+  },
+  "colorSystem": {
+    "background": "#F7F6F9"
+  },
+  "typography": {
+    "fontFamily": "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    "headlineFamily": "Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    "headingWeight": 750,
+    "bodyWeight": 500
+  },
+  "shape": {
+    "cardRadius": 20,
+    "controlRadius": 18,
+    "buttonRadius": 18
+  }
+}
