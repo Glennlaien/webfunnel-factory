@@ -7,7 +7,7 @@
     "titleAlign": "center",
     "selectedStyle": "primary_outline_or_fill",
     "motion": "subtle",
-    "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured",
+    "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted",
     "designProvider": "stitch"
   },
   "pageTypes": {
@@ -18,7 +18,7 @@
         "icon_list"
       ],
       "ctaMode": "auto_advance",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-choice"
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted style-stitch-choice"
     },
     "multi_choice_page": {
       "supportedVariants": [
@@ -28,15 +28,15 @@
       ],
       "ctaMode": "sticky_bottom",
       "minSelectionFeedback": "disabled_cta",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-choice"
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted style-stitch-choice"
     },
     "paywall_page": {
       "layout": "long_vertical_sales_page",
       "desktopLayout": "vertical_centered_not_split",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-paywall"
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted style-stitch-paywall"
     },
     "entry_page": {
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-entry"
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted style-stitch-entry"
     }
   },
   "pages": {
@@ -44,181 +44,585 @@
       "pageType": "entry_page",
       "variant": "default",
       "sectionId": "entry",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "entry",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "cta"
+      ],
+      "stitchHints": {
+        "heroTreatment": "full_bleed",
+        "navTreatment": "transparent",
+        "ctaPlacement": "hero_bottom"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-entry stitch-entry-editorial"
     },
     "age_group": {
       "pageType": "single_choice_page",
       "variant": "image_grid",
       "sectionId": "my_profile",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-age-grid"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "age_group",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "legal",
+        "cta"
+      ],
+      "stitchHints": {
+        "labelPlacement": "overlay_bottom",
+        "columns": 2,
+        "imageRatio": "portrait_card"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-age_group stitch-choice-image-grid stitch-age-card-grid style-stitch-age-grid"
     },
     "exact_age": {
       "pageType": "age_input_page",
       "variant": "default",
       "sectionId": "my_profile",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "metric_input",
+      "stitchSections": [
+        "top_nav",
+        "bmi_gauge",
+        "unit_input",
+        "cta"
+      ],
+      "stitchHints": {
+        "unitToggle": "segmented_pill",
+        "valueTreatment": "large_centered",
+        "helperCard": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
     },
     "fitness_goal_discovery": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "goals",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_body_focus": {
       "pageType": "multi_choice_page",
       "variant": "plain_list",
       "sectionId": "goals",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "multi_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "cta"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "selectedIndicator": "checkmark_box",
+        "ctaPlacement": "sticky_bottom"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
     },
     "fitness_goal_trust_bridge": {
       "pageType": "intro_page",
       "variant": "default",
       "sectionId": "goals",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "intro_transition",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "body_comparison",
+        "facts_list",
+        "cta"
+      ],
+      "stitchHints": {
+        "heroRatio": "4:3",
+        "ctaPlacement": "sticky_bottom",
+        "copyDensity": "medium"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial"
     },
     "fitness_experience_level": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "training",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_training_readiness": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "training",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_current_activity": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "training",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_blockers": {
       "pageType": "multi_choice_page",
       "variant": "plain_list",
       "sectionId": "training",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "multi_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "cta"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "selectedIndicator": "checkmark_box",
+        "ctaPlacement": "sticky_bottom"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
     },
     "fitness_limitations": {
       "pageType": "multi_choice_page",
       "variant": "plain_list",
       "sectionId": "body",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "multi_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "cta"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "selectedIndicator": "checkmark_box",
+        "ctaPlacement": "sticky_bottom"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
     },
     "fitness_routine_trust_bridge": {
       "pageType": "intro_page",
       "variant": "default",
       "sectionId": "routine",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "intro_transition",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "body_comparison",
+        "facts_list",
+        "cta"
+      ],
+      "stitchHints": {
+        "heroRatio": "4:3",
+        "ctaPlacement": "sticky_bottom",
+        "copyDensity": "medium"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial"
     },
     "fitness_time_budget": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "routine",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_weekly_frequency": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "routine",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_preferred_time": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "routine",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_energy_level": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "routine",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_motivation_reason": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "motivation",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "fitness_support_style": {
       "pageType": "single_choice_page",
       "variant": "plain_list",
       "sectionId": "motivation",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "single_choice",
+      "stitchSections": [
+        "top_nav",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison"
+      ],
+      "stitchHints": {
+        "optionTreatment": "large_surface_rows",
+        "autoAdvance": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
     },
     "height": {
       "pageType": "height_input_page",
       "variant": "default",
       "sectionId": "body",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "metric_input",
+      "stitchSections": [
+        "top_nav",
+        "bmi_gauge",
+        "unit_input",
+        "cta"
+      ],
+      "stitchHints": {
+        "unitToggle": "segmented_pill",
+        "valueTreatment": "large_centered",
+        "helperCard": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
     },
     "current_weight": {
       "pageType": "weight_input_page",
       "variant": "default",
       "sectionId": "body",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "metric_input",
+      "stitchSections": [
+        "top_nav",
+        "bmi_gauge",
+        "unit_input",
+        "cta"
+      ],
+      "stitchHints": {
+        "unitToggle": "segmented_pill",
+        "valueTreatment": "large_centered",
+        "helperCard": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
     },
     "target_weight": {
       "pageType": "weight_input_page",
       "variant": "default",
       "sectionId": "body",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "metric_input",
+      "stitchSections": [
+        "top_nav",
+        "bmi_gauge",
+        "unit_input",
+        "cta"
+      ],
+      "stitchHints": {
+        "unitToggle": "segmented_pill",
+        "valueTreatment": "large_centered",
+        "helperCard": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
     },
     "email": {
       "pageType": "email_capture_page",
       "variant": "default",
       "sectionId": "result",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "metric_input",
+      "stitchSections": [
+        "top_nav",
+        "bmi_gauge",
+        "unit_input",
+        "cta"
+      ],
+      "stitchHints": {
+        "unitToggle": "segmented_pill",
+        "valueTreatment": "large_centered",
+        "helperCard": true
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
     },
     "summary": {
       "pageType": "summary_page",
       "variant": "default",
       "sectionId": "result",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-summary"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "summary",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "bmi_gauge",
+        "facts_list",
+        "cta"
+      ],
+      "stitchHints": {
+        "modules": [
+          "bmi_gauge",
+          "facts_list",
+          "body_visual",
+          "insight_card"
+        ]
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-summary stitch-summary-bmi-profile style-stitch-summary"
     },
     "plan_generation": {
       "pageType": "plan_generation_page",
       "variant": "default",
       "sectionId": "result",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "plan_generation",
+      "stitchSections": [],
+      "stitchHints": {
+        "modules": [
+          "progress_ring",
+          "overlay_questions",
+          "testimonial_card"
+        ]
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_generation stitch-generation-proof"
     },
     "plan_ready": {
       "pageType": "plan_ready_page",
       "variant": "default",
       "sectionId": "result",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured style-stitch-plan-ready"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "plan_ready",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "headline",
+        "line_chart",
+        "offer_list",
+        "legal",
+        "cta"
+      ],
+      "stitchHints": {
+        "modules": [
+          "target_date",
+          "animated_chart",
+          "expected_result"
+        ]
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_ready stitch-plan-chart style-stitch-plan-ready"
     },
     "paywall": {
       "pageType": "paywall_page",
       "variant": "default",
       "sectionId": "paywall",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "paywall",
+      "stitchSections": [
+        "sticky_timer",
+        "segmented_progress",
+        "hero_media",
+        "headline",
+        "body_comparison",
+        "offer_list",
+        "legal",
+        "app_screenshots",
+        "cta"
+      ],
+      "stitchHints": {
+        "modules": [
+          "sticky_timer",
+          "body_comparison",
+          "offer_list",
+          "app_screenshots",
+          "testimonials",
+          "guarantee"
+        ]
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-paywall stitch-paywall-longform"
     },
     "payment_success": {
       "pageType": "payment_success_page",
       "variant": "default",
       "sectionId": "paid",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted"
     },
     "account_create": {
       "pageType": "account_create_page",
       "variant": "default",
       "sectionId": "account",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "account_auth_profile",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "offer_list",
+        "legal"
+      ],
+      "stitchHints": {
+        "formTreatment": "flat_inputs",
+        "profileTreatment": "simple_rows"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
     },
     "login": {
       "pageType": "login_page",
       "variant": "default",
       "sectionId": "account",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "account_auth_profile",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "offer_list",
+        "legal"
+      ],
+      "stitchHints": {
+        "formTreatment": "flat_inputs",
+        "profileTreatment": "simple_rows"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
     },
     "profile": {
       "pageType": "account_page",
       "variant": "default",
       "sectionId": "account",
-      "pageClass": "style-stitch style-stitch-rounded style-stitch-editorial style-stitch-structured"
+      "designProvider": "stitch",
+      "stitchSourceScreen": "account_auth_profile",
+      "stitchSections": [
+        "top_nav",
+        "hero_media",
+        "offer_list",
+        "legal"
+      ],
+      "stitchHints": {
+        "formTreatment": "flat_inputs",
+        "profileTreatment": "simple_rows"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
     }
   },
   "sourceDesignProvider": "stitch"

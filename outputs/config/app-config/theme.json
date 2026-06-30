@@ -131,9 +131,9 @@
     "headlineFamily": "'Inter', sans-serif"
   },
   "shape": {
-    "controlRadius": 5001,
-    "cardRadius": 5001,
-    "buttonRadius": 5001,
+    "controlRadius": 999,
+    "cardRadius": 18,
+    "buttonRadius": 999,
     "imageRadius": 18
   },
   "layout": {
@@ -155,8 +155,8 @@
     "background": "#F8F5F7",
     "surface": "#FFFFFF",
     "text": "#22242A",
-    "radius": 5001,
-    "buttonShape": "rounded",
+    "radius": 18,
+    "buttonShape": "pill",
     "imageTreatment": "large_editorial",
     "density": "structured",
     "fontFamily": "'Inter', sans-serif",

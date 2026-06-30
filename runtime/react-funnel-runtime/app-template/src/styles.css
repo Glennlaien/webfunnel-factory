@@ -629,14 +629,8 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   box-shadow: 0 12px 28px color-mix(in srgb, var(--text) 7%, transparent);
 }
 .style-stitch-pill .primary-button,
-.style-stitch-pill .entry-start-button,
-.style-stitch-pill .option-row,
-.style-stitch-pill .image-choice-card,
-.style-stitch-pill .paywall-plan {
+.style-stitch-pill .entry-start-button {
   border-radius: 999px;
-}
-.style-stitch-pill .image-choice-card {
-  overflow: hidden;
 }
 .style-stitch-editorial .intro-hero-image,
 .style-stitch-editorial .hero-placeholder {
@@ -686,6 +680,59 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 }
 .style-stitch-paywall .paywall-countdown {
   background: color-mix(in srgb, var(--surface) 84%, var(--bg));
+}
+.screen-main.style-stitch-adapted {
+  background: var(--bg);
+}
+.stitch-entry-editorial .entry-content {
+  gap: 20px;
+}
+.stitch-entry-editorial .entry-top button {
+  border-radius: 999px;
+}
+.stitch-choice-image-grid .choice-image-grid {
+  gap: 16px;
+}
+.stitch-age-card-grid .age-choice-grid .image-choice-card {
+  border-radius: calc(var(--card-radius) - 2px);
+  background: color-mix(in srgb, var(--surface) 78%, var(--bg));
+}
+.stitch-age-card-grid .age-choice-grid .choice-image-media {
+  background: var(--image-option-bg);
+}
+.stitch-choice-list .option-row {
+  min-height: 76px;
+  border-radius: calc(var(--card-radius) + 2px);
+}
+.stitch-multi-check-list .choice-check {
+  border-radius: 8px;
+}
+.stitch-intro-editorial .intro-content {
+  gap: 20px;
+}
+.stitch-intro-editorial .intro-hero-image,
+.stitch-intro-editorial .hero-placeholder {
+  border-radius: calc(var(--card-radius) + 4px);
+}
+.stitch-centered-measurement .unit-tabs {
+  border-radius: 999px;
+}
+.stitch-summary-bmi-profile .summary-bmi-card,
+.stitch-plan-chart .plan-chart-card,
+.stitch-paywall-longform .plan-card,
+.stitch-paywall-longform .feedback-card,
+.stitch-account-flat .auth-card,
+.stitch-account-flat .profile-section {
+  border-radius: var(--card-radius);
+}
+.stitch-paywall-longform .paywall-countdown {
+  background: var(--bg);
+}
+.stitch-paywall-longform .paywall-transform-card {
+  padding-top: 6px;
+}
+.stitch-paywall-longform .plan-card {
+  min-height: 74px;
 }
 .intro-hero-image,
 .hero-placeholder {

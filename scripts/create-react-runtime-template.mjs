@@ -138,8 +138,11 @@ function copyDirectory(sourceDir, targetDir) {
     throw new Error(`Missing runtime template directory: ${sourceDir}`);
   }
 
-  fs.rmSync(targetDir, { recursive: true, force: true });
   fs.mkdirSync(targetDir, { recursive: true });
+  for (const item of fs.readdirSync(targetDir, { withFileTypes: true })) {
+    if (["node_modules", "dist", "package-lock.json", "tsconfig.tsbuildinfo", ".DS_Store"].includes(item.name)) continue;
+    fs.rmSync(path.join(targetDir, item.name), { recursive: true, force: true });
+  }
 
   for (const item of fs.readdirSync(sourceDir, { withFileTypes: true })) {
     if (["node_modules", "dist", "package-lock.json", "tsconfig.tsbuildinfo", ".DS_Store"].includes(item.name)) continue;
@@ -243,6 +246,10 @@ function readStitchHandoff() {
 function withStitchTheme(theme, stitchHandoff) {
   if (!stitchHandoff?.style) return theme;
   const style = stitchHandoff.style;
+  const safeRadius = Math.max(
+    8,
+    Math.min(28, Number(style.radius) || Number(theme.shape?.cardRadius) || neutralTheme.shape.cardRadius)
+  );
   return {
     ...theme,
     sourceDesignProvider: "stitch",
@@ -266,11 +273,36 @@ function withStitchTheme(theme, stitchHandoff) {
     },
     shape: {
       ...(theme.shape || {}),
-      cardRadius: style.radius || theme.shape?.cardRadius || neutralTheme.shape.cardRadius,
-      controlRadius: style.buttonShape === "pill" ? 999 : style.radius || theme.shape?.controlRadius || neutralTheme.shape.controlRadius,
-      buttonRadius: style.buttonShape === "pill" ? 999 : style.radius || theme.shape?.buttonRadius || neutralTheme.shape.buttonRadius
+      cardRadius: safeRadius,
+      controlRadius: style.buttonShape === "pill" ? 999 : safeRadius,
+      buttonRadius: style.buttonShape === "pill" ? 999 : safeRadius
     }
   };
+}
+
+function stitchMappingForPage(page, stitchHandoff) {
+  const variants = stitchHandoff?.pageVariants || {};
+  if (page.id === "entry") return variants.entry;
+  if (page.id === "age_group") return variants.age_group || variants.age;
+  if (page.pageType === "intro_page") return variants.intro_transition || variants.intro;
+  if (
+    page.pageType === "height_input_page" ||
+    page.pageType === "weight_input_page" ||
+    page.pageType === "age_input_page" ||
+    page.pageType === "email_capture_page"
+  ) return variants.metric_input;
+  if (page.pageType === "summary_page") return variants.summary;
+  if (page.pageType === "plan_generation_page") return variants.plan_generation;
+  if (page.pageType === "plan_ready_page") return variants.plan_ready;
+  if (page.pageType === "paywall_page") return variants.paywall;
+  if (
+    page.pageType === "account_create_page" ||
+    page.pageType === "login_page" ||
+    page.pageType === "account_page"
+  ) return variants.account_auth_profile || variants.profile;
+  if (page.pageType === "multi_choice_page") return variants.multi_choice;
+  if (page.pageType === "single_choice_page") return variants.single_choice;
+  return null;
 }
 
 function withStitchVisualMap(pageVisualMap, stitchHandoff, config) {
@@ -280,7 +312,8 @@ function withStitchVisualMap(pageVisualMap, stitchHandoff, config) {
     "style-stitch",
     stitchHandoff.style.buttonShape === "pill" ? "style-stitch-pill" : "style-stitch-rounded",
     stitchHandoff.style.imageTreatment === "large_editorial" ? "style-stitch-editorial" : "style-stitch-contained",
-    stitchHandoff.style.density === "open" ? "style-stitch-open" : "style-stitch-structured"
+    stitchHandoff.style.density === "open" ? "style-stitch-open" : "style-stitch-structured",
+    "style-stitch-adapted"
   ].join(" ");
 
   return {
@@ -315,16 +348,27 @@ function withStitchVisualMap(pageVisualMap, stitchHandoff, config) {
       ...Object.fromEntries(
         pages.map((page) => [
           page.id,
-          {
-            ...(pageVisualMap.pages?.[page.id] || {}),
-            pageClass: [
-              pageVisualMap.pages?.[page.id]?.pageClass,
-              styleClass,
-              page.id === "age_group" ? "style-stitch-age-grid" : "",
-              page.pageType === "summary_page" ? "style-stitch-summary" : "",
-              page.pageType === "plan_ready_page" ? "style-stitch-plan-ready" : ""
-            ].filter(Boolean).join(" ")
-          }
+          (() => {
+            const existing = pageVisualMap.pages?.[page.id] || {};
+            const mapping = stitchMappingForPage(page, stitchHandoff);
+            const mappedClass = typeof mapping?.pageClass === "string" ? mapping.pageClass : "";
+            return {
+              ...existing,
+              designProvider: "stitch",
+              stitchSourceScreen: mapping?.sourceScreen,
+              stitchSections: mapping?.sections,
+              stitchHints: mapping?.hints,
+              variant: mapping?.variant || existing.variant || page.variant,
+              pageClass: [
+                existing.pageClass,
+                styleClass,
+                mappedClass,
+                page.id === "age_group" ? "style-stitch-age-grid" : "",
+                page.pageType === "summary_page" ? "style-stitch-summary" : "",
+                page.pageType === "plan_ready_page" ? "style-stitch-plan-ready" : ""
+              ].filter(Boolean).join(" ")
+            };
+          })()
         ])
       )
     }
