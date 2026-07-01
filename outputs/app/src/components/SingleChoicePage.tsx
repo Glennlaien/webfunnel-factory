@@ -12,17 +12,21 @@ function textValue(value: unknown, fallback = "") {
 export function SingleChoicePage({ page, saveAnswer, onNext }: RendererProps) {
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
   const select = async (value: string) => {
     setError("");
+    setSelectedValue(value);
     try {
       if (!hasSessionIdentity()) {
         setStarting(true);
       }
       await saveAnswer(page.dataKey!, value, { blocking: !hasSessionIdentity() });
       trackEvent("OB Answer Submitted", page, answerAnalyticsProps(page, value));
+      await new Promise((resolve) => window.setTimeout(resolve, 180));
       onNext();
     } catch {
+      setSelectedValue("");
       setError("We couldn't start your session. Please try again.");
     } finally {
       setStarting(false);
@@ -39,7 +43,7 @@ export function SingleChoicePage({ page, saveAnswer, onNext }: RendererProps) {
         {page.subtitle ? <p>{page.subtitle}</p> : null}
       </div>
       <div className="choice-scroll-area">
-        <ChoiceOptions page={page} mode="single" selectedValues={[]} disabled={starting} onToggle={select} />
+        <ChoiceOptions page={page} mode="single" selectedValues={selectedValue ? [selectedValue] : []} disabled={starting} onToggle={select} />
         {isAgeGroup ? (
           <p className="age-group-legal">
             By choosing your age and continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
@@ -51,4 +55,3 @@ export function SingleChoicePage({ page, saveAnswer, onNext }: RendererProps) {
     </section>
   );
 }
-
