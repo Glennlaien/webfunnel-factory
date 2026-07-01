@@ -125,6 +125,258 @@ function extractFontHint(html) {
   return { fontFamily, headingWeight };
 }
 
+function extractTailwindConfigValue(html, section, key) {
+  const sectionMatch = html.match(new RegExp(`"${section}"\\s*:\\s*\\{([\\s\\S]*?)\\n\\s*\\}`, "i"));
+  const body = sectionMatch?.[1] || "";
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const arrayMatch = body.match(new RegExp(`"${escaped}"\\s*:\\s*\\[\\s*"([^"]+)"`, "i"));
+  if (arrayMatch) return arrayMatch[1];
+  const stringMatch = body.match(new RegExp(`"${escaped}"\\s*:\\s*"([^"]+)"`, "i"));
+  return stringMatch?.[1];
+}
+
+function pxFromToken(value) {
+  if (!value) return undefined;
+  const text = String(value).trim();
+  const px = text.match(/^([0-9.]+)px$/i);
+  if (px) return Number(px[1]);
+  const rem = text.match(/^([0-9.]+)rem$/i);
+  if (rem) return Number(rem[1]) * 16;
+  return undefined;
+}
+
+function extractSpacingTokenPx(html, token) {
+  return pxFromToken(extractTailwindConfigValue(html, "spacing", token));
+}
+
+function extractFontSizeTokenPx(html, token) {
+  return pxFromToken(extractTailwindConfigValue(html, "fontSize", token));
+}
+
+function clamp(value, min, max) {
+  if (!Number.isFinite(value)) return undefined;
+  return Math.max(min, Math.min(max, value));
+}
+
+function median(values) {
+  const numbers = values.filter(Number.isFinite).sort((a, b) => a - b);
+  if (!numbers.length) return undefined;
+  return numbers[Math.floor(numbers.length / 2)];
+}
+
+function extractNumericCss(html, property) {
+  const escaped = property.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return [...html.matchAll(new RegExp(`${escaped}\\s*:\\s*([0-9.]+)px`, "gi"))]
+    .map((match) => Number(match[1]))
+    .filter(Number.isFinite);
+}
+
+function extractTailwindSpacing(html, prefix) {
+  return [...html.matchAll(new RegExp(`${prefix}-\\[([0-9.]+)px\\]`, "gi"))]
+    .map((match) => Number(match[1]))
+    .filter(Number.isFinite);
+}
+
+function extractFontSizes(html) {
+  const cssSizes = extractNumericCss(html, "font-size");
+  const arbitraryTextSizes = [...html.matchAll(/text-\[([0-9.]+)px\]/gi)]
+    .map((match) => Number(match[1]))
+    .filter(Number.isFinite);
+  return [...cssSizes, ...arbitraryTextSizes].filter((value) => value >= 10 && value <= 96);
+}
+
+function extractShadows(html) {
+  const shadowMatches = [...html.matchAll(/box-shadow\s*:\s*([^;"}]+)/gi)].map((match) => match[1].trim());
+  const tailwindShadowCount = countMatches(html, /\bshadow(?:-[a-z0-9]+)?\b/gi);
+  return {
+    raw: shadowMatches.slice(0, 8),
+    intensity: shadowMatches.length + tailwindShadowCount >= 10 ? "layered" : shadowMatches.length + tailwindShadowCount >= 3 ? "soft" : "minimal"
+  };
+}
+
+function componentSkinForScreen({ html, pageType, structure, radii, font }) {
+  const marginMobile = extractSpacingTokenPx(html, "margin-mobile");
+  const spacingMd = extractSpacingTokenPx(html, "md");
+  const spacingLg = extractSpacingTokenPx(html, "lg");
+  const spacingXl = extractSpacingTokenPx(html, "xl");
+  const headlineMobile = extractFontSizeTokenPx(html, "headline-lg-mobile");
+  const headlineMd = extractFontSizeTokenPx(html, "headline-md");
+  const displayLg = extractFontSizeTokenPx(html, "display-lg");
+  const bodyMd = extractFontSizeTokenPx(html, "body-md");
+  const bodyLg = extractFontSizeTokenPx(html, "body-lg");
+  const paddingValues = [
+    ...extractNumericCss(html, "padding"),
+    ...extractNumericCss(html, "padding-left"),
+    ...extractNumericCss(html, "padding-right"),
+    ...extractTailwindSpacing(html, "p"),
+    ...extractTailwindSpacing(html, "px"),
+    marginMobile
+  ].filter((value) => value >= 8 && value <= 64);
+  const gapValues = [
+    ...extractNumericCss(html, "gap"),
+    ...extractTailwindSpacing(html, "gap"),
+    spacingMd,
+    spacingLg
+  ].filter((value) => value >= 4 && value <= 48);
+  const fontSizes = extractFontSizes(html);
+  const shadows = extractShadows(html);
+  const cardRadius = clamp(radii.cardRadius, 8, 32);
+  const primaryHeadingSize = clamp(Math.max(...fontSizes.filter((value) => value >= 22), headlineMobile || 0, headlineMd || 0), 26, 48);
+  const bodySize = clamp(median([...fontSizes.filter((value) => value >= 13 && value <= 20), bodyMd, bodyLg]), 14, 18);
+  const pagePadding = clamp(median(paddingValues), 18, 32);
+  const componentGap = clamp(median(gapValues), 10, 24);
+
+  const base = {
+    source: "stitch_html",
+    fidelity: "component_skin",
+    tokens: {
+      pagePadding,
+      componentGap,
+      cardRadius,
+      controlRadius: radii.hasPill ? 999 : cardRadius,
+      headingSize: primaryHeadingSize,
+      bodySize,
+      headingWeight: font.headingWeight,
+      shadowIntensity: shadows.intensity
+    }
+  };
+
+  if (pageType === "entry_page") {
+    return {
+      ...base,
+      component: "EntryPage",
+      skinClass: "skin-entry-editorial",
+      tokens: {
+        ...base.tokens,
+        heroTreatment: "full_bleed",
+        heroOverlay: /rgba\([^)]*,\s*0\.[3-8]\)|opacity/i.test(html) ? "dark_scrim" : "soft_scrim",
+        ctaShape: radii.hasPill ? "pill" : "rounded",
+        headingSize: clamp(displayLg || primaryHeadingSize, 36, 72),
+        componentGap: spacingMd || base.tokens.componentGap
+      }
+    };
+  }
+
+  if (pageType === "single_choice_page" || pageType === "multi_choice_page") {
+    const imageGrid = structure.media.hasImageGrid;
+    return {
+      ...base,
+      component: pageType === "multi_choice_page" ? "MultiChoicePage" : "SingleChoicePage",
+      skinClass: imageGrid ? "skin-choice-image-editorial" : "skin-choice-soft-card",
+      tokens: {
+        ...base.tokens,
+        optionMinHeight: clamp(Math.max(...extractNumericCss(html, "min-height"), imageGrid ? 0 : 72), imageGrid ? 0 : 64, 104),
+        optionRadius: cardRadius,
+        optionBorderWidth: /border-\[2px\]|border-width\s*:\s*2px/i.test(html) ? 2 : 1,
+        optionImageRatio: imageGrid ? "1 / 1.08" : undefined,
+        componentGap: spacingMd || componentGap,
+        pagePadding: marginMobile || pagePadding,
+        selectedTreatment: "primary_fill_or_outline",
+        checkTreatment: pageType === "multi_choice_page" ? "rounded_square" : "none"
+      }
+    };
+  }
+
+  if (pageType === "intro_page") {
+    return {
+      ...base,
+      component: "IntroPage",
+      skinClass: "skin-intro-editorial",
+      tokens: {
+        ...base.tokens,
+        imageRatio: "4 / 3",
+        imageRadius: cardRadius ? cardRadius + 4 : undefined,
+        ctaPlacement: "bottom",
+        componentGap: spacingLg || componentGap
+      }
+    };
+  }
+
+  if (pageType === "metric_input_page") {
+    return {
+      ...base,
+      component: "MetricInputPage",
+      skinClass: "skin-metric-centered",
+      tokens: {
+        ...base.tokens,
+        valueSize: clamp(Math.max(...fontSizes.filter((value) => value >= 36), displayLg || 0), 44, 72),
+        unitToggleShape: "sliding_pill",
+        helperCardTone: "soft_info"
+      }
+    };
+  }
+
+  if (pageType === "summary_page") {
+    return {
+      ...base,
+      component: "SummaryPage",
+      skinClass: "skin-summary-report",
+      tokens: {
+        ...base.tokens,
+        gaugeTreatment: "report_card",
+        factLayout: "stacked_rows",
+        bodyVisualTreatment: "plain_image"
+      }
+    };
+  }
+
+  if (pageType === "plan_generation_page") {
+    return {
+      ...base,
+      component: "PlanGenerationPage",
+      skinClass: "skin-generation-proof",
+      tokens: {
+        ...base.tokens,
+        progressTreatment: "large_ring",
+        proofCardTreatment: "single_feedback_card"
+      }
+    };
+  }
+
+  if (pageType === "plan_ready_page") {
+    return {
+      ...base,
+      component: "PlanReadyPage",
+      skinClass: "skin-plan-chart",
+      tokens: {
+        ...base.tokens,
+        chartTreatment: "soft_card",
+        pointLabels: "dark_tooltips"
+      }
+    };
+  }
+
+  if (pageType === "paywall_page") {
+    return {
+      ...base,
+      component: "PaywallPage",
+      skinClass: "skin-paywall-longform",
+      tokens: {
+        ...base.tokens,
+        stickyTimer: true,
+        offerTreatment: "stacked_radio_cards",
+        testimonialTreatment: "white_cards",
+        sectionSpacing: clamp(Math.max(...gapValues, spacingXl || 0), 20, 40)
+      }
+    };
+  }
+
+  if (pageType === "account_page") {
+    return {
+      ...base,
+      component: "AccountPages",
+      skinClass: "skin-account-flat",
+      tokens: {
+        ...base.tokens,
+        formTreatment: "flat_inputs",
+        profileTreatment: "simple_rows"
+      }
+    };
+  }
+
+  return base;
+}
+
 function inferPageType(pageKey) {
   if (pageKey.includes("paywall")) return "paywall_page";
   if (pageKey.includes("entry")) return "entry_page";
@@ -274,6 +526,7 @@ function analyzeScreen(filePath, fallbackPrimary) {
   const pageKey = path.basename(filePath, ".html").replace(/^\d+-/, "");
   const pageType = inferPageType(pageKey);
   const structure = structureForScreen({ html, pageKey, pageType });
+  const componentSkin = componentSkinForScreen({ html, pageType, structure, radii, font });
   const screen = {
     file: path.relative(root, filePath),
     pageKey,
@@ -285,6 +538,7 @@ function analyzeScreen(filePath, fallbackPrimary) {
     radii,
     font,
     structure,
+    componentSkin,
     visualTraits: {
       hasLargeHero,
       hasSticky,
@@ -338,7 +592,8 @@ const pageVariants = Object.fromEntries(
     screen.pageKey,
     {
       ...screen.runtimeMapping,
-      structure: screen.structure
+      structure: screen.structure,
+      componentSkin: screen.componentSkin
     }
   ])
 );

@@ -14,7 +14,7 @@ Stitch HTML was captured from 11 key screens and converted into runtime-safe pag
 
 - entry: stitch-screen stitch-screen-entry stitch-entry-editorial (top_nav, hero_media, headline, body_comparison, cta)
 - age_group: stitch-screen stitch-screen-age_group stitch-choice-image-grid stitch-age-card-grid (top_nav, segmented_progress, hero_media, headline, legal, cta)
-- single_choice: stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media (top_nav, segmented_progress, hero_media, headline, body_comparison)
+- single_choice: stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media (top_nav, segmented_progress, hero_media, headline)
 - multi_choice: stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list (top_nav, segmented_progress, hero_media, headline, body_comparison, cta)
 - intro_transition: stitch-screen stitch-screen-intro_transition stitch-intro-editorial (top_nav, hero_media, body_comparison, facts_list, cta)
 - metric_input: stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement (top_nav, bmi_gauge, unit_input, cta)

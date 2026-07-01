@@ -65,8 +65,7 @@
           "top_nav",
           "segmented_progress",
           "hero_media",
-          "headline",
-          "body_comparison"
+          "headline"
         ],
         "hints": {
           "optionTreatment": "large_surface_rows",

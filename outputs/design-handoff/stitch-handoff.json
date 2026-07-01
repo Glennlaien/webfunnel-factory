@@ -69,6 +69,23 @@
           "body_comparison",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 40,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "heroTreatment": "full_bleed",
+          "heroOverlay": "dark_scrim",
+          "ctaShape": "pill"
+        },
+        "component": "EntryPage",
+        "skinClass": "skin-entry-editorial"
       }
     },
     "age_group": {
@@ -129,6 +146,25 @@
           "legal",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 0,
+          "optionBorderWidth": 1,
+          "optionImageRatio": "1 / 1.08",
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-image-editorial"
       }
     },
     "single_choice": {
@@ -140,8 +176,7 @@
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "hints": {
         "optionTreatment": "large_surface_rows",
@@ -151,13 +186,13 @@
       "structure": {
         "pageType": "single_choice_page",
         "headings": [
-          "What is your primary goal?"
+          "What do you want to improve first?"
         ],
-        "primaryHeading": "What is your primary goal?",
+        "primaryHeading": "What do you want to improve first?",
         "buttonTexts": [
-          "arrow_back"
+          "Login"
         ],
-        "optionButtonCount": 1,
+        "optionButtonCount": 0,
         "media": {
           "imageCount": 0,
           "hasLargeHero": true,
@@ -177,9 +212,26 @@
           "top_nav",
           "segmented_progress",
           "hero_media",
-          "headline",
-          "body_comparison"
+          "headline"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
       }
     },
     "multi_choice": {
@@ -237,6 +289,24 @@
           "body_comparison",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "rounded_square"
+        },
+        "component": "MultiChoicePage",
+        "skinClass": "skin-choice-soft-card"
       }
     },
     "intro_transition": {
@@ -290,6 +360,22 @@
           "facts_list",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "imageRatio": "4 / 3",
+          "ctaPlacement": "bottom"
+        },
+        "component": "IntroPage",
+        "skinClass": "skin-intro-editorial"
       }
     },
     "metric_input": {
@@ -344,6 +430,23 @@
           "unit_input",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
       }
     },
     "summary": {
@@ -407,6 +510,23 @@
           "facts_list",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 16,
+          "shadowIntensity": "soft",
+          "gaugeTreatment": "report_card",
+          "factLayout": "stacked_rows",
+          "bodyVisualTreatment": "plain_image"
+        },
+        "component": "SummaryPage",
+        "skinClass": "skin-summary-report"
       }
     },
     "plan_generation": {
@@ -444,6 +564,21 @@
           "hasLargeNumber": true
         },
         "sections": []
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "progressTreatment": "large_ring",
+          "proofCardTreatment": "single_feedback_card"
+        },
+        "component": "PlanGenerationPage",
+        "skinClass": "skin-generation-proof"
       }
     },
     "plan_ready": {
@@ -505,6 +640,22 @@
           "legal",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "chartTreatment": "soft_card",
+          "pointLabels": "dark_tooltips"
+        },
+        "component": "PlanReadyPage",
+        "skinClass": "skin-plan-chart"
       }
     },
     "paywall": {
@@ -572,6 +723,24 @@
           "app_screenshots",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "stickyTimer": true,
+          "offerTreatment": "stacked_radio_cards",
+          "testimonialTreatment": "white_cards",
+          "sectionSpacing": 32
+        },
+        "component": "PaywallPage",
+        "skinClass": "skin-paywall-longform"
       }
     },
     "account_auth_profile": {
@@ -628,6 +797,22 @@
           "offer_list",
           "legal"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "formTreatment": "flat_inputs",
+          "profileTreatment": "simple_rows"
+        },
+        "component": "AccountPages",
+        "skinClass": "skin-account-flat"
       }
     }
   },
@@ -721,6 +906,23 @@
           "body_comparison",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 40,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "heroTreatment": "full_bleed",
+          "heroOverlay": "dark_scrim",
+          "ctaShape": "pill"
+        },
+        "component": "EntryPage",
+        "skinClass": "skin-entry-editorial"
       },
       "visualTraits": {
         "hasLargeHero": true,
@@ -842,6 +1044,25 @@
           "cta"
         ]
       },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 0,
+          "optionBorderWidth": 1,
+          "optionImageRatio": "1 / 1.08",
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-image-editorial"
+      },
       "visualTraits": {
         "hasLargeHero": true,
         "hasSticky": false,
@@ -873,18 +1094,18 @@
       "file": "outputs/stitch/screens/03-single_choice.html",
       "pageKey": "single_choice",
       "pageType": "single_choice_page",
-      "htmlBytes": 11549,
+      "htmlBytes": 14417,
       "colorInventory": [
         {
           "color": "#FFFFFF",
-          "count": 6
-        },
-        {
-          "color": "#E6E1E4",
           "count": 5
         },
         {
-          "color": "#FFB2BD",
+          "color": "#FFF8F7",
+          "count": 3
+        },
+        {
+          "color": "#281719",
           "count": 2
         },
         {
@@ -892,36 +1113,34 @@
           "count": 2
         },
         {
-          "color": "#F8F5F7",
+          "color": "#FFB2BD",
           "count": 2
         },
         {
-          "color": "#22242A",
-          "count": 2
+          "color": "#F3D2D6",
+          "count": 1
         },
         {
-          "color": "#F20562",
-          "count": 2
+          "color": "#93000A",
+          "count": 1
+        },
+        {
+          "color": "#6BDD90",
+          "count": 1
+        },
+        {
+          "color": "#FFE9EA",
+          "count": 1
         },
         {
           "color": "#FFE1E4",
-          "count": 1
-        },
-        {
-          "color": "#BA1A1A",
-          "count": 1
-        },
-        {
-          "color": "#005229",
           "count": 1
         }
       ],
       "primaryCandidate": "#F20562",
       "radius": null,
       "radii": {
-        "raw": [
-          9999
-        ],
+        "raw": [],
         "cardRadius": null,
         "hasPill": true
       },
@@ -929,13 +1148,13 @@
       "structure": {
         "pageType": "single_choice_page",
         "headings": [
-          "What is your primary goal?"
+          "What do you want to improve first?"
         ],
-        "primaryHeading": "What is your primary goal?",
+        "primaryHeading": "What do you want to improve first?",
         "buttonTexts": [
-          "arrow_back"
+          "Login"
         ],
-        "optionButtonCount": 1,
+        "optionButtonCount": 0,
         "media": {
           "imageCount": 0,
           "hasLargeHero": true,
@@ -955,15 +1174,32 @@
           "top_nav",
           "segmented_progress",
           "hero_media",
-          "headline",
-          "body_comparison"
+          "headline"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
       },
       "visualTraits": {
         "hasLargeHero": true,
         "hasSticky": false,
         "hasPill": true,
-        "cardDensity": "medium"
+        "cardDensity": "high"
       },
       "runtimeMapping": {
         "sourceScreen": "single_choice",
@@ -974,8 +1210,7 @@
           "top_nav",
           "segmented_progress",
           "hero_media",
-          "headline",
-          "body_comparison"
+          "headline"
         ],
         "hints": {
           "optionTreatment": "large_surface_rows",
@@ -1077,6 +1312,24 @@
           "body_comparison",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "rounded_square"
+        },
+        "component": "MultiChoicePage",
+        "skinClass": "skin-choice-soft-card"
       },
       "visualTraits": {
         "hasLargeHero": true,
@@ -1194,6 +1447,22 @@
           "facts_list",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "imageRatio": "4 / 3",
+          "ctaPlacement": "bottom"
+        },
+        "component": "IntroPage",
+        "skinClass": "skin-intro-editorial"
       },
       "visualTraits": {
         "hasLargeHero": true,
@@ -1314,6 +1583,23 @@
           "cta"
         ]
       },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
       "visualTraits": {
         "hasLargeHero": false,
         "hasSticky": false,
@@ -1433,6 +1719,23 @@
           "cta"
         ]
       },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 16,
+          "shadowIntensity": "soft",
+          "gaugeTreatment": "report_card",
+          "factLayout": "stacked_rows",
+          "bodyVisualTreatment": "plain_image"
+        },
+        "component": "SummaryPage",
+        "skinClass": "skin-summary-report"
+      },
       "visualTraits": {
         "hasLargeHero": true,
         "hasSticky": false,
@@ -1542,6 +1845,21 @@
           "hasLargeNumber": true
         },
         "sections": []
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "progressTreatment": "large_ring",
+          "proofCardTreatment": "single_feedback_card"
+        },
+        "component": "PlanGenerationPage",
+        "skinClass": "skin-generation-proof"
       },
       "visualTraits": {
         "hasLargeHero": false,
@@ -1657,6 +1975,22 @@
           "legal",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "chartTreatment": "soft_card",
+          "pointLabels": "dark_tooltips"
+        },
+        "component": "PlanReadyPage",
+        "skinClass": "skin-plan-chart"
       },
       "visualTraits": {
         "hasLargeHero": true,
@@ -1781,6 +2115,24 @@
           "app_screenshots",
           "cta"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "stickyTimer": true,
+          "offerTreatment": "stacked_radio_cards",
+          "testimonialTreatment": "white_cards",
+          "sectionSpacing": 32
+        },
+        "component": "PaywallPage",
+        "skinClass": "skin-paywall-longform"
       },
       "visualTraits": {
         "hasLargeHero": true,
@@ -1910,6 +2262,22 @@
           "offer_list",
           "legal"
         ]
+      },
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "formTreatment": "flat_inputs",
+          "profileTreatment": "simple_rows"
+        },
+        "component": "AccountPages",
+        "skinClass": "skin-account-flat"
       },
       "visualTraits": {
         "hasLargeHero": true,

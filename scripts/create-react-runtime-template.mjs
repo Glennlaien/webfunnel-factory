@@ -305,6 +305,32 @@ function stitchMappingForPage(page, stitchHandoff) {
   return null;
 }
 
+function skinCssVars(skin) {
+  const tokens = skin?.tokens || {};
+  const vars = {};
+  const entries = {
+    "--skin-page-padding": tokens.pagePadding,
+    "--skin-component-gap": tokens.componentGap,
+    "--skin-card-radius": tokens.cardRadius,
+    "--skin-control-radius": tokens.controlRadius,
+    "--skin-heading-size": tokens.headingSize,
+    "--skin-body-size": tokens.bodySize,
+    "--skin-option-min-height": tokens.optionMinHeight,
+    "--skin-option-radius": tokens.optionRadius,
+    "--skin-option-border-width": tokens.optionBorderWidth,
+    "--skin-value-size": tokens.valueSize,
+    "--skin-section-spacing": tokens.sectionSpacing
+  };
+  for (const [key, value] of Object.entries(entries)) {
+    if (!Number.isFinite(Number(value))) continue;
+    vars[key] = key.includes("border-width") ? `${Number(value)}px` : `${Math.round(Number(value))}px`;
+  }
+  if (tokens.optionImageRatio) vars["--skin-option-image-ratio"] = tokens.optionImageRatio;
+  if (tokens.imageRatio) vars["--skin-image-ratio"] = tokens.imageRatio;
+  if (tokens.headingWeight) vars["--skin-heading-weight"] = String(tokens.headingWeight);
+  return vars;
+}
+
 function withStitchVisualMap(pageVisualMap, stitchHandoff, config) {
   if (!stitchHandoff?.style) return pageVisualMap;
   const pages = Array.isArray(config?.pages) ? config.pages : [];
@@ -352,17 +378,22 @@ function withStitchVisualMap(pageVisualMap, stitchHandoff, config) {
             const existing = pageVisualMap.pages?.[page.id] || {};
             const mapping = stitchMappingForPage(page, stitchHandoff);
             const mappedClass = typeof mapping?.pageClass === "string" ? mapping.pageClass : "";
+            const componentSkin = mapping?.componentSkin;
+            const skinClass = typeof componentSkin?.skinClass === "string" ? componentSkin.skinClass : "";
             return {
               ...existing,
               designProvider: "stitch",
               stitchSourceScreen: mapping?.sourceScreen,
               stitchSections: mapping?.sections,
               stitchHints: mapping?.hints,
+              componentSkin,
+              skinVars: skinCssVars(componentSkin),
               variant: mapping?.variant || existing.variant || page.variant,
               pageClass: [
                 existing.pageClass,
                 styleClass,
                 mappedClass,
+                skinClass,
                 page.id === "age_group" ? "style-stitch-age-grid" : "",
                 page.pageType === "summary_page" ? "style-stitch-summary" : "",
                 page.pageType === "plan_ready_page" ? "style-stitch-plan-ready" : ""

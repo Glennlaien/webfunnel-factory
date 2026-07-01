@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { clearRuntimeSession, readAnswers, storage } from "./storage";
 import { templateConfig } from "./templateConfig";
 import { createSaveAnswer } from "./answerStore";
@@ -26,6 +26,7 @@ export function App() {
   const saveAnswer = useMemo(() => createSaveAnswer(setAnswers), []);
   const page = pages.find((item) => item.id === route) || pages[0];
   const visualClass = typeof page.visual?.pageClass === "string" ? page.visual.pageClass : "";
+  const skinVars = (page.visual?.skinVars && typeof page.visual.skinVars === "object" ? page.visual.skinVars : {}) as CSSProperties;
   const pageIdClass = "page-id-" + page.id.replace(/[^a-zA-Z0-9_-]/g, "-");
   const lastViewedRef = useRef("");
 
@@ -72,7 +73,7 @@ export function App() {
     <div className={`app-shell shell-page-${page.pageType} ${pageIdClass} ${visualClass} ${page.id === "entry" ? "shell-entry" : ""}`}>
       <TopProgress page={page} pages={pages} />
       <div className="desktop-layout">
-        <main key={page.id} className={`screen-main page-type-${page.pageType} ${pageIdClass} ${visualClass} ${page.progress?.scope === "ob_questions" ? "is-ob-transition" : ""} ${fixedCtaPageTypes.has(page.pageType) ? "has-fixed-cta" : ""} ${page.id === "entry" ? "page-id-entry" : ""}`}>
+        <main key={page.id} style={skinVars} className={`screen-main page-type-${page.pageType} ${pageIdClass} ${visualClass} ${page.progress?.scope === "ob_questions" ? "is-ob-transition" : ""} ${fixedCtaPageTypes.has(page.pageType) ? "has-fixed-cta" : ""} ${page.id === "entry" ? "page-id-entry" : ""}`}>
           {renderPage({ page, answers, saveAnswer, onNext: goNext })}
         </main>
       </div>
@@ -84,4 +85,3 @@ export function App() {
     </div>
   );
 }
-

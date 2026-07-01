@@ -2289,7 +2289,31 @@ export const pageVisualMap = {
         "navTreatment": "transparent",
         "ctaPlacement": "hero_bottom"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-entry stitch-entry-editorial"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 40,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "heroTreatment": "full_bleed",
+          "heroOverlay": "dark_scrim",
+          "ctaShape": "pill"
+        },
+        "component": "EntryPage",
+        "skinClass": "skin-entry-editorial"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "40px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-entry stitch-entry-editorial skin-entry-editorial"
     },
     "age_group": {
       "pageType": "single_choice_page",
@@ -2310,7 +2334,36 @@ export const pageVisualMap = {
         "columns": 2,
         "imageRatio": "portrait_card"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-age_group stitch-choice-image-grid stitch-age-card-grid style-stitch-age-grid"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 0,
+          "optionBorderWidth": 1,
+          "optionImageRatio": "1 / 1.08",
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-image-editorial"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "0px",
+        "--skin-option-border-width": "1px",
+        "--skin-option-image-ratio": "1 / 1.08"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-age_group stitch-choice-image-grid stitch-age-card-grid skin-choice-image-editorial style-stitch-age-grid"
     },
     "exact_age": {
       "pageType": "age_input_page",
@@ -2329,7 +2382,32 @@ export const pageVisualMap = {
         "valueTreatment": "large_centered",
         "helperCard": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "48px",
+        "--skin-body-size": "18px",
+        "--skin-value-size": "72px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement skin-metric-centered"
     },
     "fitness_goal_discovery": {
       "pageType": "single_choice_page",
@@ -2341,14 +2419,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_body_focus": {
       "pageType": "multi_choice_page",
@@ -2369,7 +2473,34 @@ export const pageVisualMap = {
         "selectedIndicator": "checkmark_box",
         "ctaPlacement": "sticky_bottom"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "rounded_square"
+        },
+        "component": "MultiChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list skin-choice-soft-card"
     },
     "fitness_goal_trust_bridge": {
       "pageType": "intro_page",
@@ -2389,7 +2520,31 @@ export const pageVisualMap = {
         "ctaPlacement": "sticky_bottom",
         "copyDensity": "medium"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "imageRatio": "4 / 3",
+          "ctaPlacement": "bottom"
+        },
+        "component": "IntroPage",
+        "skinClass": "skin-intro-editorial"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-image-ratio": "4 / 3"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial skin-intro-editorial"
     },
     "fitness_experience_level": {
       "pageType": "single_choice_page",
@@ -2401,14 +2556,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_training_readiness": {
       "pageType": "single_choice_page",
@@ -2420,14 +2601,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_current_activity": {
       "pageType": "single_choice_page",
@@ -2439,14 +2646,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_blockers": {
       "pageType": "multi_choice_page",
@@ -2467,7 +2700,34 @@ export const pageVisualMap = {
         "selectedIndicator": "checkmark_box",
         "ctaPlacement": "sticky_bottom"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "rounded_square"
+        },
+        "component": "MultiChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list skin-choice-soft-card"
     },
     "fitness_limitations": {
       "pageType": "multi_choice_page",
@@ -2488,7 +2748,34 @@ export const pageVisualMap = {
         "selectedIndicator": "checkmark_box",
         "ctaPlacement": "sticky_bottom"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "rounded_square"
+        },
+        "component": "MultiChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-multi_choice stitch-choice-list stitch-multi-check-list skin-choice-soft-card"
     },
     "fitness_routine_trust_bridge": {
       "pageType": "intro_page",
@@ -2508,7 +2795,31 @@ export const pageVisualMap = {
         "ctaPlacement": "sticky_bottom",
         "copyDensity": "medium"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "imageRatio": "4 / 3",
+          "ctaPlacement": "bottom"
+        },
+        "component": "IntroPage",
+        "skinClass": "skin-intro-editorial"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-image-ratio": "4 / 3"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-intro_transition stitch-intro-editorial skin-intro-editorial"
     },
     "fitness_time_budget": {
       "pageType": "single_choice_page",
@@ -2520,14 +2831,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_weekly_frequency": {
       "pageType": "single_choice_page",
@@ -2539,14 +2876,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_preferred_time": {
       "pageType": "single_choice_page",
@@ -2558,14 +2921,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_energy_level": {
       "pageType": "single_choice_page",
@@ -2577,14 +2966,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_motivation_reason": {
       "pageType": "single_choice_page",
@@ -2596,14 +3011,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "fitness_support_style": {
       "pageType": "single_choice_page",
@@ -2615,14 +3056,40 @@ export const pageVisualMap = {
         "top_nav",
         "segmented_progress",
         "hero_media",
-        "headline",
-        "body_comparison"
+        "headline"
       ],
       "stitchHints": {
         "optionTreatment": "large_surface_rows",
         "autoAdvance": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 16,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "optionMinHeight": 72,
+          "optionBorderWidth": 1,
+          "selectedTreatment": "primary_fill_or_outline",
+          "checkTreatment": "none"
+        },
+        "component": "SingleChoicePage",
+        "skinClass": "skin-choice-soft-card"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "16px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-option-min-height": "72px",
+        "--skin-option-border-width": "1px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-single_choice stitch-choice-list stitch-choice-with-media skin-choice-soft-card"
     },
     "height": {
       "pageType": "height_input_page",
@@ -2641,7 +3108,32 @@ export const pageVisualMap = {
         "valueTreatment": "large_centered",
         "helperCard": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "48px",
+        "--skin-body-size": "18px",
+        "--skin-value-size": "72px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement skin-metric-centered"
     },
     "current_weight": {
       "pageType": "weight_input_page",
@@ -2660,7 +3152,32 @@ export const pageVisualMap = {
         "valueTreatment": "large_centered",
         "helperCard": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "48px",
+        "--skin-body-size": "18px",
+        "--skin-value-size": "72px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement skin-metric-centered"
     },
     "target_weight": {
       "pageType": "weight_input_page",
@@ -2679,7 +3196,32 @@ export const pageVisualMap = {
         "valueTreatment": "large_centered",
         "helperCard": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "48px",
+        "--skin-body-size": "18px",
+        "--skin-value-size": "72px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement skin-metric-centered"
     },
     "email": {
       "pageType": "email_capture_page",
@@ -2698,7 +3240,32 @@ export const pageVisualMap = {
         "valueTreatment": "large_centered",
         "helperCard": true
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 48,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "valueSize": 72,
+          "unitToggleShape": "sliding_pill",
+          "helperCardTone": "soft_info"
+        },
+        "component": "MetricInputPage",
+        "skinClass": "skin-metric-centered"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "48px",
+        "--skin-body-size": "18px",
+        "--skin-value-size": "72px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-metric_input stitch-metric-input stitch-centered-measurement skin-metric-centered"
     },
     "summary": {
       "pageType": "summary_page",
@@ -2723,7 +3290,31 @@ export const pageVisualMap = {
           "insight_card"
         ]
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-summary stitch-summary-bmi-profile style-stitch-summary"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 16,
+          "shadowIntensity": "soft",
+          "gaugeTreatment": "report_card",
+          "factLayout": "stacked_rows",
+          "bodyVisualTreatment": "plain_image"
+        },
+        "component": "SummaryPage",
+        "skinClass": "skin-summary-report"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "16px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-summary stitch-summary-bmi-profile skin-summary-report style-stitch-summary"
     },
     "plan_generation": {
       "pageType": "plan_generation_page",
@@ -2739,7 +3330,28 @@ export const pageVisualMap = {
           "testimonial_card"
         ]
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_generation stitch-generation-proof"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "progressTreatment": "large_ring",
+          "proofCardTreatment": "single_feedback_card"
+        },
+        "component": "PlanGenerationPage",
+        "skinClass": "skin-generation-proof"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_generation stitch-generation-proof skin-generation-proof"
     },
     "plan_ready": {
       "pageType": "plan_ready_page",
@@ -2763,7 +3375,30 @@ export const pageVisualMap = {
           "expected_result"
         ]
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_ready stitch-plan-chart style-stitch-plan-ready"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "minimal",
+          "chartTreatment": "soft_card",
+          "pointLabels": "dark_tooltips"
+        },
+        "component": "PlanReadyPage",
+        "skinClass": "skin-plan-chart"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-plan_ready stitch-plan-chart skin-plan-chart style-stitch-plan-ready"
     },
     "paywall": {
       "pageType": "paywall_page",
@@ -2792,13 +3427,40 @@ export const pageVisualMap = {
           "guarantee"
         ]
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-paywall stitch-paywall-longform"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "stickyTimer": true,
+          "offerTreatment": "stacked_radio_cards",
+          "testimonialTreatment": "white_cards",
+          "sectionSpacing": 32
+        },
+        "component": "PaywallPage",
+        "skinClass": "skin-paywall-longform"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px",
+        "--skin-section-spacing": "32px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-paywall stitch-paywall-longform skin-paywall-longform"
     },
     "payment_success": {
       "pageType": "payment_success_page",
       "variant": "default",
       "sectionId": "paid",
       "designProvider": "stitch",
+      "skinVars": {},
       "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted"
     },
     "account_create": {
@@ -2817,7 +3479,30 @@ export const pageVisualMap = {
         "formTreatment": "flat_inputs",
         "profileTreatment": "simple_rows"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "formTreatment": "flat_inputs",
+          "profileTreatment": "simple_rows"
+        },
+        "component": "AccountPages",
+        "skinClass": "skin-account-flat"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat skin-account-flat"
     },
     "login": {
       "pageType": "login_page",
@@ -2835,7 +3520,30 @@ export const pageVisualMap = {
         "formTreatment": "flat_inputs",
         "profileTreatment": "simple_rows"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "formTreatment": "flat_inputs",
+          "profileTreatment": "simple_rows"
+        },
+        "component": "AccountPages",
+        "skinClass": "skin-account-flat"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat skin-account-flat"
     },
     "profile": {
       "pageType": "account_page",
@@ -2853,7 +3561,30 @@ export const pageVisualMap = {
         "formTreatment": "flat_inputs",
         "profileTreatment": "simple_rows"
       },
-      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat"
+      "componentSkin": {
+        "source": "stitch_html",
+        "fidelity": "component_skin",
+        "tokens": {
+          "pagePadding": 20,
+          "componentGap": 24,
+          "controlRadius": 999,
+          "headingSize": 28,
+          "bodySize": 18,
+          "shadowIntensity": "soft",
+          "formTreatment": "flat_inputs",
+          "profileTreatment": "simple_rows"
+        },
+        "component": "AccountPages",
+        "skinClass": "skin-account-flat"
+      },
+      "skinVars": {
+        "--skin-page-padding": "20px",
+        "--skin-component-gap": "24px",
+        "--skin-control-radius": "999px",
+        "--skin-heading-size": "28px",
+        "--skin-body-size": "18px"
+      },
+      "pageClass": "style-stitch style-stitch-pill style-stitch-editorial style-stitch-structured style-stitch-adapted stitch-screen stitch-screen-account_auth_profile stitch-account-flat skin-account-flat"
     }
   },
   "sourceDesignProvider": "stitch"

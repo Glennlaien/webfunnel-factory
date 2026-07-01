@@ -734,6 +734,67 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .stitch-paywall-longform .plan-card {
   min-height: 74px;
 }
+.screen-main[class*="skin-"] {
+  --page-side-padding: var(--skin-page-padding, var(--page-side-padding));
+  --option-gap: var(--skin-component-gap, var(--option-gap));
+  --option-min-height: var(--skin-option-min-height, var(--option-min-height));
+  --card-radius: var(--skin-card-radius, var(--card-radius));
+  --control-radius: var(--skin-control-radius, var(--control-radius));
+}
+.screen-main[class*="skin-"] h1 {
+  font-size: clamp(26px, 6.2vw, var(--skin-heading-size, 36px));
+  font-weight: var(--skin-heading-weight, var(--heading-weight));
+}
+.screen-main[class*="skin-"] p {
+  font-size: var(--skin-body-size, 16px);
+}
+.skin-choice-soft-card .option-row,
+.skin-choice-image-editorial .option-row {
+  min-height: var(--skin-option-min-height, var(--option-min-height));
+  border-width: var(--skin-option-border-width, 1px);
+  border-radius: var(--skin-option-radius, var(--option-radius));
+}
+.skin-choice-soft-card .option-row {
+  background: color-mix(in srgb, var(--surface) 88%, var(--bg));
+}
+.skin-choice-image-editorial .choice-image-media {
+  aspect-ratio: var(--skin-option-image-ratio, var(--image-card-media-ratio));
+}
+.skin-entry-editorial .entry-content {
+  padding-inline: var(--skin-page-padding, var(--page-side-padding));
+}
+.skin-entry-editorial .entry-content h1 {
+  font-size: clamp(42px, 9vw, var(--skin-heading-size, 72px));
+}
+.skin-intro-editorial .intro-hero-image,
+.skin-intro-editorial .hero-placeholder {
+  aspect-ratio: var(--skin-image-ratio, 4 / 3);
+  border-radius: var(--skin-card-radius, var(--intro-image-radius));
+}
+.skin-metric-centered .measurement-value,
+.skin-metric-centered .age-value {
+  font-size: var(--skin-value-size, 58px);
+}
+.skin-metric-centered .unit-tabs {
+  border-radius: var(--skin-control-radius, 999px);
+}
+.skin-summary-report .summary-bmi-card,
+.skin-summary-report .summary-insight-card,
+.skin-plan-chart .plan-chart-card,
+.skin-generation-proof .generation-proof-card,
+.skin-paywall-longform .paywall-plan,
+.skin-paywall-longform .feedback-card,
+.skin-account-flat .auth-field,
+.skin-account-flat .profile-row {
+  border-radius: var(--skin-card-radius, var(--card-radius));
+}
+.skin-paywall-longform .paywall-section,
+.skin-paywall-longform .feedback-list {
+  gap: var(--skin-section-spacing, 22px);
+}
+.skin-paywall-longform .paywall-plan {
+  min-height: var(--skin-option-min-height, 74px);
+}
 .intro-hero-image,
 .hero-placeholder {
   width: min(100%, 440px);
