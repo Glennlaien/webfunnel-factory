@@ -617,13 +617,16 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   font-size: 15px;
   line-height: 1;
 }
+.screen-main[class*="choice-skin-"] .choice-list {
+  gap: max(16px, var(--option-gap));
+}
+.screen-main[class*="choice-skin-"] .option-row.selected {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 14%, transparent);
+}
 .choice-skin-hard-training {
   --option-radius: 10px;
   --option-gap: 16px;
   --option-min-height: 66px;
-}
-.choice-skin-hard-training .choice-list {
-  gap: 16px;
 }
 .choice-skin-hard-training .option-row {
   position: relative;
@@ -655,7 +658,7 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 }
 .choice-skin-calm-wellness {
   --option-radius: 20px;
-  --option-gap: 14px;
+  --option-gap: 16px;
   --option-min-height: 72px;
 }
 .choice-skin-calm-wellness .option-row {
@@ -667,14 +670,13 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .choice-skin-calm-wellness .option-row.selected {
   border-color: color-mix(in srgb, var(--primary) 62%, var(--border));
   background: color-mix(in srgb, var(--primary) 8%, var(--surface));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent);
 }
 .choice-skin-calm-wellness .choice-check {
   border-radius: 999px;
 }
 .choice-skin-calm-strength {
   --option-radius: 16px;
-  --option-gap: 13px;
+  --option-gap: 16px;
   --option-min-height: 70px;
 }
 .choice-skin-calm-strength .option-row {
@@ -685,11 +687,10 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .choice-skin-calm-strength .option-row.selected {
   border-color: var(--primary);
   background: color-mix(in srgb, var(--primary) 11%, var(--surface));
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 .choice-skin-energetic-fitness {
   --option-radius: 18px;
-  --option-gap: 15px;
+  --option-gap: 16px;
   --option-min-height: 74px;
 }
 .choice-skin-energetic-fitness .option-row {
@@ -701,14 +702,13 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .choice-skin-energetic-fitness .option-row.selected {
   border-color: var(--primary);
   background: color-mix(in srgb, var(--primary) 12%, var(--surface));
-  box-shadow: 0 14px 28px color-mix(in srgb, var(--primary) 18%, transparent);
 }
 .choice-skin-energetic-fitness .choice-check {
   border-radius: 999px;
 }
 .choice-skin-clinical-trust {
   --option-radius: 10px;
-  --option-gap: 10px;
+  --option-gap: 16px;
   --option-min-height: 66px;
 }
 .choice-skin-clinical-trust .option-row {
@@ -727,7 +727,7 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 }
 .choice-skin-lifestyle-companion {
   --option-radius: 22px;
-  --option-gap: 14px;
+  --option-gap: 16px;
   --option-min-height: 72px;
 }
 .choice-skin-lifestyle-companion .option-row {
@@ -739,7 +739,6 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .choice-skin-lifestyle-companion .option-row.selected {
   border-color: color-mix(in srgb, var(--primary) 76%, var(--border));
   background: color-mix(in srgb, var(--primary) 9%, var(--surface));
-  box-shadow: 0 12px 26px color-mix(in srgb, var(--primary) 12%, transparent);
 }
 .choice-skin-lifestyle-companion .choice-check {
   border-radius: 9px;
