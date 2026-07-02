@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { currentOutputsTarget, ensureOutputsLink, resolveOutputDir } from "./output-dir.mjs";
 
 const root = process.cwd();
 const args = parseArgs(process.argv.slice(2));
@@ -10,6 +11,10 @@ const appUrl = args["app-url"] || args.url || "";
 const targetAge = args["target-age"] || args["targetAge"] || "";
 const audience = args.audience || "";
 const skipImages = Boolean(args["skip-images"]);
+const resumeAfterStitch = Boolean(args["resume-after-stitch"]);
+const outputDir = resumeAfterStitch && !args["output-dir"] && !process.env.WEB2APP_OUTPUT_DIR
+  ? currentOutputsTarget() || resolveOutputDir({ productName, appUrl })
+  : resolveOutputDir({ outputDir: args["output-dir"], productName, appUrl });
 const imageFormat = args["image-format"] || process.env.IMAGE_OUTPUT_FORMAT || "png";
 const imageBaseUrl = args["image-base-url"] || process.env.SUB2API_BASE_URL || "http://152.70.196.2:8080";
 const imageApiKey = args["image-api-key"] || process.env.SUB2API_API_KEY;
@@ -20,15 +25,31 @@ if (!skipImages && !imageApiKey) {
   process.exit(1);
 }
 
-if (productName || appUrl || targetAge || audience) {
+ensureOutputsLink(outputDir);
+console.log(`Using external output directory: ${outputDir}`);
+
+if (!resumeAfterStitch && (productName || appUrl || targetAge || audience)) {
   writeProductBrief({ productName, appUrl, targetAge, audience });
 }
 
-run("npm", ["run", "clean", "--silent"]);
-if (productName || appUrl || targetAge || audience) {
+if (!resumeAfterStitch) {
+  run("npm", ["run", "clean", "--silent"], { WEB2APP_OUTPUT_DIR: outputDir });
+}
+if (!resumeAfterStitch && (productName || appUrl || targetAge || audience)) {
   writeProductBrief({ productName, appUrl, targetAge, audience });
 }
-run("node", ["scripts/generate-product-run.mjs"]);
+if (!resumeAfterStitch) {
+  run("node", ["scripts/generate-product-run.mjs"]);
+  run("npm", ["run", "profile:validate", "--silent"]);
+  run("npm", ["run", "question:validate", "--silent"]);
+  run("npm", ["run", "copy:validate", "--silent"]);
+  run("npm", ["run", "stitch:require", "--silent"]);
+}
+if (resumeAfterStitch) {
+  run("npm", ["run", "stitch:require", "--silent"]);
+}
+run("npm", ["run", "stitch:handoff", "--silent"]);
+run("npm", ["run", "stitch:require-handoff", "--silent"]);
 run("npm", ["run", "images:prepare", "--silent"]);
 if (!skipImages) {
   run("npm", ["run", "images:generate", "--silent"], {
@@ -45,7 +66,7 @@ run("npm", ["run", "validate", "--silent"], {
 run("npm", ["install", "--silent"], { cwd: "outputs/app" });
 run("npm", ["run", "build", "--silent"], { cwd: "outputs/app" });
 
-writeRunSummary({ productName, appUrl, targetAge, audience, skipImages, imageFormat, imageBaseUrl });
+writeRunSummary({ productName, appUrl, targetAge, audience, skipImages, imageFormat, imageBaseUrl, resumeAfterStitch });
 console.log("Production funnel run complete.");
 
 function run(bin, commandArgs, env = {}) {
@@ -78,7 +99,7 @@ function writeProductBrief({ productName, appUrl, targetAge, audience }) {
   fs.writeFileSync(path.join(root, "inputs/product-brief.md"), lines.join("\n"));
 }
 
-function writeRunSummary({ productName, appUrl, targetAge, audience, skipImages, imageFormat, imageBaseUrl }) {
+function writeRunSummary({ productName, appUrl, targetAge, audience, skipImages, imageFormat, imageBaseUrl, resumeAfterStitch }) {
   const summaryPath = path.join(root, "outputs/qa/production-run-summary.json");
   fs.mkdirSync(path.dirname(summaryPath), { recursive: true });
   const manifestPath = path.join(root, "outputs/assets/asset-manifest.json");
@@ -90,6 +111,9 @@ function writeRunSummary({ productName, appUrl, targetAge, audience, skipImages,
       {
         status: "complete",
         runMode: skipImages ? "rehearsal" : "production",
+        stitchRequired: true,
+        resumedAfterStitch: resumeAfterStitch,
+        outputDir,
         productName,
         appUrl,
         targetAge,

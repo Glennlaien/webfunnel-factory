@@ -14,7 +14,11 @@
     "workflow:doctor": "node scripts/workflow.mjs doctor",
     "images:prepare": "node scripts/prepare-image-assets.mjs",
     "images:generate": "node scripts/generate-images.mjs",
+    "stitch:require": "node scripts/require-stitch-stage.mjs screens",
+    "stitch:handoff": "node scripts/create-stitch-handoff.mjs",
+    "stitch:require-handoff": "node scripts/require-stitch-stage.mjs handoff",
     "run:production": "node scripts/run-production-funnel.mjs",
+    "workflow:production:resume": "node scripts/run-production-funnel.mjs --resume-after-stitch",
     "workflow:reset": "node scripts/reset.mjs",
     "validate": "node scripts/validate.mjs",
     "validate:runtime": "node scripts/validate-runtime.mjs",
@@ -22,7 +26,12 @@
     "clean": "node scripts/clean-outputs.mjs",
     "clean:outputs": "node scripts/clean-outputs.mjs",
     "workflow:production": "node scripts/run-production-funnel.mjs",
-    "reset": "node scripts/reset.mjs"
+    "reset": "node scripts/reset.mjs",
+    "outputs:status": "node scripts/output-status.mjs",
+    "llm:doctor": "node scripts/llm-doctor.mjs",
+    "profile:validate": "node scripts/validate-product-profile.mjs",
+    "question:validate": "node scripts/validate-question-plan.mjs",
+    "copy:validate": "node scripts/validate-copy-plan.mjs"
   },
   "devDependencies": {
     "pngjs": "^7.0.0"

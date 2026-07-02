@@ -13,6 +13,9 @@ outputs/app/node_modules/
 outputs/app/dist/
 outputs/app/.env
 outputs/app/package-lock.json
+outputs/
+/outputs
+.outputs-local-backup-*/
 
 tmp/
 backups/git-bundles/

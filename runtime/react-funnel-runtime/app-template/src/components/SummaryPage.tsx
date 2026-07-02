@@ -3,10 +3,35 @@ import type { CSSProperties } from "react";
 import type { RendererProps } from "../runtime/rendererRegistry";
 import { bmiCategory, calculateBmi } from "../runtime/unitConversion";
 
+type AnswerBinding = {
+  fitnessLevel?: string[];
+  focusAreas?: string[];
+  blockers?: string[];
+  motivation?: string[];
+};
+
+type PageWithBinding = {
+  answerBinding?: AnswerBinding;
+  [key: string]: unknown;
+};
+
 function asLabel(value: unknown, fallback: string): string {
   if (Array.isArray(value)) return value.map((item) => asLabel(item, "")).filter(Boolean).join(", ") || fallback;
   if (typeof value !== "string") return fallback;
   return value.replace(/_/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function readBinding(page: PageWithBinding) {
+  return (page.answerBinding || {}) as AnswerBinding;
+}
+
+function firstAnswer(answers: Record<string, unknown>, keys: string[] | undefined, fallback: string): string {
+  for (const key of keys || []) {
+    const value = answers[key];
+    if (Array.isArray(value) && value.length) return asLabel(value, fallback);
+    if (typeof value === "string" && value) return asLabel(value, fallback);
+  }
+  return fallback;
 }
 
 function readWeightKg(value: unknown) {
@@ -61,6 +86,9 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
   const insight = insightFor(category);
   const deltaKg = currentWeightKg && targetWeightKg ? Math.round((currentWeightKg - targetWeightKg) * 10) / 10 : null;
   const bodySrc = bodyAssetSrc(page, category);
+  const binding = readBinding(page);
+  const fitnessLevel = firstAnswer(answers, binding.fitnessLevel || ["starterLevel", "fitnessLevel", "capabilityLevel"], "Personalized");
+  const focusAreas = firstAnswer(answers, binding.focusAreas || ["focusAreas"], "Your selected areas");
 
   return (
     <section className="page-stack summary-page">
@@ -95,12 +123,12 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
           <div className="summary-fact">
             <Dumbbell size={22} />
             <span>Fitness Level</span>
-            <strong>{asLabel(answers.starterLevel, "Personalized")}</strong>
+            <strong>{fitnessLevel}</strong>
           </div>
           <div className="summary-fact">
             <Target size={22} />
             <span>Main Focus</span>
-            <strong>{asLabel(answers.focusAreas, "Your selected areas")}</strong>
+            <strong>{focusAreas}</strong>
           </div>
           <div className="summary-fact">
             <Activity size={22} />

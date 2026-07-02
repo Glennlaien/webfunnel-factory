@@ -39,6 +39,16 @@ type Testimonial = {
   text: string;
 };
 
+type FaqItem = {
+  q: string;
+  a: string;
+};
+
+type AnswerBinding = {
+  focusAreas?: string[];
+  blockers?: string[];
+};
+
 const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "";
 
 function readKg(value: unknown) {
@@ -50,6 +60,15 @@ function asText(value: unknown, fallback: string) {
     return value.map((item) => String(item).replace(/_/g, " ")).join(", ");
   }
   if (typeof value === "string" && value) return value.replace(/_/g, " ");
+  return fallback;
+}
+
+function firstAnswerText(answers: Record<string, unknown>, keys: string[] | undefined, fallback: string) {
+  for (const key of keys || []) {
+    const value = answers[key];
+    const text = asText(value, "");
+    if (text) return text;
+  }
   return fallback;
 }
 
@@ -207,6 +226,30 @@ function pageTestimonials(page: Record<string, unknown>): Testimonial[] {
   ];
 }
 
+function pageFaq(page: Record<string, unknown>): FaqItem[] {
+  const source = Array.isArray(page.faq) ? page.faq : [];
+  const normalized = source
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const value = item as { q?: unknown; a?: unknown; question?: unknown; answer?: unknown };
+      const q = typeof value.q === "string" ? value.q : typeof value.question === "string" ? value.question : "";
+      const a = typeof value.a === "string" ? value.a : typeof value.answer === "string" ? value.answer : "";
+      if (!q || !a) return null;
+      return { q, a };
+    })
+    .filter(Boolean) as FaqItem[];
+  return normalized.length ? normalized : [
+    {
+      q: "What happens after I pay?",
+      a: "Your checkout returns to the success page, then account creation saves access to subscription management."
+    },
+    {
+      q: "Can I cancel later?",
+      a: "Yes. You can manage your subscription from your account page on the website."
+    }
+  ];
+}
+
 export function PaywallPage({ page, answers }: RendererProps) {
   const currentProductName = page.productName || page.appName || "this app";
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -225,12 +268,14 @@ export function PaywallPage({ page, answers }: RendererProps) {
   const paywallViewedRef = useRef(false);
   const currentKg = readKg(answers.currentWeight);
   const targetKg = readKg(answers.targetWeight);
-  const focus = asText(answers.focusAreas, "your focus areas");
-  const blockers = asText(answers.blockers, "your biggest blockers");
+  const answerBinding = (page.answerBinding || {}) as AnswerBinding;
+  const focus = firstAnswerText(answers, answerBinding.focusAreas || ["focusAreas"], "your focus areas");
+  const blockers = firstAnswerText(answers, answerBinding.blockers || ["blockers", "barriers"], "your biggest blockers");
   const pageScreenshotUrls = localScreenshotUrls(page);
   const beforeBodySrc = localBodyAsset(page, "overweight") || localBodyAsset(page, "obese") || localBodyAsset(page, "normal");
   const afterBodySrc = localBodyAsset(page, "normal") || beforeBodySrc;
   const testimonials = pageTestimonials(page);
+  const faq = pageFaq(page);
   const displayOffers = offers.length ? offers : fallbackOffers();
   const normalOfferByKey = useMemo(() => {
     const map = new Map<string, Offer>();
@@ -574,14 +619,12 @@ export function PaywallPage({ page, answers }: RendererProps) {
         </div>
       </div>
 
-      <details className="paywall-faq">
-        <summary>What happens after I pay?<ChevronDown size={17} /></summary>
-        <p>Your checkout returns to the success page, then account creation saves access to subscription management.</p>
-      </details>
-      <details className="paywall-faq">
-        <summary>Can I cancel later?<ChevronDown size={17} /></summary>
-        <p>Yes. The generated app includes a subscription center for viewing status and starting cancellation when the backend supports it.</p>
-      </details>
+      {faq.map((item) => (
+        <details className="paywall-faq" key={item.q}>
+          <summary>{item.q}<ChevronDown size={17} /></summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
 
       {error ? <p className="error-text">{error}</p> : null}
       {!offers.length ? <p className="subtle-note">Loading billing offers...</p> : null}
@@ -604,4 +647,3 @@ export function PaywallPage({ page, answers }: RendererProps) {
     </section>
   );
 }
-

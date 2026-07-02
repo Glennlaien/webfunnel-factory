@@ -70,11 +70,11 @@ const neutralPageVisualMap = {
   },
   pageTypes: {
     single_choice_page: {
-      supportedVariants: ["image_grid", "plain_list", "icon_list"],
+      supportedVariants: ["image_grid", "plain_list", "icon_list", "bottom_image"],
       ctaMode: "auto_advance"
     },
     multi_choice_page: {
-      supportedVariants: ["image_grid", "plain_list", "icon_list"],
+      supportedVariants: ["image_grid", "plain_list", "icon_list", "bottom_image"],
       ctaMode: "sticky_bottom",
       minSelectionFeedback: "disabled_cta"
     },

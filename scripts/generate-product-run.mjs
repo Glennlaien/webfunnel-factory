@@ -2,8 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { PNG } from "pngjs";
+import { loadLocalEnv } from "./lib/load-env.mjs";
+import { chatJson } from "./lib/llm-client.mjs";
 
 const root = process.cwd();
+loadLocalEnv(root);
 
 function ensureDir(dir) {
   fs.mkdirSync(path.join(root, dir), { recursive: true });
@@ -570,6 +573,390 @@ function parseDepth() {
     ? readText("inputs/funnel-requirements.md")
     : "";
   return raw.match(/Preferred funnel depth:\s*(\w+)/i)?.[1]?.toLowerCase() || "auto";
+}
+
+async function buildProductProfileWithFallback(inputProduct) {
+  const fallback = inferProductProfile(inputProduct);
+  const metadata = await fetchAppStoreProductMetadata(inputProduct);
+
+  try {
+    const result = await chatJson({
+      temperature: 0.25,
+      maxTokens: 5000,
+      system: [
+        "You are a senior Web2App product strategist.",
+        "Analyze the product from the App Store URL, product name, available App Store metadata, and any operator overrides.",
+        "Return only valid JSON.",
+        "Do not rely on brittle keyword matching. Explain the evidence behind audience, life stage, gender focus, modality, promise, and age strategy.",
+        "The output will drive onboarding questions, copy, image prompts, and UI direction, so be specific and avoid generic fitness assumptions."
+      ].join("\n"),
+      user: buildProductProfilePrompt({ inputProduct, metadata, fallback }),
+    });
+
+    const normalized = normalizeProductProfile(result.json, { inputProduct, fallback, metadata, source: result });
+    writeProductProfileAnalysis(normalized, { metadata, raw: result.json, fallbackUsed: false });
+    return normalized;
+  } catch (error) {
+    const profile = {
+      ...fallback,
+      profileSource: "keyword_fallback",
+      profileModel: "generate-product-run",
+      profileReason: `AI product profile failed, so keyword fallback was used: ${error instanceof Error ? error.message : String(error)}`,
+      appStoreMetadata: metadata,
+    };
+    writeProductProfileAnalysis(profile, { metadata, raw: null, fallbackUsed: true, error });
+    return profile;
+  }
+}
+
+function buildProductProfilePrompt({ inputProduct, metadata, fallback }) {
+  return JSON.stringify(
+    {
+      task:
+        "Create a product profile for a Web2App subscription funnel. This profile must be used before generating questions, copy, design direction, and images.",
+      input: {
+        productName: inputProduct.name,
+        appStoreUrl: inputProduct.url,
+        appStoreId: inputProduct.id,
+        operatorTargetAgeOverride: inputProduct.targetAge || null,
+        operatorAudienceOverride: inputProduct.audienceOverride || null,
+        appStoreMetadata: metadata,
+      },
+      compatibilityFallbackShape: {
+        allowedGenderFocus: ["male", "female", "neutral"],
+        allowedLifeStage: ["teen", "young_adult", "adult", "senior", "mixed"],
+        runtimeModalityShouldBeClosestOf: ["tai_chi", "chair_strength", "yoga", "pilates", "calisthenics", "fitness"],
+        note:
+          "runtimeModality is only for runtime compatibility. productType and productTypeLabel should describe the product more freely.",
+      },
+      requiredJsonShape: {
+        genderFocus: "male | female | neutral",
+        lifeStage: "teen | young_adult | adult | senior | mixed",
+        runtimeModality: "tai_chi | chair_strength | yoga | pilates | calisthenics | fitness",
+        productType: "free-form snake_case product category inferred from the product, e.g. military_calisthenics_strength",
+        productTypeLabel: "human readable label, e.g. military calisthenics strength",
+        modalityLabel: "short user-facing modality phrase",
+        category: "one-line category for product brief",
+        audience: "specific target audience sentence",
+        promise: "one concise core promise sentence for the funnel",
+        targetAgeRange: "e.g. 18-45 or 55-85+",
+        ageRangeEvidence: "why this age range is likely",
+        ageGroups: [
+          {
+            minAge: 18,
+            maxAge: 25,
+            label: "Age: 18-25",
+            value: "18_25",
+            imageSubject: "image prompt subject for this group",
+            differentiationRequirement: "how this group must look different from the others",
+          },
+        ],
+        funnelPsychology: {
+          userIntent: "why the user would start this funnel",
+          trustNeed: "what the funnel must prove before paywall",
+          conversionAngle: "main paid-plan reason",
+        },
+        recommendedObStrategy: {
+          depth: "short | standard | long | extended",
+          targetBusinessCapabilityCount: 24,
+          targetCountReason:
+            "why this product should use this many generated business pages before fixed metric/result/paywall pages",
+        },
+        evidence: ["short evidence bullets from product name, URL, metadata, or overrides"],
+        confidence: 0.0,
+      },
+      hardRules: [
+        "Return exactly four ageGroups.",
+        "Age groups must match the target audience, not a hardcoded 18-25/26-35/36-45/46+ default unless that is truly appropriate.",
+        "If an operator override provides target age or audience, respect it and explain it.",
+        "If the product clearly targets men or women, do not add a gender identity question later unless there is evidence the funnel needs multiple gender paths.",
+        "For senior, chair, tai chi, yoga, recovery, or low-impact products, reflect safety, readability, confidence, and comfort in the profile.",
+        "For military, calisthenics, muscle, strength, or high-discipline products, reflect discipline, visible progress, and capability building.",
+        "For health, fitness, weight loss, body transformation, recovery, senior mobility, strength, or wellness subscription funnels, prefer a long OB strategy unless the product is extremely simple.",
+        "A long OB strategy usually means 16-26 generated business capabilities before fixed runtime trunk pages, creating roughly 30+ total onboarding/result/paywall screens.",
+        "Use short or standard only when the product is low-risk, low-personalization, or clearly does not need trust-building before paywall.",
+        "Do not output markdown. JSON only.",
+      ],
+      fallbackProfileForReferenceOnly: fallback,
+    },
+    null,
+    2
+  );
+}
+
+async function fetchAppStoreProductMetadata(inputProduct) {
+  const appId = inputProduct.id || inputProduct.url.match(/id(\d+)/)?.[1] || "";
+  if (!appId) {
+    return {
+      available: false,
+      reason: "No App Store id found.",
+    };
+  }
+
+  try {
+    const lookupUrl = `https://itunes.apple.com/lookup?id=${appId}&country=us`;
+    const response = await fetch(lookupUrl);
+    if (!response.ok) throw new Error(`lookup returned ${response.status}`);
+    const payload = await response.json();
+    const result = payload?.results?.[0];
+    if (!result) throw new Error("lookup returned no result");
+    return {
+      available: true,
+      lookupUrl,
+      trackName: result.trackName || inputProduct.name,
+      sellerName: result.sellerName || null,
+      primaryGenreName: result.primaryGenreName || null,
+      genres: result.genres || [],
+      contentAdvisoryRating: result.contentAdvisoryRating || null,
+      description: truncateText(result.description || "", 1800),
+      screenshotCount: Array.isArray(result.screenshotUrls) ? result.screenshotUrls.length : 0,
+      ipadScreenshotCount: Array.isArray(result.ipadScreenshotUrls) ? result.ipadScreenshotUrls.length : 0,
+    };
+  } catch (error) {
+    return {
+      available: false,
+      reason: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+function truncateText(value, maxLength) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).trim()}…`;
+}
+
+function normalizeProductProfile(rawProfile, { inputProduct, fallback, metadata, source }) {
+  const raw = rawProfile?.productProfile && typeof rawProfile.productProfile === "object"
+    ? rawProfile.productProfile
+    : rawProfile;
+  if (!raw || typeof raw !== "object") throw new Error("Product profile response must be an object.");
+
+  const genderFocus = normalizeEnum(raw.genderFocus, ["male", "female", "neutral"], fallback.genderFocus);
+  const lifeStage = normalizeEnum(raw.lifeStage, ["teen", "young_adult", "adult", "senior", "mixed"], fallback.lifeStage);
+  const runtimeModality = normalizeRuntimeModality(raw.runtimeModality || raw.modality || raw.productType, fallback.modality);
+  const modalityLabel = nonEmptyString(raw.modalityLabel || raw.productTypeLabel, fallback.modalityLabel);
+  const productType = snakeCase(nonEmptyString(raw.productType, runtimeModality));
+  const productTypeLabel = nonEmptyString(raw.productTypeLabel, modalityLabel);
+  const category = nonEmptyString(raw.category, `${productTypeLabel}, web2app onboarding, personalized subscription plan`);
+  const audience = ensureSentence(nonEmptyString(raw.audience, fallback.audience));
+  const promise = ensureSentence(nonEmptyString(raw.promise || raw.corePromise, fallback.promise));
+  const parsedRange = parseExplicitAgeRange(raw.targetAgeRange) || parseExplicitAgeRange(inputProduct.targetAge) || parseExplicitAgeRange(inputProduct.audienceOverride);
+  const ageStrategy = normalizeAgeStrategy({
+    rawGroups: raw.ageGroups,
+    rawRange: raw.targetAgeRange,
+    parsedRange,
+    fallback,
+    source: inputProduct.targetAge || inputProduct.audienceOverride ? "operator_override_ai_interpreted" : "ai_product_profile",
+    evidence: nonEmptyString(raw.ageRangeEvidence, fallback.ageRangeEvidence),
+    lifeStage,
+    genderFocus,
+    modality: runtimeModality,
+  });
+  const evidence = Array.isArray(raw.evidence)
+    ? raw.evidence.map((item) => String(item).trim()).filter(Boolean).slice(0, 8)
+    : [];
+  const confidence = clampNumber(raw.confidence, 0.35, 0.95, 0.72);
+
+  return {
+    genderFocus,
+    lifeStage,
+    modality: runtimeModality,
+    runtimeModality,
+    productType,
+    productTypeLabel,
+    modalityLabel,
+    targetAgeRange: ageStrategy.range,
+    ageRangeSource: ageStrategy.source,
+    ageRangeEvidence: ageStrategy.evidence,
+    ageGroups: ageStrategy.groups,
+    category,
+    audience,
+    promise,
+    funnelPsychology: normalizeFunnelPsychology(raw.funnelPsychology),
+    recommendedObStrategy: normalizeRecommendedObStrategy(raw.recommendedObStrategy, {
+      modality: runtimeModality,
+      lifeStage,
+      productType,
+    }),
+    profileSource: "ai_product_profile",
+    profileProvider: source.provider,
+    profileModel: source.model,
+    profileConfidence: confidence,
+    profileEvidence: evidence,
+    appStoreMetadata: metadata,
+  };
+}
+
+function normalizeRuntimeModality(value, fallback) {
+  const normalized = snakeCase(String(value || ""));
+  if (["tai_chi", "taichi", "qigong"].includes(normalized)) return "tai_chi";
+  if (["chair_strength", "chair_workout", "chair_fitness", "chair_muscle"].includes(normalized)) return "chair_strength";
+  if (normalized.includes("tai_chi") || normalized.includes("taichi")) return "tai_chi";
+  if (normalized.includes("chair") && (normalized.includes("strength") || normalized.includes("muscle") || normalized.includes("workout"))) return "chair_strength";
+  if (normalized.includes("yoga")) return "yoga";
+  if (normalized.includes("pilates")) return "pilates";
+  if (normalized.includes("calisthenics") || normalized.includes("military") || normalized.includes("bodyweight")) return "calisthenics";
+  if (["tai_chi", "chair_strength", "yoga", "pilates", "calisthenics", "fitness"].includes(fallback)) return fallback;
+  return "fitness";
+}
+
+function normalizeAgeStrategy({ rawGroups, rawRange, parsedRange, fallback, source, evidence, lifeStage, genderFocus, modality }) {
+  const explicitRange = parsedRange || parseExplicitAgeRange(rawRange);
+  const normalizedGroups = Array.isArray(rawGroups)
+    ? rawGroups.map((group, index) => normalizeAgeGroup(group, index, { lifeStage, genderFocus, modality })).filter(Boolean)
+    : [];
+
+  if (normalizedGroups.length === 4) {
+    const min = normalizedGroups[0].minAge;
+    const last = normalizedGroups[3];
+    const max = last.maxAge || Math.min(95, last.minAge + 25);
+    return {
+      range: explicitRange ? `${explicitRange.min}-${explicitRange.max}${explicitRange.max >= 85 ? "+" : ""}` : nonEmptyString(rawRange, `${min}-${max}${last.maxAge ? "" : "+"}`),
+      source,
+      evidence,
+      groups: normalizedGroups,
+    };
+  }
+
+  if (explicitRange) {
+    return buildAgeStrategy({
+      min: explicitRange.min,
+      max: explicitRange.max,
+      source,
+      evidence,
+      lifeStage,
+      genderFocus,
+      modality,
+    });
+  }
+
+  return {
+    range: fallback.targetAgeRange,
+    source: `${source}_with_fallback_age_groups`,
+    evidence: `${evidence} The AI age groups were invalid, so the workflow reused fallback age grouping.`,
+    groups: fallback.ageGroups,
+  };
+}
+
+function normalizeAgeGroup(group, index, { lifeStage, genderFocus, modality }) {
+  if (!group || typeof group !== "object") return null;
+  const minAge = Number(group.minAge);
+  const maxAge = group.maxAge == null ? null : Number(group.maxAge);
+  if (!isValidAgeBound(minAge)) return null;
+  if (maxAge != null && (!isValidAgeBound(maxAge) || maxAge < minAge)) return null;
+  const openEnded = maxAge == null;
+  const value = snakeCase(nonEmptyString(group.value, openEnded ? `${minAge}_plus` : `${minAge}_${maxAge}`));
+  const label = nonEmptyString(group.label, openEnded ? `Age: ${minAge}+` : `Age: ${minAge}-${maxAge}`);
+  return {
+    value,
+    label,
+    minAge,
+    maxAge,
+    imageSubject: nonEmptyString(
+      group.imageSubject,
+      subjectForAgeGroup(index, { lifeStage, genderFocus, modality, minAge, maxAge: maxAge ?? minAge + 8, openEnded })
+    ),
+    differentiationRequirement: nonEmptyString(
+      group.differentiationRequirement,
+      ageDifferentiation(index, { minAge, maxAge: maxAge ?? minAge + 8, openEnded })
+    ),
+  };
+}
+
+function normalizeFunnelPsychology(value) {
+  const input = value && typeof value === "object" ? value : {};
+  return {
+    userIntent: nonEmptyString(input.userIntent, "Find out whether this plan can fit their real starting point."),
+    trustNeed: nonEmptyString(input.trustNeed, "Show that the funnel adapts to their body, ability, schedule, and concerns."),
+    conversionAngle: nonEmptyString(input.conversionAngle, "A personalized paid plan feels easier to follow than guessing alone."),
+  };
+}
+
+function normalizeRecommendedObStrategy(value, { modality, lifeStage, productType }) {
+  const input = value && typeof value === "object" ? value : {};
+  const productText = `${modality} ${lifeStage} ${productType}`.toLowerCase();
+  const defaultLong =
+    /fitness|calisthenics|strength|muscle|weight|body|pilates|yoga|tai_chi|chair|senior|recovery|mobility|health|wellness/.test(productText);
+  const depth = normalizeEnum(input.depth, ["short", "standard", "long", "extended"], defaultLong ? "long" : "standard");
+  const fallbackCount = depth === "extended" ? 26 : depth === "long" ? 18 : depth === "standard" ? 14 : 10;
+  const count = Math.round(clampNumber(input.targetBusinessCapabilityCount, 8, 30, fallbackCount));
+  return {
+    depth,
+    targetBusinessCapabilityCount: count,
+    targetCountReason: nonEmptyString(
+      input.targetCountReason,
+      defaultLong
+        ? "Health and fitness Web2App funnels benefit from a longer OB that builds trust, captures personalization signals, and warms users up before paywall."
+        : "This product appears to need a moderate OB because personalization and trust-building are useful but not deeply clinical."
+    ),
+  };
+}
+
+function writeProductProfileAnalysis(profile, { metadata, raw, fallbackUsed, error }) {
+  writeJson("outputs/strategy/product-profile-analysis.json", {
+    version: "0.1.0",
+    source: fallbackUsed ? "keyword_fallback" : "ai_product_profile",
+    generatedAt: new Date().toISOString(),
+    model: profile.profileModel || profile.profileProvider || "generate-product-run",
+    fallbackUsed,
+    error: error ? (error instanceof Error ? error.message : String(error)) : null,
+    appStoreMetadata: metadata,
+    normalizedProfile: profile,
+    rawAiResponse: raw,
+  });
+  write(
+    "outputs/strategy/product-profile-analysis.md",
+    `# Product Profile Analysis
+
+- Source: ${fallbackUsed ? "keyword fallback" : "AI product profile"}
+- Model: ${profile.profileModel || "generate-product-run"}
+- Gender focus: ${profile.genderFocus}
+- Life stage: ${profile.lifeStage}
+- Runtime modality: ${profile.modality}
+- Product type: ${profile.productTypeLabel || profile.modalityLabel}
+- Audience: ${profile.audience}
+- Core promise: ${profile.promise}
+- Target age range: ${profile.targetAgeRange}
+- Age evidence: ${profile.ageRangeEvidence}
+- Age groups: ${profile.ageGroups.map((group) => group.label).join(", ")}
+- Recommended OB depth: ${profile.recommendedObStrategy?.depth || "n/a"}
+- Recommended generated business pages: ${profile.recommendedObStrategy?.targetBusinessCapabilityCount || "n/a"}
+- Depth reason: ${profile.recommendedObStrategy?.targetCountReason || "n/a"}
+
+## Funnel Psychology
+
+- User intent: ${profile.funnelPsychology?.userIntent || "n/a"}
+- Trust need: ${profile.funnelPsychology?.trustNeed || "n/a"}
+- Conversion angle: ${profile.funnelPsychology?.conversionAngle || "n/a"}
+
+## Evidence
+
+${(profile.profileEvidence || []).map((item) => `- ${item}`).join("\n") || "- No AI evidence available."}
+`
+  );
+}
+
+function normalizeEnum(value, allowed, fallback) {
+  const normalized = snakeCase(String(value || ""));
+  return allowed.includes(normalized) ? normalized : fallback;
+}
+
+function nonEmptyString(value, fallback) {
+  const text = String(value || "").trim();
+  return text || fallback;
+}
+
+function ensureSentence(value) {
+  const text = String(value || "").trim();
+  if (!text) return text;
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+function clampNumber(value, min, max, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(min, Math.min(max, number));
 }
 
 function inferProductProfile(inputProduct) {
@@ -1217,7 +1604,7 @@ function extensionFromUrl(url) {
 const inputProduct = parseProductBrief();
 const depthMode = parseDepth() === "auto" ? "deep" : parseDepth();
 const productId = slugify(inputProduct.name);
-const productProfile = inferProductProfile(inputProduct);
+const productProfile = await buildProductProfileWithFallback(inputProduct);
 const product = {
   appName: inputProduct.name,
   appStoreUrl: inputProduct.url,
@@ -1229,12 +1616,23 @@ const product = {
   positioningPromise: productProfile.promise,
   profile: productProfile,
 };
+const sections = {
+  my_profile: { label: "Profile", order: 1 },
+  goals: { label: "Goals", order: 2 },
+  training: { label: "Training", order: 3 },
+  body: { label: "Body", order: 4 },
+  routine: { label: "Routine", order: 5 },
+  motivation: { label: "Motivation", order: 6 },
+  result: { label: "Plan", order: 7 },
+};
 const ageGroups = productProfile.ageGroups;
 const targetAgeMin = ageGroups[0]?.minAge ?? 18;
 const lastAgeGroup = ageGroups[ageGroups.length - 1] ?? {};
 const targetAgeMax = lastAgeGroup.maxAge ?? Math.min(95, (lastAgeGroup.minAge ?? 46) + 20);
 const targetAgeDefault = Math.round((targetAgeMin + targetAgeMax) / 2);
-const capabilityPlan = buildCapabilityPlan(productProfile);
+const capabilityPlan = await buildCapabilityPlanWithFallback({ product, productProfile, depthMode });
+const copyPlan = await buildCopyPlanWithFallback({ product, productProfile, capabilityPlan, depthMode });
+applyCopyPlanToCapabilityPlan(capabilityPlan, copyPlan);
 let uiStyleRecipe = buildUiStyleRecipe(productProfile, product);
 const appStoreVisualEvidence = await buildAppStoreVisualEvidence(inputProduct, productProfile, uiStyleRecipe);
 if (appStoreVisualEvidence?.usable) {
@@ -1316,15 +1714,502 @@ const theme = {
   },
 };
 
-const sections = {
-  my_profile: { label: "Profile", order: 1 },
-  goals: { label: "Goals", order: 2 },
-  training: { label: "Training", order: 3 },
-  body: { label: "Body", order: 4 },
-  routine: { label: "Routine", order: 5 },
-  motivation: { label: "Motivation", order: 6 },
-  result: { label: "Plan", order: 7 },
-};
+async function buildCapabilityPlanWithFallback({ product, productProfile, depthMode }) {
+  const fallback = buildCapabilityPlan(productProfile);
+  if (process.env.WEB2APP_DISABLE_LLM_QUESTION_PLAN === "1") {
+    const capabilityPlan = {
+      ...fallback,
+      status: "fallback",
+      fallbackReason: "WEB2APP_DISABLE_LLM_QUESTION_PLAN=1",
+    };
+    writeQuestionPlanArtifacts(capabilityPlan);
+    return capabilityPlan;
+  }
+
+  try {
+    const result = await chatJson({
+      system: [
+        "You are a senior Web2App onboarding strategist.",
+        "Return only valid JSON. Do not include markdown.",
+        "Your job is to decide the middle OB business question flow for a product-specific funnel.",
+        "You must not design fixed runtime trunk pages such as entry, age group, exact age, height, current weight, target weight, email, summary, plan generation, plan ready, paywall, payment success, account creation, login, or profile.",
+        "You may create only single_choice_page, multi_choice_page, and intro_page business pages.",
+        "Each question must collect a signal that can help personalization, summary, plan generation, objection handling, paywall trust, or retention.",
+      ].join(" "),
+      user: buildQuestionPlanPrompt({ product, productProfile, fallback, depthMode }),
+      temperature: 0.62,
+      maxTokens: 9000,
+    });
+    const capabilityPlan = normalizeQuestionPlan(result.json, fallback, {
+      provider: result.provider,
+      model: result.model,
+      usage: result.usage,
+      productProfile,
+      depthMode,
+    });
+    writeQuestionPlanArtifacts(capabilityPlan);
+    return capabilityPlan;
+  } catch (error) {
+    const capabilityPlan = {
+      ...fallback,
+      status: "fallback",
+      fallbackReason: error instanceof Error ? error.message : String(error),
+    };
+    writeQuestionPlanArtifacts(capabilityPlan);
+    return capabilityPlan;
+  }
+}
+
+function buildQuestionPlanPrompt({ product, productProfile, fallback, depthMode }) {
+  const targetCounts = questionPlannerTargetCounts(depthMode, productProfile);
+  const requiredCoverage = Array.from(new Set(fallback.capabilities.flatMap((item) => item.requiredFor || []))).filter(Boolean);
+  const uiVariantPlaybookPath = "recipes/ui-variant-playbook.md";
+  const uiVariantPlaybook = fs.existsSync(path.join(root, uiVariantPlaybookPath))
+    ? readText(uiVariantPlaybookPath)
+    : "";
+  return JSON.stringify(
+    {
+      task:
+        "Generate the product-specific middle OB business question plan. The fixed runtime trunk already exists; do not include those pages.",
+      product,
+      productProfile,
+      depthMode,
+      targetCounts,
+      fixedRuntimeTrunk:
+        "entry, age_group, exact_age, height, current_weight, target_weight, email, summary, plan_generation, plan_ready, paywall, payment_success, account_create, login, profile",
+      allowedPageTypes: ["single_choice_page", "multi_choice_page", "intro_page"],
+      allowedSections: Object.keys(sections).filter((id) => !["my_profile", "result"].includes(id)),
+      outputSchema: {
+        version: "0.1.0",
+        status: "generated",
+        rationale: "short explanation of why this product needs this question flow",
+        capabilities: [
+          {
+            id: "snake_case_unique_business_page_id",
+            stage: "goals | training | body | routine | motivation",
+            sectionId: "goals | training | body | routine | motivation",
+            pageType: "single_choice_page | multi_choice_page | intro_page",
+            role: "question | trust_bridge",
+            dataKey: "camelCase answer key, omit for intro_page",
+            title: "user-facing page title",
+            subtitle: "optional helper text",
+            body: "required only for intro_page, 35-70 words",
+            ctaLabel: "Continue for intro_page or multi_choice_page when useful",
+            variant: "plain_list | bottom_image | image_grid",
+            minSelections: "1 for multi_choice_page",
+            requiredFor: ["summary", "plan_personalization", "paywall_bridge"],
+            reason: "why this question is needed in the funnel",
+            visualDecision: {
+              required: false,
+              visualType: "none | agent_optional_question_image",
+              reason: "why an image may help"
+            },
+            assetRequirement: {
+              required: true,
+              assetType: "intro_hero"
+            },
+            trustPurpose: "required for intro_page",
+            options: [
+              {
+                value: "snake_case_value",
+                label: "short visible option label",
+                icon: "Circle"
+              }
+            ]
+          }
+        ]
+      },
+      hardRules: [
+        `Return ${targetCounts.min}-${targetCounts.max} business capabilities total.`,
+        `Return ${targetCounts.introMin}-${targetCounts.introMax} intro_page trust bridges.`,
+        `Aim for about ${targetCounts.ideal} generated business capabilities unless the product profile makes a shorter or longer flow clearly better.`,
+        "The 30+ page market pattern refers to the total OB/result/paywall experience after fixed runtime pages are added. Do not force 30 generated business questions.",
+        "For health/fitness/body-transformation subscription funnels, longer OB flows often work better because they create commitment, collect personalization signals, and build enough trust before paywall.",
+        "Do not pad with filler. Every extra page must collect a useful signal, build trust, handle an objection, or strengthen paywall readiness.",
+        "Use intro pages as micro-reward / education / transition moments, not as generic motivational posters.",
+        "A strong long OB should feel purposeful: basic profile, goal, current state, body/ability, safety constraints, routine fit, emotional motivation, past failures, commitment, summary, then plan generation.",
+        "Do not copy a generic fitness question sequence. The page ids, data keys, titles, and options should be product-specific unless the concept is truly necessary.",
+        "Questions should not feel like a fixed category template. Decide the question angle from this exact product, audience, modality, intensity, age range, and conversion goal.",
+        "Do not include gender_identity unless the product itself genuinely serves multiple gender paths. If product genderFocus is male or female, do not ask the user to choose a men's/women's plan.",
+        "Do not include fixed runtime trunk pages.",
+        "single_choice_page must have 3-5 options.",
+        "multi_choice_page must have 4-7 options and minSelections 1.",
+        "intro_page must have no dataKey and no options, and must include a 35-70 word body.",
+        "Apply the UI variant playbook when choosing page.variant.",
+        "Use stable snake_case option values and camelCase data keys.",
+        "Do not ask the same thing twice with different wording.",
+        "Include a healthy mix of goal, capability/baseline, constraints, routine, motivation, and paywall-objection signals.",
+        "Use supportive language. No medical diagnosis, guaranteed outcomes, fake claims, or app-store-rating claims.",
+        "Icons are optional metadata only. Prefer Circle if unsure.",
+      ],
+      requiredDownstreamCoverage: requiredCoverage,
+      uiVariantPlaybook: {
+        path: uiVariantPlaybookPath,
+        content: uiVariantPlaybook,
+      },
+      existingRuntimeNote:
+        "Runtime stores any generated dataKey, so you may create product-specific keys. Result pages can still use fallback labels if a semantic field is absent.",
+    },
+    null,
+    2
+  );
+}
+
+function questionPlannerTargetCounts(depthMode, productProfile = {}) {
+  const strategy = productProfile.recommendedObStrategy || {};
+  if (depthMode === "compact") return { min: 7, ideal: 10, max: 12, introMin: 1, introMax: 2 };
+  if (depthMode === "standard") return { min: 12, ideal: 16, max: 20, introMin: 2, introMax: 3 };
+
+  const strategyDepth = strategy.depth || "long";
+  const ideal = Math.round(clampNumber(strategy.targetBusinessCapabilityCount, 12, 30, strategyDepth === "extended" ? 26 : 18));
+  if (strategyDepth === "short") return { min: 8, ideal: 10, max: 13, introMin: 1, introMax: 2 };
+  if (strategyDepth === "standard") return { min: 12, ideal: Math.max(14, Math.min(ideal, 18)), max: 20, introMin: 2, introMax: 3 };
+  if (strategyDepth === "extended") return { min: 22, ideal: Math.max(24, ideal), max: 30, introMin: 4, introMax: 6 };
+  return { min: 16, ideal: Math.max(18, Math.min(ideal, 24)), max: 26, introMin: 3, introMax: 5 };
+}
+
+function normalizeQuestionPlan(rawPlan, fallback, meta) {
+  const targetCounts = questionPlannerTargetCounts(meta.depthMode, meta.productProfile);
+  const generatedCapabilities = Array.isArray(rawPlan?.capabilities) ? rawPlan.capabilities : [];
+  const normalized = [];
+  const seenIds = new Set();
+  const seenDataKeys = new Set(["ageGroup", "ageNum", "height", "currentWeight", "targetWeight", "email", "accountEmail"]);
+
+  for (const rawItem of generatedCapabilities) {
+    const item = normalizeQuestionCapability(rawItem, { seenIds, seenDataKeys, productProfile: meta.productProfile });
+    if (item) normalized.push(item);
+  }
+
+  const pruned = repairQuestionPlan(pruneQuestionPlan(normalized, targetCounts), fallback, targetCounts);
+  const introCount = pruned.filter((item) => item.pageType === "intro_page").length;
+  const questionCount = pruned.filter((item) => item.dataKey).length;
+  const hasMultiChoice = pruned.some((item) => item.pageType === "multi_choice_page");
+  const hasRequiredCoverage = hasCoverage(pruned, ["summary", "plan_personalization", "paywall_bridge", "plan_schedule"]);
+
+  if (
+    pruned.length < targetCounts.min ||
+    pruned.length > targetCounts.max ||
+    introCount < targetCounts.introMin ||
+    introCount > targetCounts.introMax ||
+    questionCount < Math.max(7, targetCounts.min - targetCounts.introMax) ||
+    !hasMultiChoice ||
+    !hasRequiredCoverage
+  ) {
+    return {
+      ...fallback,
+      status: "fallback",
+      provider: meta.provider,
+      model: meta.model,
+      usage: meta.usage,
+      fallbackReason:
+        `AI question plan failed validation: count=${pruned.length}, intro=${introCount}, questions=${questionCount}, multi=${hasMultiChoice}, coverage=${hasRequiredCoverage}.`,
+      rejectedQuestionPlan: {
+        rationale: cleanCopy(rawPlan?.rationale),
+        capabilities: normalized,
+      },
+    };
+  }
+
+  return {
+    ...fallback,
+    version: "0.6.0",
+    planner: "llm_question_planner_v1",
+    status: "generated",
+    provider: meta.provider,
+    model: meta.model,
+    usage: meta.usage,
+    generatedAt: new Date().toISOString(),
+    rationale: cleanCopy(rawPlan?.rationale) || "AI generated product-specific business question flow.",
+    selectionPolicy:
+      "Fixed runtime trunk stays in code. AI generates only middle OB business capabilities; runtime validates page type, data keys, options, downstream use, and section placement.",
+    capabilities: pruned,
+  };
+}
+
+function pruneQuestionPlan(capabilities, targetCounts) {
+  let items = [...capabilities];
+  const introPages = items.filter((item) => item.pageType === "intro_page");
+  if (introPages.length > targetCounts.introMax) {
+    const keepIntroIds = new Set(introPages.slice(0, targetCounts.introMax).map((item) => item.id));
+    items = items.filter((item) => item.pageType !== "intro_page" || keepIntroIds.has(item.id));
+  }
+  if (items.length > targetCounts.max) {
+    const introIds = new Set(items.filter((item) => item.pageType === "intro_page").map((item) => item.id));
+    const required = items.filter((item) => introIds.has(item.id) || item.pageType === "multi_choice_page");
+    const optional = items.filter((item) => !required.includes(item));
+    items = [...required, ...optional].slice(0, targetCounts.max);
+  }
+  return items;
+}
+
+function repairQuestionPlan(capabilities, fallback, targetCounts) {
+  let items = [...capabilities];
+  const seenIds = new Set(items.map((item) => item.id));
+  const seenDataKeys = new Set(items.map((item) => item.dataKey).filter(Boolean));
+
+  const fallbackCandidates = (fallback.capabilities || [])
+    .filter((item) => item?.id && !seenIds.has(item.id))
+    .filter((item) => !item.dataKey || !seenDataKeys.has(item.dataKey))
+    .filter((item) => ["single_choice_page", "multi_choice_page", "intro_page"].includes(item.pageType));
+
+  const addCandidate = (candidate) => {
+    const item = {
+      ...candidate,
+      source: candidate.source || "fallback_repair",
+      id: uniqueValue(candidate.id, seenIds),
+      dataKey: candidate.dataKey ? uniqueValue(candidate.dataKey, seenDataKeys) : candidate.dataKey,
+      reason: candidate.reason || "Added to keep long OB coverage complete when the AI question plan was slightly short.",
+    };
+    items.push(item);
+  };
+
+  while (items.length < targetCounts.min && fallbackCandidates.length) {
+    const introCount = items.filter((item) => item.pageType === "intro_page").length;
+    const preferNonIntro = introCount >= targetCounts.introMin;
+    const index = fallbackCandidates.findIndex((item) => preferNonIntro ? item.pageType !== "intro_page" : item.pageType === "intro_page");
+    const [candidate] = fallbackCandidates.splice(index >= 0 ? index : 0, 1);
+    addCandidate(candidate);
+  }
+
+  const introCount = items.filter((item) => item.pageType === "intro_page").length;
+  if (introCount < targetCounts.introMin) {
+    for (const candidate of [...fallbackCandidates]) {
+      if (items.filter((item) => item.pageType === "intro_page").length >= targetCounts.introMin) break;
+      if (candidate.pageType !== "intro_page") continue;
+      fallbackCandidates.splice(fallbackCandidates.indexOf(candidate), 1);
+      addCandidate(candidate);
+    }
+  }
+
+  if (!items.some((item) => item.pageType === "multi_choice_page")) {
+    const candidate = fallbackCandidates.find((item) => item.pageType === "multi_choice_page");
+    if (candidate && items.length < targetCounts.max) addCandidate(candidate);
+  }
+
+  return pruneQuestionPlan(items, targetCounts);
+}
+
+function normalizeQuestionCapability(rawItem, context) {
+  if (!rawItem || typeof rawItem !== "object") return null;
+  const allowedSections = new Set(["goals", "training", "body", "routine", "motivation"]);
+  const allowedPageTypes = new Set(["single_choice_page", "multi_choice_page", "intro_page"]);
+  const pageType = allowedPageTypes.has(rawItem.pageType) ? rawItem.pageType : "single_choice_page";
+  const sectionId = allowedSections.has(rawItem.sectionId) ? rawItem.sectionId : allowedSections.has(rawItem.stage) ? rawItem.stage : "goals";
+  const idBase = snakeCase(rawItem.id || rawItem.title || `${sectionId}_${pageType}`);
+  const id = uniqueValue(idBase, context.seenIds);
+  const role = pageType === "intro_page" ? "trust_bridge" : "question";
+  const requiredFor = normalizeRequiredFor(rawItem.requiredFor, pageType, sectionId);
+  const title = cleanCopy(rawItem.title);
+  if (!title || title.length < 8) return null;
+
+  if (pageType === "intro_page") {
+    const body = cleanLongCopy(rawItem.body);
+    if (body.split(/\s+/).filter(Boolean).length < 20) return null;
+    return capability({
+      source: "llm_question_planner",
+      id,
+      stage: sectionId,
+      sectionId,
+      pageType,
+      role,
+      title,
+      subtitle: cleanCopy(rawItem.subtitle),
+      body,
+      ctaLabel: cleanShortLabel(rawItem.ctaLabel) || "Continue",
+      assetRequirement: { required: true, assetType: "intro_hero" },
+      trustPurpose: cleanCopy(rawItem.trustPurpose) || cleanCopy(rawItem.reason) || "Build trust before the next question section.",
+      requiredFor,
+      reason: cleanLongCopy(rawItem.reason) || "Bridge product-specific answers into stronger plan belief.",
+    });
+  }
+
+  const options = normalizeQuestionOptions(rawItem.options, pageType);
+  const minOptionCount = pageType === "multi_choice_page" ? 4 : 3;
+  if (options.length < minOptionCount) return null;
+  const dataKey = uniqueValue(camelCase(rawItem.dataKey || id), context.seenDataKeys);
+  const variant = normalizeChoiceVariant(rawItem.variant, rawItem.visualDecision, { pageType, optionCount: options.length });
+  const item = capability({
+    source: "llm_question_planner",
+    id,
+    stage: sectionId,
+    sectionId,
+    pageType,
+    dataKey,
+    title,
+    subtitle: cleanCopy(rawItem.subtitle) || (pageType === "multi_choice_page" ? "Choose all that apply" : undefined),
+    variant,
+    requiredFor,
+    reason: cleanLongCopy(rawItem.reason) || "Collect a product-specific personalization signal for the generated plan.",
+    options: variant === "image_grid"
+      ? options.map((optionItem) => ({
+          ...optionItem,
+          assetRequirement: optionItem.assetRequirement || { required: true, assetType: "choice_option_image" },
+        }))
+      : options,
+  });
+  if (variant === "bottom_image") {
+    item.assetRequirement = { required: true, assetType: "question_context_image" };
+  }
+  if (pageType === "multi_choice_page") {
+    item.minSelections = Math.max(1, Number(rawItem.minSelections) || 1);
+  }
+  const visualDecision = normalizeVisualDecision(rawItem.visualDecision, pageType);
+  if (visualDecision || variant === "bottom_image") {
+    item.visualDecision = visualDecision || {
+      required: true,
+      visualType: "agent_optional_question_image",
+      reason: "This bottom_image variant needs one contextual page image below the options.",
+    };
+  }
+  return item;
+}
+
+function normalizeQuestionOptions(rawOptions, pageType) {
+  const max = pageType === "multi_choice_page" ? 7 : 5;
+  const seenValues = new Set();
+  return (Array.isArray(rawOptions) ? rawOptions : [])
+    .map((item) => {
+      const label = cleanCopy(item?.label);
+      if (!label || label.length < 2) return null;
+      const value = uniqueValue(snakeCase(item?.value || label), seenValues);
+      return option(value, label.slice(0, 72), cleanShortLabel(item?.icon) || "Circle");
+    })
+    .filter(Boolean)
+    .slice(0, max);
+}
+
+function normalizeChoiceVariant(rawVariant, visualDecision, context = {}) {
+  const variant = snakeCase(cleanShortLabel(rawVariant) || "");
+  if (variant === "bottom_image") {
+    return canUseBottomImageVariant(context) ? "bottom_image" : "plain_list";
+  }
+  if (["plain_list", "image_grid"].includes(variant)) return variant;
+  if (variant === "icon_list") return "plain_list";
+  if (visualDecision?.visualType === "agent_optional_question_image" || visualDecision?.required) {
+    return canUseBottomImageVariant(context) ? "bottom_image" : "plain_list";
+  }
+  return "plain_list";
+}
+
+function canUseBottomImageVariant({ pageType, optionCount } = {}) {
+  const count = Number(optionCount);
+  if (!Number.isFinite(count)) return false;
+  if (count >= 5) return false;
+  if (pageType === "multi_choice_page") return count <= 3;
+  return count <= 4;
+}
+
+function normalizeRequiredFor(rawRequiredFor, pageType, sectionId) {
+  const allowed = new Set([
+    "summary",
+    "plan_personalization",
+    "paywall_bridge",
+    "plan_schedule",
+    "plan_generation",
+    "plan_pacing",
+    "objection_handling",
+    "trust_building",
+    "section_transition",
+    "plan_difficulty",
+    "plan_safety",
+    "adherence_copy",
+    "retention_copy",
+    "risk_reduction",
+  ]);
+  const values = (Array.isArray(rawRequiredFor) ? rawRequiredFor : [])
+    .map((item) => String(item || "").trim())
+    .filter((item) => allowed.has(item));
+  if (pageType === "intro_page") values.push("trust_building", "section_transition");
+  if (sectionId === "routine") values.push("plan_schedule");
+  if (sectionId === "motivation") values.push("paywall_bridge");
+  values.push("plan_personalization");
+  return Array.from(new Set(values));
+}
+
+function normalizeVisualDecision(rawVisualDecision, pageType) {
+  if (pageType !== "multi_choice_page" && pageType !== "single_choice_page") return null;
+  if (!rawVisualDecision || typeof rawVisualDecision !== "object") return null;
+  const required = rawVisualDecision.required === true;
+  const visualType = cleanShortLabel(rawVisualDecision.visualType) || (required ? "agent_optional_question_image" : "none");
+  if (!required && visualType === "none") return null;
+  return {
+    required,
+    visualType: visualType === "agent_optional_question_image" ? visualType : "agent_optional_question_image",
+    reason: cleanCopy(rawVisualDecision.reason) || "A contextual image may help this question feel more concrete.",
+  };
+}
+
+function hasCoverage(capabilities, required) {
+  const all = new Set(capabilities.flatMap((item) => item.requiredFor || []));
+  return required.every((item) => all.has(item));
+}
+
+function uniqueValue(rawValue, seen) {
+  const base = rawValue || "item";
+  let value = base;
+  let index = 2;
+  while (seen.has(value)) {
+    value = `${base}_${index}`;
+    index += 1;
+  }
+  seen.add(value);
+  return value;
+}
+
+function snakeCase(value) {
+  const normalized = String(value || "")
+    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  return normalized || "item";
+}
+
+function camelCase(value) {
+  const snake = snakeCase(value);
+  return snake.replace(/_([a-z0-9])/g, (_, letter) => letter.toUpperCase());
+}
+
+function writeQuestionPlanArtifacts(capabilityPlan) {
+  writeJson("outputs/capabilities/question-plan.json", {
+    version: capabilityPlan.version,
+    planner: capabilityPlan.planner,
+    status: capabilityPlan.status || "fallback",
+    provider: capabilityPlan.provider || "template",
+    model: capabilityPlan.model || "generate-product-run",
+    generatedAt: capabilityPlan.generatedAt,
+    fallbackReason: capabilityPlan.fallbackReason,
+    rationale: capabilityPlan.rationale,
+    capabilities: capabilityPlan.capabilities,
+    rejectedQuestionPlan: capabilityPlan.rejectedQuestionPlan,
+  });
+  write(
+    "outputs/capabilities/question-plan.md",
+    `# Question Plan
+
+- Status: ${capabilityPlan.status || "fallback"}
+- Planner: ${capabilityPlan.planner}
+- Provider: ${capabilityPlan.provider || "template"}
+- Model: ${capabilityPlan.model || "generate-product-run"}
+${capabilityPlan.fallbackReason ? `- Fallback reason: ${capabilityPlan.fallbackReason}\n` : ""}
+## Rationale
+
+${capabilityPlan.rationale || capabilityPlan.selectionPolicy || ""}
+
+## Capabilities
+
+${capabilityPlan.capabilities
+  .map((item, index) => `${index + 1}. ${item.id}
+- Page type: ${item.pageType}
+- Section: ${item.sectionId}
+- Data key: ${item.dataKey || "none"}
+- Title: ${item.title}
+- Required for: ${(item.requiredFor ?? []).join(", ")}
+- Reason: ${item.reason}`)
+  .join("\n\n")}
+`
+  );
+}
 
 function buildCapabilityPlan(profile) {
   const gentle = isGentleProfile(profile);
@@ -1639,6 +2524,417 @@ function buildBusinessPagesFromCapabilityPlan(profile, capabilityPlan) {
   });
 }
 
+async function buildCopyPlanWithFallback({ product, productProfile, capabilityPlan, depthMode }) {
+  const fallback = buildFallbackCopyPlan({ product, productProfile, capabilityPlan, depthMode });
+  if (process.env.WEB2APP_DISABLE_LLM_COPY === "1") {
+    return { ...fallback, status: "fallback", fallbackReason: "WEB2APP_DISABLE_LLM_COPY=1" };
+  }
+
+  try {
+    const result = await chatJson({
+      system: [
+        "You are a senior direct-response Web2App onboarding copy planner.",
+        "Return only valid JSON. Do not include markdown.",
+        "You write product-specific onboarding questions and answer options.",
+        "You must preserve the provided capability ids, page types, data keys, stages, and required downstream uses.",
+        "You may rewrite only user-facing copy: title, subtitle, body, option labels, and short copy notes.",
+        "Do not add legal claims, medical claims, impossible outcome guarantees, or fake pricing.",
+      ].join(" "),
+      user: buildCopyPlanPrompt({ product, productProfile, capabilityPlan, depthMode }),
+      temperature: 0.58,
+      maxTokens: 9000,
+    });
+    const copyPlan = normalizeCopyPlan(result.json, fallback, {
+      provider: result.provider,
+      model: result.model,
+      usage: result.usage,
+      playbookPath: "recipes/copy-style-playbook.md",
+    });
+    writeJson("outputs/copy/copy-plan.json", copyPlan);
+    write("outputs/copy/copy-plan.md", copyPlanMarkdown(copyPlan));
+    return copyPlan;
+  } catch (error) {
+    const copyPlan = {
+      ...fallback,
+      status: "fallback",
+      fallbackReason: error instanceof Error ? error.message : String(error),
+    };
+    writeJson("outputs/copy/copy-plan.json", copyPlan);
+    write("outputs/copy/copy-plan.md", copyPlanMarkdown(copyPlan));
+    return copyPlan;
+  }
+}
+
+function buildCopyPlanPrompt({ product, productProfile, capabilityPlan, depthMode }) {
+  const copyStylePlaybookPath = "recipes/copy-style-playbook.md";
+  const copyStylePlaybook = fs.existsSync(path.join(root, copyStylePlaybookPath))
+    ? readText(copyStylePlaybookPath)
+    : "";
+  const capabilities = capabilityPlan.capabilities.map((item) => ({
+    id: item.id,
+    pageType: item.pageType,
+    stage: item.stage,
+    sectionId: item.sectionId,
+    dataKey: item.dataKey || null,
+    role: item.role || "question",
+    currentTitle: item.title,
+    currentSubtitle: item.subtitle || null,
+    currentBody: item.body || null,
+    minSelections: item.minSelections || null,
+    requiredFor: item.requiredFor || [],
+    reason: item.reason,
+    currentOptions: Array.isArray(item.options)
+      ? item.options.map((optionItem) => ({ value: optionItem.value, label: optionItem.label }))
+      : [],
+  }));
+
+  return JSON.stringify(
+    {
+      task:
+        "Generate a product-specific copy plan for Web2App onboarding. Rewrite the copy so different apps do not feel like the same funnel. Keep the data architecture unchanged.",
+      outputSchema: {
+        version: "0.1.0",
+        status: "generated",
+        rationale: "short explanation",
+        capabilities: [
+          {
+            id: "must match input capability id",
+            title: "user-facing page title",
+            subtitle: "optional short helper text",
+            body: "required for intro pages, optional otherwise",
+            options: [
+              {
+                value: "must match input option value",
+                label: "user-facing option label",
+              },
+            ],
+            copyIntent: "how this page builds trust, personalization, or paywall readiness",
+          },
+        ],
+        planGeneration: {
+          followUps: [
+            {
+              id: "baseline_confirmation",
+              question: "short yes/no question",
+              yesLabel: "Yes",
+              noLabel: "No",
+            },
+          ],
+          testimonials: [
+            {
+              name: "audience-matched first name",
+              title: "short testimonial headline",
+              body: "1-2 sentence testimonial",
+            },
+          ],
+        },
+        paywall: {
+          highlights: ["short benefit"],
+          testimonials: [
+            {
+              name: "audience-matched first name",
+              rating: 5,
+              text: "2-3 sentence testimonial",
+            },
+          ],
+          faq: [
+            {
+              q: "question",
+              a: "answer",
+            },
+          ],
+        },
+      },
+      hardRules: [
+        "Return one capability object for every input capability id.",
+        "Do not invent, remove, or rename capability ids.",
+        "Do not invent, remove, or rename option values.",
+        "For single_choice_page, return 3-5 options unless the input has fewer existing option values.",
+        "For multi_choice_page, return 4-7 options unless the input has fewer existing option values.",
+        "Apply the copy style playbook exactly as writing guidance.",
+        "Avoid gender/audience mismatch in copy.",
+        "Plan generation follow-up questions must feel like the system is finishing personalization; users answer yes/no.",
+        "Plan generation testimonials and paywall testimonials must match product gender, age, modality, and intensity.",
+        "If productProfile.genderFocus is female, use female customer names and women-centered language. Do not use male names such as Marcus, Daniel, Ethan, Robert, or similar.",
+        "If productProfile.genderFocus is male, use male customer names and men-centered language.",
+        "Paywall highlights must be product-specific, not generic app promises.",
+        "Paywall FAQ must answer likely purchase objections for this exact audience.",
+        "Do not mention AI, agent, algorithm, or internal field names.",
+      ],
+      product,
+      productProfile,
+      depthMode,
+      copyStylePlaybook: {
+        path: copyStylePlaybookPath,
+        content: copyStylePlaybook,
+      },
+      marketResearchGuidance: {
+        sourceSummary:
+          "Consumer Web2App health and fitness funnels such as BetterMe commonly use a longer onboarding sequence with many small questions, trust-building transition screens, and personalized result framing before paywall.",
+        application:
+          "Use this as a writing pattern, not as copied text: ask one simple thing per screen, keep friction low, explain why data is requested, build confidence, and make paywall feel like the natural reveal of a personalized plan.",
+        avoid:
+          "Do not copy brand names, exact claims, fake user counts, fake ratings, medical guarantees, or reference screenshots directly.",
+      },
+      capabilities,
+    },
+    null,
+    2
+  );
+}
+
+function buildFallbackCopyPlan({ product, productProfile, capabilityPlan, depthMode }) {
+  return {
+    version: "0.1.0",
+    status: "fallback",
+    product: product.appName,
+    depthMode,
+    provider: "template",
+    model: "generate-product-run",
+    rationale: "Template fallback mirrors the existing capability plan.",
+    productProfile: {
+      modality: productProfile.modality,
+      modalityLabel: productProfile.modalityLabel,
+      genderFocus: productProfile.genderFocus,
+      lifeStage: productProfile.lifeStage,
+      targetAgeRange: productProfile.targetAgeRange,
+    },
+    capabilities: capabilityPlan.capabilities.map((item) => ({
+      id: item.id,
+      title: item.title,
+      subtitle: item.subtitle,
+      body: item.body,
+      options: Array.isArray(item.options)
+        ? item.options.map((optionItem) => ({ value: optionItem.value, label: optionItem.label }))
+        : [],
+      copyIntent: item.reason,
+    })),
+    planGeneration: {
+      followUps: buildGenerationPrompts(productProfile).map(({ id, question, yesLabel, noLabel }) => ({ id, question, yesLabel, noLabel })),
+      testimonials: buildTestimonials(productProfile).map(({ name, title, body, text }) => ({ name, title, body: body || text })),
+    },
+    paywall: {
+      highlights: paywallCopyForProfile(productProfile).highlights,
+      testimonials: buildTestimonials(productProfile).map(({ name, rating, text }) => ({ name, rating, text })),
+      faq: paywallCopyForProfile(productProfile).faq,
+    },
+  };
+}
+
+function normalizeCopyPlan(rawPlan, fallback, meta) {
+  const rawCapabilities = Array.isArray(rawPlan?.capabilities) ? rawPlan.capabilities : [];
+  const byId = new Map(rawCapabilities.map((item) => [item.id, item]));
+  const capabilities = fallback.capabilities.map((fallbackItem) => {
+    const generated = byId.get(fallbackItem.id) || {};
+    const body = cleanCopy(generated.body);
+    return {
+      id: fallbackItem.id,
+      title: cleanCopy(generated.title) || fallbackItem.title,
+      subtitle: cleanCopy(generated.subtitle) || fallbackItem.subtitle,
+      body: body && body.split(/\s+/).filter(Boolean).length >= 20 ? body : fallbackItem.body,
+      options: normalizeCopyOptions(generated.options, fallbackItem.options),
+      copyIntent: cleanCopy(generated.copyIntent) || fallbackItem.copyIntent,
+    };
+  });
+
+  return {
+    ...fallback,
+    status: "generated",
+    provider: meta.provider,
+    model: meta.model,
+    usage: meta.usage,
+    copyStylePlaybook: meta.playbookPath || null,
+    rationale: cleanCopy(rawPlan?.rationale) || fallback.rationale,
+    generatedAt: new Date().toISOString(),
+    capabilities,
+    planGeneration: normalizePlanGenerationCopy(rawPlan?.planGeneration, fallback.planGeneration),
+    paywall: normalizePaywallCopy(rawPlan?.paywall, fallback.paywall),
+  };
+}
+
+function normalizePlanGenerationCopy(raw, fallback) {
+  return {
+    followUps: normalizeFollowUps(raw?.followUps, fallback.followUps),
+    testimonials: normalizeGenerationTestimonials(raw?.testimonials, fallback.testimonials),
+  };
+}
+
+function normalizePaywallCopy(raw, fallback) {
+  return {
+    highlights: normalizeStringList(raw?.highlights, fallback.highlights, 4, 8, 90),
+    testimonials: normalizePaywallTestimonials(raw?.testimonials, fallback.testimonials),
+    faq: normalizeFaq(raw?.faq, fallback.faq),
+  };
+}
+
+function normalizeFollowUps(generated, fallback) {
+  const generatedById = new Map(
+    (Array.isArray(generated) ? generated : [])
+      .filter((item) => item?.id)
+      .map((item) => [item.id, item])
+  );
+  return fallback.map((fallbackItem) => {
+    const item = generatedById.get(fallbackItem.id) || {};
+    return {
+      id: fallbackItem.id,
+      question: cleanCopy(item.question) || fallbackItem.question,
+      yesLabel: cleanShortLabel(item.yesLabel) || fallbackItem.yesLabel,
+      noLabel: cleanShortLabel(item.noLabel) || fallbackItem.noLabel,
+    };
+  });
+}
+
+function normalizeGenerationTestimonials(generated, fallback) {
+  const source = Array.isArray(generated) && generated.length >= 3 ? generated : fallback;
+  return source.slice(0, 3).map((item, index) => ({
+    name: cleanShortLabel(item.name) || fallback[index]?.name || "Member",
+    title: cleanCopy(item.title) || fallback[index]?.title || "A plan I could follow",
+    body: cleanLongCopy(item.body || item.text) || fallback[index]?.body || fallback[index]?.text || "The plan felt clear and realistic from the first week.",
+  }));
+}
+
+function normalizePaywallTestimonials(generated, fallback) {
+  const source = Array.isArray(generated) && generated.length >= 3 ? generated : fallback;
+  return source.slice(0, 3).map((item, index) => ({
+    name: cleanShortLabel(item.name) || fallback[index]?.name || "Member",
+    rating: normalizeRating(item.rating, fallback[index]?.rating || 5),
+    text: cleanLongCopy(item.text || item.body) || fallback[index]?.text || fallback[index]?.body || "The plan felt clear and realistic from the first week.",
+  }));
+}
+
+function normalizeFaq(generated, fallback) {
+  const source = Array.isArray(generated) && generated.length >= 3 ? generated : fallback;
+  return source.slice(0, 4).map((item, index) => ({
+    q: cleanCopy(item.q || item.question) || fallback[index]?.q || "Can I cancel?",
+    a: cleanLongCopy(item.a || item.answer) || fallback[index]?.a || "Yes. You can manage your subscription from your account page on the website.",
+  }));
+}
+
+function normalizeStringList(generated, fallback, min, max, maxLength) {
+  const source = Array.isArray(generated) ? generated.map(cleanCopy).filter(Boolean) : [];
+  const values = source.length >= min ? source : fallback;
+  return values.slice(0, max).map((item) => String(item).slice(0, maxLength));
+}
+
+function normalizeRating(value, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(1, Math.min(5, Math.round(number)));
+}
+
+function normalizeCopyOptions(generatedOptions, fallbackOptions) {
+  if (!Array.isArray(fallbackOptions) || !fallbackOptions.length) return [];
+  const generatedByValue = new Map(
+    (Array.isArray(generatedOptions) ? generatedOptions : [])
+      .filter((item) => item?.value)
+      .map((item) => [item.value, item])
+  );
+  return fallbackOptions.map((fallbackOption) => {
+    const generated = generatedByValue.get(fallbackOption.value) || {};
+    return {
+      value: fallbackOption.value,
+      label: cleanCopy(generated.label) || fallbackOption.label,
+    };
+  });
+}
+
+function applyCopyPlanToCapabilityPlan(capabilityPlan, copyPlan) {
+  const byId = new Map((copyPlan.capabilities || []).map((item) => [item.id, item]));
+  for (const capabilityItem of capabilityPlan.capabilities) {
+    const copy = byId.get(capabilityItem.id);
+    if (!copy) continue;
+    if (copy.title) capabilityItem.title = copy.title;
+    if (copy.subtitle) capabilityItem.subtitle = copy.subtitle;
+    if (copy.body) capabilityItem.body = copy.body;
+    if (copy.copyIntent) capabilityItem.copyIntent = copy.copyIntent;
+    if (Array.isArray(capabilityItem.options) && Array.isArray(copy.options)) {
+      const copyOptions = new Map(copy.options.map((item) => [item.value, item]));
+      capabilityItem.options = capabilityItem.options.map((optionItem) => ({
+        ...optionItem,
+        label: copyOptions.get(optionItem.value)?.label || optionItem.label,
+      }));
+    }
+  }
+  capabilityPlan.copyPlan = {
+    status: copyPlan.status,
+    provider: copyPlan.provider,
+    model: copyPlan.model,
+    generatedAt: copyPlan.generatedAt,
+    fallbackReason: copyPlan.fallbackReason,
+  };
+}
+
+function cleanCopy(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 500);
+}
+
+function cleanLongCopy(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 900);
+}
+
+function cleanShortLabel(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 40);
+}
+
+function copyPlanMarkdown(copyPlan) {
+  return `# Copy Plan
+
+- Status: ${copyPlan.status}
+- Provider: ${copyPlan.provider}
+- Model: ${copyPlan.model}
+${copyPlan.copyStylePlaybook ? `- Copy style playbook: ${copyPlan.copyStylePlaybook}\n` : ""}
+${copyPlan.fallbackReason ? `- Fallback reason: ${copyPlan.fallbackReason}\n` : ""}
+## Rationale
+
+${copyPlan.rationale || ""}
+
+## Plan Generation
+
+${(copyPlan.planGeneration?.followUps || []).map((item) => `- ${item.id}: ${item.question}`).join("\n")}
+
+### Generation Testimonials
+
+${(copyPlan.planGeneration?.testimonials || []).map((item) => `- ${item.name}: ${item.title} — ${item.body}`).join("\n")}
+
+## Paywall
+
+### Highlights
+
+${(copyPlan.paywall?.highlights || []).map((item) => `- ${item}`).join("\n")}
+
+### Paywall Testimonials
+
+${(copyPlan.paywall?.testimonials || []).map((item) => `- ${item.name}: ${item.text}`).join("\n")}
+
+### FAQ
+
+${(copyPlan.paywall?.faq || []).map((item) => `- ${item.q}: ${item.a}`).join("\n")}
+
+## Capabilities
+
+${(copyPlan.capabilities || [])
+  .map((item) => {
+    const options = (item.options || []).map((optionItem) => `  - ${optionItem.value}: ${optionItem.label}`).join("\n");
+    return `### ${item.id}
+- Title: ${item.title || ""}
+- Subtitle: ${item.subtitle || ""}
+- Body: ${item.body || ""}
+- Intent: ${item.copyIntent || ""}
+${options ? `\nOptions:\n${options}` : ""}`;
+  })
+  .join("\n\n")}
+`;
+}
+
 function buildCapabilityContractUse(capabilityItem) {
   return {
     summary: capabilityItem.requiredFor?.includes("summary") || false,
@@ -1682,6 +2978,36 @@ function buildFieldContract(pages, capabilityPlan) {
     principle:
       "Questions can be product-specific, but fields must remain stable enough for summary, plan generation, paywall personalization, Firestore, and analytics.",
     fields,
+  };
+}
+
+function buildAnswerBinding(capabilityPlan) {
+  const capabilities = capabilityPlan.capabilities || [];
+  const byDataKey = (predicate) =>
+    capabilities
+      .filter((item) => item.dataKey && predicate(item))
+      .map((item) => item.dataKey);
+  return {
+    goal: byDataKey((item) =>
+      /goal|motivation|reason|outcome/i.test(`${item.id} ${item.title} ${item.dataKey}`)
+      || item.requiredFor?.includes("paywall_bridge")
+    ),
+    focusAreas: byDataKey((item) =>
+      /focus|area|support|body|concern|limitation|need|zone|comfort/i.test(`${item.id} ${item.title} ${item.dataKey}`)
+      || item.requiredFor?.includes("summary")
+    ),
+    fitnessLevel: byDataKey((item) =>
+      /level|experience|readiness|mobility|balance|active|capability|comfort/i.test(`${item.id} ${item.title} ${item.dataKey}`)
+      || item.requiredFor?.includes("plan_difficulty")
+    ),
+    blockers: byDataKey((item) =>
+      /block|barrier|concern|fear|limitation|hard|objection|pain/i.test(`${item.id} ${item.title} ${item.dataKey}`)
+      || item.requiredFor?.includes("objection_handling")
+    ),
+    routine: byDataKey((item) =>
+      /time|frequency|routine|schedule|practice|session|environment/i.test(`${item.id} ${item.title} ${item.dataKey}`)
+      || item.requiredFor?.includes("plan_schedule")
+    ),
   };
 }
 
@@ -1756,7 +3082,22 @@ function buildGenerationPrompts(profile) {
   ];
 }
 
+function withFollowUpProgress(followUps) {
+  const progress = [28, 56, 82];
+  return (followUps || []).slice(0, 3).map((item, index) => ({
+    ...item,
+    askAtProgress: progress[index] || 82,
+  }));
+}
+
 function buildTestimonials(profile) {
+  if (profile.genderFocus === "female") {
+    return [
+      { name: "Mia", rating: 5, title: "It felt built around me", text: "The plan made bodyweight training feel clear and realistic for my schedule, not like a random workout list.", body: "The plan made bodyweight training feel clear and realistic for my schedule, not like a random workout list." },
+      { name: "Sophie", rating: 5, title: "Strong without feeling overwhelmed", text: "I liked that it started from my level and still helped me feel more capable each week.", body: "I liked that it started from my level and still helped me feel more capable each week." },
+      { name: "Lauren", rating: 5, title: "Easy to keep going", text: "Having short sessions and a clear path made it much easier to stay consistent at home.", body: "Having short sessions and a clear path made it much easier to stay consistent at home." },
+    ];
+  }
   if (profile.genderFocus === "male" || profile.modality === "calisthenics" || profile.modality === "chair_strength") {
     return [
       { name: "Marcus", rating: 5, title: "I knew exactly where to start", text: "The plan gave me a clear baseline and made home training feel structured instead of random.", body: "The plan gave me a clear baseline and made home training feel structured instead of random." },
@@ -2045,6 +3386,7 @@ const resultPages = [
     title: "Summary of your fitness level",
     ctaLabel: "Continue",
     assetRequirement: { required: true, assetType: "summary_body_set" },
+    answerBinding: buildAnswerBinding(capabilityPlan),
     progress: { visible: false },
     conversionPurpose: "Show that the user's answers are being used before monetization.",
   },
@@ -2057,8 +3399,8 @@ const resultPages = [
     title: `Creating your ${productProfile.modalityLabel} plan`,
     subtitle: "Matching your baseline, goal, and weekly schedule.",
     progressSteps: ["Analyzing", "Personalizing", "Finalizing"],
-    generationPrompts: buildGenerationPrompts(productProfile),
-    generationTestimonials: buildTestimonials(productProfile).map(({ name, title, body, text }) => ({ name, title, body: body || text })),
+    generationPrompts: withFollowUpProgress(copyPlan.planGeneration.followUps),
+    generationTestimonials: copyPlan.planGeneration.testimonials,
     progress: { visible: false },
     conversionPurpose: "Use a smooth loading moment, required follow-up answers, and rotating proof to increase perceived personalization.",
   },
@@ -2096,9 +3438,10 @@ const resultPages = [
       { id: "starter", productId: "mock_starter", label: "4-week starter", price: "$14.99", billingPeriod: "First plan phase" },
       { id: "twelve_week", productId: "mock_twelve_week", label: "12-week plan", price: "$29.99", billingPeriod: "Recommended" },
     ],
-    highlights: paywallCopyForProfile(productProfile).highlights,
-    testimonials: buildTestimonials(productProfile).map(({ name, rating, text }) => ({ name, rating, text })),
-    faq: paywallCopyForProfile(productProfile).faq,
+    highlights: copyPlan.paywall.highlights,
+    testimonials: copyPlan.paywall.testimonials,
+    faq: copyPlan.paywall.faq,
+    answerBinding: buildAnswerBinding(capabilityPlan),
     moneyBackGuarantee: "30-day money-back guarantee if the plan does not feel like a fit.",
     renewalDisclosure:
       "By clicking GET MY PLAN, I agree to start the selected subscription. It renews automatically until canceled in my account before the next billing cycle.",
@@ -2241,6 +3584,17 @@ const movementPhrase =
           ? "controlled no-equipment bodyweight training"
           : "guided home fitness movement";
 const introPages = pages.filter((item) => item.pageType === "intro_page" && item.phase === "onboarding");
+const bottomImageChoicePages = pages.filter((item) =>
+  item.phase === "onboarding" &&
+  ["single_choice_page", "multi_choice_page"].includes(item.pageType) &&
+  item.variant === "bottom_image"
+);
+const imageGridChoicePages = pages.filter((item) =>
+  item.phase === "onboarding" &&
+  ["single_choice_page", "multi_choice_page"].includes(item.pageType) &&
+  item.id !== "age_group" &&
+  item.variant === "image_grid"
+);
 const imageSlots = [
   {
     id: "entry.hero",
@@ -2294,6 +3648,43 @@ const imageSlots = [
       `Create a 4:3 premium ${productProfile.modalityLabel} image for an intro page titled "${introPage.title}". Show one ${subjectPhrase} in a clean modern home or studio context doing or preparing for ${movementPhrase}. The image should support this message: ${introPage.body || introPage.subtitle || product.positioningPromise}. No text, no logos, no app UI.`,
     negativePrompt: "No words, logos, phones, screenshots, weapons, camouflage, injuries, or crowded gym.",
     runtimeUsage: `${introPage.id} IntroPage hero image.`,
+  })),
+  ...bottomImageChoicePages.map((choicePage) => ({
+    id: `${choicePage.id}.context`,
+    pageId: choicePage.id,
+    kind: "question_context_image",
+    sourcePolicy: "generate",
+    count: 1,
+    aspectRatio: "4:3",
+    displayRole: "One large bottom image for a choice question.",
+    backgroundPolicy: "Natural light product-relevant scene; no transparent requirement. The image should be calm enough to sit below option rows without overpowering the choices.",
+    styleConsistency: `Same premium ${productProfile.modalityLabel} campaign style as the rest of the funnel.`,
+    promptBrief:
+      `Create one 4:3 bottom-of-page contextual image for a ${productProfile.modalityLabel} Web2App question page titled "${choicePage.title}". This image fills visual space under a short option list and should support the page mood, not explain individual options or bias the answer. Show one ${subjectPhrase} in a credible home or studio setting connected to ${movementPhrase}. Keep the composition simple, mobile-friendly, and product-specific. Context to support: ${choicePage.subtitle || choicePage.reason || product.positioningPromise}. No text, no labels, no logos, no app UI.`,
+    negativePrompt: "No words, captions, option labels, arrows, logos, phones, UI screens, devices, collage, multiple panels, weapons, camouflage, injuries, shame framing, crowded gym, or image that clearly selects one answer.",
+    runtimeUsage: `${choicePage.id} bottom_image hero.`,
+  })),
+  ...imageGridChoicePages.map((choicePage) => ({
+    id: `${choicePage.id}.options`,
+    pageId: choicePage.id,
+    kind: "choice_option_image_set",
+    sourcePolicy: "generate",
+    count: Math.min(6, Array.isArray(choicePage.options) ? choicePage.options.length : 4),
+    aspectRatio: "4:3",
+    displayRole: "Option-level images for a visual choice question.",
+    backgroundPolicy: `${background.prompt} Keep all option images visually consistent.`,
+    styleConsistency: `Same crop, lighting, styling, and ${productProfile.modalityLabel} campaign direction across options.`,
+    promptBrief:
+      `Create separate 4:3 option images for a ${productProfile.modalityLabel} question titled "${choicePage.title}". Options: ${(choicePage.options || []).map((optionItem) => optionItem.label).join("; ")}. Each image should represent exactly one option clearly and respectfully. No text, no logos, no app UI.`,
+    negativePrompt: `No text, no labels, no shame framing, no sexualized pose, no medical imagery, ${background.negative}.`,
+    runtimeUsage: `${choicePage.id} image_grid option cards.`,
+    items: (choicePage.options || []).map((optionItem) => ({
+      id: `${choicePage.id}.${optionItem.value}`,
+      optionValue: optionItem.value,
+      label: optionItem.label,
+      visualBrief: `One option image representing "${optionItem.label}" for ${choicePage.title}.`,
+      differentiationRequirement: "Clearly different from the other options while keeping the same visual style.",
+    })),
   })),
   {
     id: "summary.body_set",

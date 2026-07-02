@@ -38,6 +38,13 @@
       "notes": "Single choice rows with semantic Lucide icons."
     },
     {
+      "key": "single_choice_page:bottom_image",
+      "component": "SingleChoicePage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Single choice rows with one large page-level image anchored below the options."
+    },
+    {
       "key": "multi_choice_page:image_grid",
       "component": "MultiChoicePage",
       "status": "required",
@@ -57,6 +64,13 @@
       "status": "required",
       "figmaTemplateRequired": true,
       "notes": "Multi-select rows with semantic Lucide icons."
+    },
+    {
+      "key": "multi_choice_page:bottom_image",
+      "component": "MultiChoicePage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Multi-select rows with one large page-level image anchored below the options."
     },
     {
       "key": "age_input_page",

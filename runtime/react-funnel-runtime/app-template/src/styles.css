@@ -374,6 +374,65 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .choice-list { display: grid; gap: var(--option-gap); }
 .plain-list .option-row { padding-left: 22px; }
 .icon-list .option-row { padding-left: 20px; }
+.choice-bottom-image-layout {
+  display: grid;
+  gap: 22px;
+  width: 100%;
+}
+.bottom-image-list {
+  width: min(100%, 560px);
+  margin-inline: auto;
+}
+.bottom-image-list .option-row {
+  min-height: 62px;
+  padding-left: 20px;
+  padding-right: 16px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--bg));
+}
+.bottom-image-list .option-row span:first-child {
+  flex: 1;
+}
+.bottom-image-list .choice-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border-width: 1.5px;
+}
+.bottom-image-list .option-row:not(.selected) .choice-check::after {
+  display: none;
+}
+.choice-bottom-hero {
+  width: min(100%, 620px);
+  min-height: clamp(220px, 38vh, 430px);
+  margin: 2px auto 0;
+  border-radius: var(--image-card-radius);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 76%, transparent), color-mix(in srgb, var(--primary) 8%, var(--surface))),
+    color-mix(in srgb, var(--surface) 70%, var(--bg));
+  display: grid;
+  place-items: end center;
+}
+.choice-bottom-hero img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
+}
+.choice-bottom-hero-placeholder {
+  width: 100%;
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+  color: color-mix(in srgb, var(--primary) 50%, var(--muted));
+  font-size: clamp(72px, 22vw, 150px);
+  font-weight: 850;
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 34%),
+    color-mix(in srgb, var(--surface) 76%, var(--bg));
+}
 .option-row {
   min-height: var(--option-min-height);
   border: 1px solid var(--surface-border);
@@ -2765,10 +2824,18 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
     align-items: stretch;
   }
   .choice-list.plain-list,
-  .choice-list.icon-list {
+  .choice-list.icon-list,
+  .choice-list.bottom-image-list {
     grid-template-columns: 1fr;
     width: min(100%, 720px);
     margin-inline: auto;
+  }
+  .choice-bottom-image-layout {
+    gap: 28px;
+  }
+  .choice-bottom-hero {
+    width: min(100%, 720px);
+    min-height: clamp(300px, 42vh, 500px);
   }
   .option-row {
     min-height: 76px;

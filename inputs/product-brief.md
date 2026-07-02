@@ -2,5 +2,5 @@
 
 ## Raw Product Input
 
-Product name: Workout for Women -Lose Weight
-App Store URL: https://apps.apple.com/us/app/workout-for-women-lose-weight/id839285684?l=zh-Hans-CN
+Product name: Military Calisthenics Women
+App Store URL: https://apps.apple.com/us/app/military-calisthenics-women/id6755748144?l=zh-Hans-CN

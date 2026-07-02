@@ -14,6 +14,7 @@ export function validatePageMap(ctx) {
   const usedPageTypes = new Set();
   const requiredAssetRefs = [];
   const imageChoiceVariants = new Set(["image_grid", "image_grid", "image_checkbox_grid"]);
+  const pageImageChoiceVariants = new Set(["bottom_image"]);
   const iconChoiceVariants = new Set(["icon_list"]);
   let paywallSeen = false;
   let introPageCount = 0;
@@ -73,6 +74,13 @@ export function validatePageMap(ctx) {
       const everyOptionHasVisual = page.options.every((option) => option.image || option.assetRequirement?.required);
       if (!hasPageAsset && !everyOptionHasVisual) {
         ctx.fail(`Page '${page.id}' uses ${page.variant} and must define page assetRequirement or image/assetRequirement for every option`);
+      }
+    }
+
+    if (Array.isArray(page.options) && pageImageChoiceVariants.has(page.variant)) {
+      const hasPageVisual = Boolean(page.assetRequirement?.required || page.image || page.imageUrl || page.heroImage || page.bottomImage);
+      if (!hasPageVisual) {
+        ctx.warn(`Page '${page.id}' uses ${page.variant}; add a page-level image or assetRequirement before production image generation`);
       }
     }
 

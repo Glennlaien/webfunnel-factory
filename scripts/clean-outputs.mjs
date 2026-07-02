@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
+import { currentOutputsTarget, ensureOutputsLink, resolveOutputDir } from "./output-dir.mjs";
 
 const root = process.cwd();
-const outputsDir = path.join(root, "outputs");
+const args = parseArgs(process.argv.slice(2));
+const outputsDir = ensureOutputsLink(resolveOutputDir({ outputDir: args["output-dir"] })) || currentOutputsTarget() || path.join(root, "outputs");
 const outputDirs = ["strategy", "capabilities", "contracts", "skeleton", "rules", "page-map", "copy", "design", "assets", "config", "design-handoff", "figma", "stitch", "app", "qa", "exports"];
 
 function removeDir(target) {
@@ -22,4 +24,21 @@ for (const dir of outputDirs) {
   fs.mkdirSync(target, { recursive: true });
 }
 
-console.log("Cleaned all outputs/* run artifacts. Framework files were kept.");
+console.log(`Cleaned all outputs/* run artifacts in ${outputsDir}. Framework files were kept.`);
+
+function parseArgs(argv) {
+  const parsed = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const item = argv[index];
+    if (!item.startsWith("--")) continue;
+    const key = item.slice(2);
+    const next = argv[index + 1];
+    if (!next || next.startsWith("--")) {
+      parsed[key] = true;
+    } else {
+      parsed[key] = next;
+      index += 1;
+    }
+  }
+  return parsed;
+}

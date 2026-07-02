@@ -92,6 +92,87 @@ npm run workflow:init -- --product-name "App Name" --app-url "https://apps.apple
 npm run validate
 ```
 
+## Production Run With Required Stitch
+
+`workflow:production` treats Stitch as a mandatory design gate. It no longer silently skips design.
+
+## LLM Provider
+
+AI-backed planning steps use DeepSeek through an OpenAI-compatible chat API.
+
+Configure locally in `.env.local`:
+
+```bash
+DEEPSEEK_API_KEY=sk-...
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-chat
+```
+
+Verify the connection:
+
+```bash
+npm run llm:doctor
+```
+
+Never commit `.env.local`.
+
+Generated run artifacts are written outside this repository by default. The project-local `outputs/` path is a symlink to an external run folder, so scripts can keep using `outputs/...` while the repository stays clean.
+
+Default run root:
+
+```text
+/Users/apple/Documents/web2app-runs/
+```
+
+Inspect the current target:
+
+```bash
+npm run outputs:status
+```
+
+Use a custom run folder:
+
+```bash
+npm run workflow:production -- \
+  --app-url "https://apps.apple.com/..." \
+  --product-name "Product Name" \
+  --output-dir "/Users/apple/Documents/web2app-runs/product-name" \
+  --image-api-key "$SUB2API_API_KEY"
+```
+
+Run phase 1:
+
+```bash
+npm run workflow:production -- \
+  --app-url "https://apps.apple.com/..." \
+  --product-name "Product Name" \
+  --image-api-key "$SUB2API_API_KEY"
+```
+
+This clears `outputs/`, regenerates product strategy, page/copy/theme/image plans, and writes:
+
+- `outputs/design/stitch-global-brief.md`
+- `outputs/design/stitch-prompts.json`
+- `outputs/design/stitch-prompts.md`
+
+The command then fails intentionally until Stitch HTML exists. Use Stitch MCP to generate every required key screen from `outputs/design/stitch-prompts.json`, then save the resulting HTML files to:
+
+```text
+outputs/stitch/screens/<index>-<screen-key>.html
+```
+
+Required screen keys include entry, age_group, single_choice, multi_choice, intro_transition, metric_input, summary, plan_generation, plan_ready, paywall, and account_auth_profile.
+
+After Stitch HTML is saved, resume phase 2:
+
+```bash
+npm run workflow:production:resume -- --image-api-key "$SUB2API_API_KEY"
+```
+
+Phase 2 verifies Stitch HTML, creates `outputs/design-handoff/stitch-handoff.json`, generates images, assembles the React Runtime app, validates, installs, and builds.
+
+If Stitch screens or handoff files are missing, the production run must fail. This is intentional.
+
 ## Design Handoff Rule
 
 Figma or the provider-neutral design layer designs page type templates, not every funnel page instance. If a funnel has 34 pages, the selected design source should still only draw or define the used page types and variants, such as `single_choice_page / image_grid` or the selected height/weight input variants.
