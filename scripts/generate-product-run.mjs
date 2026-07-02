@@ -3272,10 +3272,37 @@ function fixedPageVariantsForProfile(profile) {
   };
 }
 
+function choiceSkinForRecipe(recipe) {
+  const recipeId = String(recipe?.recipeId || "").replace(/_/g, "-");
+  const secondary = String(recipe?.secondaryInfluence || "").replace(/_/g, "-");
+  if (secondary === "hard-training") return "choice-skin-calm-strength";
+  if (recipeId === "hard-training") return "choice-skin-hard-training";
+  if (recipeId === "calm-wellness") return "choice-skin-calm-wellness";
+  if (recipeId === "energetic-fitness") return "choice-skin-energetic-fitness";
+  if (recipeId === "clinical-trust") return "choice-skin-clinical-trust";
+  if (recipeId === "lifestyle-companion") return "choice-skin-lifestyle-companion";
+  return "choice-skin-lifestyle-companion";
+}
+
+function choiceSkinForPage(input, recipe) {
+  if (!["single_choice_page", "multi_choice_page"].includes(input.pageType)) return null;
+  if (input.id === "age_group") return null;
+  return choiceSkinForRecipe(recipe);
+}
+
 const pages = [];
 function page(input) {
   const meta = sections[input.sectionId] || {};
   const variant = input.pageType === "intro_page" && !input.variant ? fixedPageVariants.intro : input.variant;
+  const choiceSkin = choiceSkinForPage(input, uiStyleRecipe);
+  const inputVisual = input.visual && typeof input.visual === "object" ? input.visual : {};
+  const visual = choiceSkin
+    ? {
+        ...inputVisual,
+        choiceSkin,
+        pageClass: [inputVisual.pageClass, choiceSkin].filter(Boolean).join(" "),
+      }
+    : input.visual;
   pages.push({
     phase: "onboarding",
     sectionId: input.sectionId,
@@ -3289,6 +3316,7 @@ function page(input) {
       "Used to adapt plan difficulty, summary messaging, and paywall bridge copy.",
     ...input,
     variant,
+    ...(visual ? { visual } : {}),
   });
 }
 
