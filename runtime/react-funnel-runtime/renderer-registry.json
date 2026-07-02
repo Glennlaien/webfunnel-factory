@@ -17,6 +17,27 @@
       "notes": "Copy-only transition page used between major OB sections."
     },
     {
+      "key": "intro_page:image_top",
+      "component": "IntroPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Default image-led transition page with centered copy."
+    },
+    {
+      "key": "intro_page:editorial",
+      "component": "IntroPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Larger editorial image and left-aligned copy for stronger training or transformation funnels."
+    },
+    {
+      "key": "intro_page:proof_panel",
+      "component": "IntroPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Contained reassurance panel for calm, senior, recovery, or trust-heavy funnels."
+    },
+    {
       "key": "single_choice_page:image_grid",
       "component": "SingleChoicePage",
       "status": "required",
@@ -146,6 +167,27 @@
       "figmaTemplateRequired": true
     },
     {
+      "key": "summary_page:bmi_profile",
+      "component": "SummaryPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Balanced BMI, facts, body visual, and insight summary."
+    },
+    {
+      "key": "summary_page:body_comparison",
+      "component": "SummaryPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Visual-first body profile summary for transformation and fitness products."
+    },
+    {
+      "key": "summary_page:clinical_readout",
+      "component": "SummaryPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Report-like summary for calm wellness, senior, health, recovery, and trust-heavy products."
+    },
+    {
       "key": "analysis_page",
       "component": "AnalysisPage",
       "status": "required",
@@ -168,6 +210,27 @@
       "component": "PaywallPage",
       "status": "required",
       "figmaTemplateRequired": true
+    },
+    {
+      "key": "paywall_page:transformation_first",
+      "component": "PaywallPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Opens with personalized transformation preview before price."
+    },
+    {
+      "key": "paywall_page:proof_first",
+      "component": "PaywallPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Opens with social proof and reassurance before price."
+    },
+    {
+      "key": "paywall_page:app_preview_first",
+      "component": "PaywallPage",
+      "status": "supported",
+      "figmaTemplateRequired": true,
+      "notes": "Opens with companion app value preview before price."
     },
     {
       "key": "payment_success_page",

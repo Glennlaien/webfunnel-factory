@@ -1638,6 +1638,10 @@ const appStoreVisualEvidence = await buildAppStoreVisualEvidence(inputProduct, p
 if (appStoreVisualEvidence?.usable) {
   uiStyleRecipe = applyAppStorePaletteToRecipe(uiStyleRecipe, appStoreVisualEvidence);
 }
+const fixedPageVariants = fixedPageVariantsForProfile({
+  ...productProfile,
+  uiRecipe: uiStyleRecipe.recipeId,
+});
 
 const theme = {
   version: "0.5.0",
@@ -3236,9 +3240,42 @@ function paywallCopyForProfile(profile) {
   };
 }
 
+function fixedPageVariantsForProfile(profile) {
+  const recipe = profile.uiRecipe || profile.styleRecipe?.recipeId || "";
+  const modality = profile.modality;
+  const productType = `${profile.productType || ""} ${profile.productTypeLabel || ""} ${profile.category || ""}`.toLowerCase();
+  const isCalm = profile.lifeStage === "senior" || ["tai_chi", "yoga", "chair_strength"].includes(modality);
+  const isHardTraining = modality === "calisthenics" || productType.includes("military") || productType.includes("strength") || recipe === "hard_training";
+  const isWeightChange = /weight|slim|fat|shape|body|tone|loss|muscle|strength/.test(productType) || ["pilates", "fitness", "calisthenics", "chair_strength"].includes(modality);
+
+  return {
+    intro: isCalm ? "proof_panel" : isHardTraining ? "editorial" : "image_top",
+    summary: isCalm ? "clinical_readout" : isWeightChange ? "body_comparison" : "bmi_profile",
+    paywall: isCalm ? "proof_first" : isHardTraining ? "transformation_first" : "app_preview_first",
+    reason: {
+      intro: isCalm
+        ? "Calm or senior-oriented products benefit from reassurance before continuing."
+        : isHardTraining
+          ? "Training-oriented products benefit from a stronger editorial bridge."
+          : "Default intro layout keeps the image and message direct.",
+      summary: isCalm
+        ? "Calm or health-adjacent products should feel like a clear report."
+        : isWeightChange
+          ? "Body or fitness products benefit from visualizing the personal body profile first."
+          : "Default BMI profile balances data, identity, and insight.",
+      paywall: isCalm
+        ? "Trust and reassurance should appear before price for calm or senior-oriented products."
+        : isHardTraining
+          ? "Visible transformation proof should lead for discipline and strength funnels."
+          : "The companion app preview helps lifestyle products feel more complete.",
+    },
+  };
+}
+
 const pages = [];
 function page(input) {
   const meta = sections[input.sectionId] || {};
+  const variant = input.pageType === "intro_page" && !input.variant ? fixedPageVariants.intro : input.variant;
   pages.push({
     phase: "onboarding",
     sectionId: input.sectionId,
@@ -3251,6 +3288,7 @@ function page(input) {
       input.personalizationUse ||
       "Used to adapt plan difficulty, summary messaging, and paywall bridge copy.",
     ...input,
+    variant,
   });
 }
 
@@ -3380,6 +3418,7 @@ const resultPages = [
   {
     id: "summary",
     pageType: "summary_page",
+    variant: fixedPageVariants.summary,
     role: "personalized_result",
     phase: "result",
     sectionId: "result",
@@ -3419,6 +3458,7 @@ const resultPages = [
   {
     id: "paywall",
     pageType: "paywall_page",
+    variant: fixedPageVariants.paywall,
     role: "monetization",
     phase: "paywall",
     title: "Unlock your personalized plan",

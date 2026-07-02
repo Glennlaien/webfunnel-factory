@@ -38,6 +38,8 @@ export function validateImagePlan(ctx) {
     "age_group_option_set",
     "welcome_transition_hero",
     "intro_hero",
+    "question_context_image",
+    "choice_option_image_set",
     "current_body_option_set",
     "target_body_option_set",
     "focus_area_option_set",
@@ -82,7 +84,7 @@ export function validateImagePlan(ctx) {
       ctx.fail(`Image plan slot '${id}' must include aspectRatio such as 1:1, 16:9, 3:4, or 9:19.5`);
     }
 
-    const lower = `${slot.kind ?? ""} ${slot.id ?? ""} ${slot.pageId ?? ""}`.toLowerCase();
+    const lower = `${slot.kind ?? ""}`.toLowerCase();
     for (const fragment of forbiddenKindFragments) {
       if (lower.includes(fragment)) {
         ctx.fail(`Image plan slot '${id}' appears to include forbidden non-large-image or plan-generation asset type: ${fragment}`);

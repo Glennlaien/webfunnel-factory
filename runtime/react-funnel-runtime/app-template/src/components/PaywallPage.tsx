@@ -251,6 +251,7 @@ function pageFaq(page: Record<string, unknown>): FaqItem[] {
 }
 
 export function PaywallPage({ page, answers }: RendererProps) {
+  const variant = typeof page.variant === "string" ? page.variant : "transformation_first";
   const currentProductName = page.productName || page.appName || "this app";
   const [offers, setOffers] = useState<Offer[]>([]);
   const [normalOffers, setNormalOffers] = useState<Offer[]>([]);
@@ -496,87 +497,79 @@ export function PaywallPage({ page, answers }: RendererProps) {
     </p>
   );
 
-  return (
-    <section className="page-stack paywall-page">
-      <div className="paywall-transform-card">
-        <div className="transform-visuals" aria-label="Body transformation preview">
-          <div className="transform-figure before">
-            <span>Now</span>
-            <div className="figure-placeholder">{beforeBodySrc ? <img src={beforeBodySrc} alt="" /> : null}</div>
-            <strong>Body fat</strong>
-            <em>over 40%</em>
+  const TransformPreview = () => (
+    <div className="paywall-transform-card">
+      <div className="transform-visuals" aria-label="Body transformation preview">
+        <div className="transform-figure before">
+          <span>Now</span>
+          <div className="figure-placeholder">{beforeBodySrc ? <img src={beforeBodySrc} alt="" /> : null}</div>
+          <strong>Body fat</strong>
+          <em>over 40%</em>
+        </div>
+        <div className="transform-figure after">
+          <span>Goal</span>
+          <div className="figure-placeholder">{afterBodySrc ? <img src={afterBodySrc} alt="" /> : null}</div>
+          <strong>Body fat</strong>
+          <em>under 30%</em>
+        </div>
+      </div>
+      <p>Results vary, and personal outcomes depend on individual factors.</p>
+    </div>
+  );
+
+  const HeroBlock = ({ compact = false }: { compact?: boolean }) => (
+    <div className={compact ? "paywall-hero compact" : "paywall-hero"}>
+      {compact ? (
+        <h2>Get visible results with your personalized plan</h2>
+      ) : (
+        <>
+          <span className="paywall-kicker">{discountType === "further_discount" ? "Extra discount unlocked" : "Your personalized plan is ready"}</span>
+          <h1>{page.title || "Unlock your personalized plan"}</h1>
+          <p>{page.subtitle || "Start with a plan shaped around your goal, body profile, and schedule."}</p>
+        </>
+      )}
+    </div>
+  );
+
+  const CheckoutBlock = () => (
+    <div className="paywall-cta-block">
+      <button className="primary-button" disabled={!offers.length || !selectedOffer?.priceId} onClick={startCheckout}>Get my plan</button>
+      <SubscriptionDisclosure />
+    </div>
+  );
+
+  const SecurePayments = () => (
+    <div className="secure-payments">
+      <span>Pay safe and secure</span>
+      <strong>VISA</strong>
+      <strong>Mastercard</strong>
+      <strong>Stripe</strong>
+      <strong>Pay</strong>
+    </div>
+  );
+
+  const AppPreview = () => (
+    <section className="app-preview-section">
+      <h2>Enhance your outcomes with your companion app</h2>
+      <div className="phone-preview-row" key={screenshotIndex}>
+        {visibleScreenshots.map((src, index) => (
+          <div className={index === 1 ? "phone-preview-card active" : "phone-preview-card"} key={src}>
+            <img src={src} alt={currentProductName + " app screenshot " + (index + 1)} loading="lazy" />
           </div>
-          <div className="transform-figure after">
-            <span>Goal</span>
-            <div className="figure-placeholder">{afterBodySrc ? <img src={afterBodySrc} alt="" /> : null}</div>
-            <strong>Body fat</strong>
-            <em>under 30%</em>
-          </div>
-        </div>
-        <p>Results vary, and personal outcomes depend on individual factors.</p>
+        ))}
       </div>
-
-      <div className="paywall-hero">
-        <span className="paywall-kicker">{discountType === "further_discount" ? "Extra discount unlocked" : "Your personalized plan is ready"}</span>
-        <h1>{page.title || "Unlock your personalized plan"}</h1>
-        <p>{page.subtitle || "Start with a plan shaped around your goal, body profile, and schedule."}</p>
+      <div className="carousel-dots" aria-hidden="true">
+        {pageScreenshotUrls.slice(0, 3).map((src, index) => <span className={index === screenshotIndex % 3 ? "active" : ""} key={src} />)}
       </div>
+    </section>
+  );
 
-      <PlanPicker />
-
-      <div className="paywall-cta-block">
-        <button className="primary-button" disabled={!offers.length || !selectedOffer?.priceId} onClick={startCheckout}>Get my plan</button>
-        <SubscriptionDisclosure />
-      </div>
-
-      <div className="secure-payments">
-        <span>Pay safe and secure</span>
-        <strong>VISA</strong>
-        <strong>Mastercard</strong>
-        <strong>Stripe</strong>
-        <strong>Pay</strong>
-      </div>
-
-      <section className="app-preview-section">
-        <h2>Enhance your outcomes with your companion app</h2>
-        <div className="phone-preview-row" key={screenshotIndex}>
-          {visibleScreenshots.map((src, index) => (
-            <div className={index === 1 ? "phone-preview-card active" : "phone-preview-card"} key={src}>
-              <img src={src} alt={currentProductName + " app screenshot " + (index + 1)} loading="lazy" />
-            </div>
-          ))}
-        </div>
-        <div className="carousel-dots" aria-hidden="true">
-          {pageScreenshotUrls.slice(0, 3).map((src, index) => <span className={index === screenshotIndex % 3 ? "active" : ""} key={src} />)}
-        </div>
-      </section>
-
+  const SocialProof = () => (
+    <>
       <section className="social-proof-block">
         <h2>Start losing weight right now</h2>
         <div className="people-count"><span>22,403,000+</span><small>people love guided home plans</small></div>
       </section>
-
-      <div className="paywall-value-card">
-        <div className="paywall-value-head">
-          <Sparkles size={20} />
-          <strong>Highlights of your plan</strong>
-        </div>
-        <ul>
-          <li><CheckCircle2 size={17} /> Workout intensity matched to your starting level</li>
-          <li><CheckCircle2 size={17} /> Progress pacing based on your current and target weight</li>
-          <li><CheckCircle2 size={17} /> Home-friendly sessions designed around consistency</li>
-          <li><CheckCircle2 size={17} /> Expert-style guidance personalized from your answers</li>
-        </ul>
-      </div>
-
-      <section className="challenge-card">
-        <div>
-          <span>28 Day Challenge</span>
-          <strong>Small daily actions, visible momentum</strong>
-        </div>
-        <div className="calendar-placeholder" />
-      </section>
-
       <section className="feedback-section">
         <h2>100,000 positive feedbacks</h2>
         {testimonials.map((item) => (
@@ -590,27 +583,46 @@ export function PaywallPage({ page, answers }: RendererProps) {
           </article>
         ))}
       </section>
+    </>
+  );
 
-      <section className="result-story">
-        <h2>People just like you achieved meaningful progress with guided plans</h2>
-        <div className="result-visual">
-          <div className="result-photo before">Day 1</div>
-          <div className="result-photo after">Day 98</div>
+  const ValueSections = () => (
+    <>
+      <div className="paywall-value-card">
+        <div className="paywall-value-head">
+          <Sparkles size={20} />
+          <strong>Highlights of your plan</strong>
         </div>
-        <p>Your plan is built around steady progress, realistic pacing, and the goal you selected.</p>
+        <ul>
+          <li><CheckCircle2 size={17} /> Workout intensity matched to your starting level</li>
+          <li><CheckCircle2 size={17} /> Progress pacing based on your current and target weight</li>
+          <li><CheckCircle2 size={17} /> Home-friendly sessions designed around consistency</li>
+          <li><CheckCircle2 size={17} /> Expert-style guidance personalized from your answers</li>
+        </ul>
+      </div>
+      <section className="challenge-card">
+        <div>
+          <span>28 Day Challenge</span>
+          <strong>Small daily actions, visible momentum</strong>
+        </div>
+        <div className="calendar-placeholder" />
       </section>
+    </>
+  );
 
-      <div className="paywall-hero compact">
-        <h2>Get visible results with your personalized plan</h2>
+  const ResultStory = () => (
+    <section className="result-story">
+      <h2>People just like you achieved meaningful progress with guided plans</h2>
+      <div className="result-visual">
+        <div className="result-photo before">Day 1</div>
+        <div className="result-photo after">Day 98</div>
       </div>
+      <p>Your plan is built around steady progress, realistic pacing, and the goal you selected.</p>
+    </section>
+  );
 
-      <PlanPicker compact />
-
-      <div className="paywall-cta-block">
-        <button className="primary-button" disabled={!offers.length || !selectedOffer?.priceId} onClick={startCheckout}>Get my plan</button>
-        <SubscriptionDisclosure />
-      </div>
-
+  const TrustAndFaq = () => (
+    <>
       <div className="paywall-trust">
         <ShieldCheck size={20} />
         <div>
@@ -625,6 +637,64 @@ export function PaywallPage({ page, answers }: RendererProps) {
           <p>{item.a}</p>
         </details>
       ))}
+    </>
+  );
+
+  const ClosingCheckout = () => (
+    <>
+      <HeroBlock compact />
+      <PlanPicker compact />
+      <CheckoutBlock />
+    </>
+  );
+
+  const PrimaryOfferStack = () => (
+    <>
+      <PlanPicker />
+      <CheckoutBlock />
+      <SecurePayments />
+    </>
+  );
+
+  return (
+    <section className={`page-stack paywall-page paywall-variant-${variant}`}>
+      {variant === "proof_first" ? (
+        <>
+          <HeroBlock />
+          <SocialProof />
+          <PrimaryOfferStack />
+          <TransformPreview />
+          <ValueSections />
+          <AppPreview />
+          <ResultStory />
+          <ClosingCheckout />
+          <TrustAndFaq />
+        </>
+      ) : variant === "app_preview_first" ? (
+        <>
+          <HeroBlock />
+          <AppPreview />
+          <TransformPreview />
+          <PrimaryOfferStack />
+          <ValueSections />
+          <SocialProof />
+          <ResultStory />
+          <ClosingCheckout />
+          <TrustAndFaq />
+        </>
+      ) : (
+        <>
+          <TransformPreview />
+          <HeroBlock />
+          <PrimaryOfferStack />
+          <AppPreview />
+          <SocialProof />
+          <ValueSections />
+          <ResultStory />
+          <ClosingCheckout />
+          <TrustAndFaq />
+        </>
+      )}
 
       {error ? <p className="error-text">{error}</p> : null}
       {!offers.length ? <p className="subtle-note">Loading billing offers...</p> : null}

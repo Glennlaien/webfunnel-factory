@@ -9,6 +9,14 @@
     "motion": "subtle"
   },
   "pageTypes": {
+    "intro_page": {
+      "supportedVariants": [
+        "image_top",
+        "editorial",
+        "proof_panel"
+      ],
+      "ctaMode": "sticky_bottom"
+    },
     "single_choice_page": {
       "supportedVariants": [
         "image_grid",
@@ -29,8 +37,21 @@
       "minSelectionFeedback": "disabled_cta"
     },
     "paywall_page": {
+      "supportedVariants": [
+        "transformation_first",
+        "proof_first",
+        "app_preview_first"
+      ],
       "layout": "long_vertical_sales_page",
       "desktopLayout": "vertical_centered_not_split"
+    },
+    "summary_page": {
+      "supportedVariants": [
+        "bmi_profile",
+        "body_comparison",
+        "clinical_readout"
+      ],
+      "ctaMode": "sticky_bottom"
     }
   },
   "pages": {}

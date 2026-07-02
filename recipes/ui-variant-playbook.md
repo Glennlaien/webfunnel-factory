@@ -138,27 +138,37 @@ Avoid placing image-heavy pages back-to-back too often. Use visual pages as paci
 
 ## Intro, Summary, Paywall Future Direction
 
-These are future Runtime variants and should not be output as `page.variant` for choice pages yet.
+These variants are production-supported for fixed result and monetization pages. They are selected by the product run generator from the product profile and global UI recipe. They should not be invented freely by the question planner.
 
-Planned intro variants:
+### Intro Page Variants
 
 - `image_top`
 - `editorial`
 - `proof_panel`
 
-Planned summary variants:
+Use `image_top` as the neutral default. Use `editorial` for high-discipline, transformation, strength, or energetic products where the transition page should feel more like a campaign beat. Use `proof_panel` for senior, recovery, calm wellness, clinical, or trust-heavy products where reassurance matters more than intensity.
+
+### Summary Page Variants
 
 - `bmi_profile`
 - `body_comparison`
 - `clinical_readout`
 
-Planned paywall variants:
+Use `bmi_profile` as the neutral default. Use `body_comparison` for transformation, weight change, strength, or body-shaping products where the body visual should carry more of the page. Use `clinical_readout` for senior, health, recovery, pain, mobility, BMI, or trust-heavy products where the page should feel more like a careful report.
+
+### Paywall Page Variants
 
 - `transformation_first`
 - `proof_first`
 - `app_preview_first`
 
-Until these are implemented, keep intro, summary, and paywall on their existing Runtime layouts.
+Use `transformation_first` for fitness, weight loss, strength, muscle, calisthenics, and visible-progress products. Use `proof_first` for senior, calm wellness, recovery, and high-trust products. Use `app_preview_first` for lifestyle, habit, companion, and long-term plan products where the companion app value should appear early.
+
+Fixed page variants must preserve required runtime data:
+
+- Summary must always keep BMI, bound answer facts, body visual, and insight card.
+- Paywall must always keep offer loading, offer selection, checkout CTA, legal disclosure, Stripe checkout overlay, app screenshot section, testimonials, guarantee, and FAQ.
+- Intro must always keep image, headline/body copy, and bottom CTA.
 
 ## Anti-Patterns
 

@@ -78,6 +78,7 @@ function bodyAssetSrc(page: { assets?: Record<string, { optionValue?: string; sr
 }
 
 export function SummaryPage({ page, answers, onNext }: RendererProps) {
+  const variant = typeof page.variant === "string" ? page.variant : "bmi_profile";
   const heightCm = readHeightCm(answers.height);
   const currentWeightKg = readWeightKg(answers.currentWeight);
   const targetWeightKg = readWeightKg(answers.targetWeight);
@@ -89,64 +90,103 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
   const binding = readBinding(page);
   const fitnessLevel = firstAnswer(answers, binding.fitnessLevel || ["starterLevel", "fitnessLevel", "capabilityLevel"], "Personalized");
   const focusAreas = firstAnswer(answers, binding.focusAreas || ["focusAreas"], "Your selected areas");
+  const goalChange = deltaKg ? `${Math.abs(deltaKg)} kg ${deltaKg >= 0 ? "to lose" : "to gain"}` : "Based on your target";
+
+  const BmiCard = () => (
+    <div className="summary-bmi-card">
+      <div className="summary-bmi-head">
+        <strong>Body Mass Index (BMI)</strong>
+        <span>{category || "Profile"} {bmi ? `- ${bmi}` : ""}</span>
+      </div>
+      <div className="summary-bmi-scale">
+        <span className="summary-bmi-marker" style={{ "--bmi-position": `${bmiPosition(bmi)}%` } as CSSProperties}>
+          You {bmi ? `- ${bmi}` : ""}
+        </span>
+        <div className="summary-bmi-track" />
+      </div>
+      <div className="summary-bmi-ticks">
+        <span>15</span>
+        <span>18.5</span>
+        <span>25</span>
+        <span>30</span>
+        <span>40</span>
+      </div>
+      <div className="summary-bmi-labels">
+        <span>Underweight</span>
+        <span>Normal</span>
+        <span>Overweight</span>
+        <span>Obese</span>
+      </div>
+    </div>
+  );
+
+  const FactList = () => (
+    <div className="summary-facts">
+      <div className="summary-fact">
+        <Dumbbell size={22} />
+        <span>Fitness Level</span>
+        <strong>{fitnessLevel}</strong>
+      </div>
+      <div className="summary-fact">
+        <Target size={22} />
+        <span>Main Focus</span>
+        <strong>{focusAreas}</strong>
+      </div>
+      <div className="summary-fact">
+        <Activity size={22} />
+        <span>Goal Change</span>
+        <strong>{goalChange}</strong>
+      </div>
+    </div>
+  );
+
+  const BodyVisual = () => (
+    <div className={`summary-body-visual summary-body-${category || "normal"}`} aria-label="Body profile visual">
+      {bodySrc ? <img src={bodySrc} alt="" /> : <div />}
+    </div>
+  );
+
+  const InsightCard = () => (
+    <div className={`summary-insight-card bmi-card-${insight.tone}`}>
+      <HeartPulse size={22} />
+      <div>
+        <strong>{insight.title}</strong>
+        <p>{insight.body}</p>
+      </div>
+    </div>
+  );
 
   return (
-    <section className="page-stack summary-page">
+    <section className={`page-stack summary-page summary-variant-${variant}`}>
       <h1>{page.title}</h1>
-      <div className="summary-bmi-card">
-        <div className="summary-bmi-head">
-          <strong>Body Mass Index (BMI)</strong>
-          <span>{category || "Profile"} {bmi ? `- ${bmi}` : ""}</span>
-        </div>
-        <div className="summary-bmi-scale">
-          <span className="summary-bmi-marker" style={{ "--bmi-position": `${bmiPosition(bmi)}%` } as CSSProperties}>
-            You {bmi ? `- ${bmi}` : ""}
-          </span>
-          <div className="summary-bmi-track" />
-        </div>
-        <div className="summary-bmi-ticks">
-          <span>15</span>
-          <span>18.5</span>
-          <span>25</span>
-          <span>30</span>
-          <span>40</span>
-        </div>
-        <div className="summary-bmi-labels">
-          <span>Underweight</span>
-          <span>Normal</span>
-          <span>Overweight</span>
-          <span>Obese</span>
-        </div>
-      </div>
-      <div className="summary-profile-grid">
-        <div className="summary-facts">
-          <div className="summary-fact">
-            <Dumbbell size={22} />
-            <span>Fitness Level</span>
-            <strong>{fitnessLevel}</strong>
+      {variant === "body_comparison" ? (
+        <>
+          <div className="summary-profile-grid visual-first">
+            <BodyVisual />
+            <FactList />
           </div>
-          <div className="summary-fact">
-            <Target size={22} />
-            <span>Main Focus</span>
-            <strong>{focusAreas}</strong>
+          <BmiCard />
+          <InsightCard />
+        </>
+      ) : variant === "clinical_readout" ? (
+        <>
+          <BmiCard />
+          <InsightCard />
+          <div className="summary-profile-grid clinical-grid">
+            <FactList />
+            <BodyVisual />
           </div>
-          <div className="summary-fact">
-            <Activity size={22} />
-            <span>Goal Change</span>
-            <strong>{deltaKg ? `${Math.abs(deltaKg)} kg ${deltaKg >= 0 ? "to lose" : "to gain"}` : "Based on your target"}</strong>
+        </>
+      ) : (
+        <>
+          <BmiCard />
+          <div className="summary-profile-grid">
+            <FactList />
+            <BodyVisual />
           </div>
-        </div>
-        <div className={`summary-body-visual summary-body-${category || "normal"}`} aria-label="Body profile visual">
-          {bodySrc ? <img src={bodySrc} alt="" /> : <div />}
-        </div>
-      </div>
-      <div className={`summary-insight-card bmi-card-${insight.tone}`}>
-        <HeartPulse size={22} />
-        <div>
-          <strong>{insight.title}</strong>
-          <p>{insight.body}</p>
-        </div>
-      </div>
+          <InsightCard />
+        </>
+      )}
       <button className="primary-button sticky-button" onClick={onNext}>{page.cta || "Continue"}</button>
     </section>
   );
