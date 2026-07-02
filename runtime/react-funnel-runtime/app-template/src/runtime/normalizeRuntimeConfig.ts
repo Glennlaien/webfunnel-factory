@@ -44,14 +44,17 @@ export function normalizeRuntimeConfig(input: RuntimeConfigInput): FunnelConfig 
     const pageAsset = primaryAssetForPage(page.id, input);
     const defaultVisual = input.pageVisualMap?.defaults || {};
     const pageTypeVisual = input.pageVisualMap?.pageTypes?.[page.pageType] || {};
+    const embeddedPageVisual = page.visual && typeof page.visual === "object" ? page.visual : {};
     const pageVisual = input.pageVisualMap?.pages?.[page.id] || {};
     const visual = {
       ...defaultVisual,
       ...pageTypeVisual,
+      ...embeddedPageVisual,
       ...pageVisual,
       pageClass: [
         typeof defaultVisual.pageClass === "string" ? defaultVisual.pageClass : "",
         typeof pageTypeVisual.pageClass === "string" ? pageTypeVisual.pageClass : "",
+        typeof embeddedPageVisual.pageClass === "string" ? embeddedPageVisual.pageClass : "",
         typeof pageVisual.pageClass === "string" ? pageVisual.pageClass : ""
       ].filter(Boolean).join(" ")
     };
