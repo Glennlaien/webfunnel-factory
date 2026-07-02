@@ -25,7 +25,8 @@ export function SingleChoicePage({ page, saveAnswer, onNext }: RendererProps) {
       trackEvent("OB Answer Submitted", page, answerAnalyticsProps(page, value));
       await new Promise((resolve) => window.setTimeout(resolve, 180));
       onNext();
-    } catch {
+    } catch (error) {
+      console.error("First answer session start failed", error);
       setSelectedValue("");
       setError("We couldn't start your session. Please try again.");
     } finally {

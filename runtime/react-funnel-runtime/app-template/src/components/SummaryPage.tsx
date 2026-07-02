@@ -87,6 +87,7 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
   const insight = insightFor(category);
   const deltaKg = currentWeightKg && targetWeightKg ? Math.round((currentWeightKg - targetWeightKg) * 10) / 10 : null;
   const bodySrc = bodyAssetSrc(page, category);
+  const hasBodyVisual = Boolean(bodySrc);
   const binding = readBinding(page);
   const fitnessLevel = firstAnswer(answers, binding.fitnessLevel || ["starterLevel", "fitnessLevel", "capabilityLevel"], "Personalized");
   const focusAreas = firstAnswer(answers, binding.focusAreas || ["focusAreas"], "Your selected areas");
@@ -142,7 +143,7 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
 
   const BodyVisual = () => (
     <div className={`summary-body-visual summary-body-${category || "normal"}`} aria-label="Body profile visual">
-      {bodySrc ? <img src={bodySrc} alt="" /> : <div />}
+      <img src={bodySrc} alt="" />
     </div>
   );
 
@@ -161,8 +162,8 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
       <h1>{page.title}</h1>
       {variant === "body_comparison" ? (
         <>
-          <div className="summary-profile-grid visual-first">
-            <BodyVisual />
+          <div className={hasBodyVisual ? "summary-profile-grid visual-first has-visual" : "summary-facts-panel"}>
+            {hasBodyVisual ? <BodyVisual /> : null}
             <FactList />
           </div>
           <BmiCard />
@@ -174,15 +175,15 @@ export function SummaryPage({ page, answers, onNext }: RendererProps) {
           <InsightCard />
           <div className="summary-profile-grid clinical-grid">
             <FactList />
-            <BodyVisual />
+            {hasBodyVisual ? <BodyVisual /> : null}
           </div>
         </>
       ) : (
         <>
           <BmiCard />
-          <div className="summary-profile-grid">
+          <div className={hasBodyVisual ? "summary-profile-grid" : "summary-facts-panel"}>
             <FactList />
-            <BodyVisual />
+            {hasBodyVisual ? <BodyVisual /> : null}
           </div>
           <InsightCard />
         </>

@@ -20,7 +20,11 @@ export async function syncAnswer(answers: Answers, options?: { blocking?: boolea
     if (!options?.blocking) return;
     identity = await ensureIdentityForFirstAnswer();
   }
-  await persistAnswersToFirestore(identity, answers);
+  try {
+    await persistAnswersToFirestore(identity, answers);
+  } catch (error) {
+    console.warn("Answer Firestore sync failed", error);
+  }
 }
 
 export function createSaveAnswer(setAnswers: (answers: Answers) => void): SaveAnswer {
@@ -40,4 +44,3 @@ export function createSaveAnswer(setAnswers: (answers: Answers) => void): SaveAn
 }
 
 export { hasSessionIdentity };
-

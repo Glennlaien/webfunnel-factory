@@ -1379,18 +1379,24 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 .summary-profile-grid.visual-first {
   grid-template-columns: 148px 1fr;
   width: min(100%, 380px);
-  padding: 10px;
+  padding: 12px;
   border-radius: calc(var(--card-radius) + 2px);
   background: color-mix(in srgb, var(--surface) 82%, var(--bg));
   border: 1px solid var(--border);
 }
+.summary-profile-grid.visual-first.has-visual {
+  grid-template-columns: minmax(116px, 0.82fr) minmax(0, 1fr);
+  align-items: stretch;
+}
 .summary-profile-grid.visual-first .summary-body-visual {
   grid-column: 1;
   grid-row: 1;
-  height: 210px;
+  height: 190px;
 }
 .summary-profile-grid.visual-first .summary-facts {
   grid-column: 2;
+  align-content: center;
+  min-width: 0;
 }
 .summary-profile-grid.clinical-grid {
   grid-template-columns: 1fr 104px;
@@ -1406,9 +1412,17 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 }
 .summary-variant-body_comparison .summary-body-visual {
   border-radius: calc(var(--image-card-radius) + 4px);
+  background: color-mix(in srgb, var(--body-image-bg) 88%, var(--bg));
 }
 .summary-variant-body_comparison .summary-insight-card {
   width: min(100%, 380px);
+}
+.summary-facts-panel {
+  width: min(100%, 360px);
+  border-radius: calc(var(--card-radius) + 2px);
+  background: color-mix(in srgb, var(--surface) 82%, var(--bg));
+  border: 1px solid var(--border);
+  padding: 18px;
 }
 .summary-facts {
   display: grid;
@@ -1435,6 +1449,7 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   color: var(--text);
   font-size: 14px;
   line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .summary-body-visual {
   height: 178px;
@@ -1443,16 +1458,6 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   display: grid;
   place-items: end center;
   overflow: hidden;
-}
-.summary-body-visual div {
-  width: 74px;
-  height: 148px;
-  border-radius: 38px 38px 28px 28px;
-  background:
-    radial-gradient(circle at 50% 15%, #f0c6aa 0 16px, transparent 17px),
-    linear-gradient(180deg, #7f8fb7 0 38%, #f0c6aa 39% 55%, #7f8fb7 56% 100%);
-  opacity: 0.92;
-  filter: drop-shadow(0 14px 16px rgba(28, 30, 36, 0.16));
 }
 .summary-body-visual img {
   max-width: 100%;
