@@ -617,9 +617,6 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   font-size: 15px;
   line-height: 1;
 }
-.screen-main[class*="choice-skin-"] .choice-list {
-  gap: max(16px, var(--option-gap));
-}
 .screen-main[class*="choice-skin-"] .option-row.selected {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 14%, transparent);
 }
@@ -3221,4 +3218,16 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Choice skin spacing must be the final layout override for all choice variants. */
+.screen-main[class*="choice-skin-"] .choice-list,
+.app-shell[class*="choice-skin-"] .choice-list {
+  gap: 16px;
+  row-gap: 16px;
+}
+
+.screen-main[class*="choice-skin-"] .option-row,
+.app-shell[class*="choice-skin-"] .option-row {
+  margin-block: 0;
 }
