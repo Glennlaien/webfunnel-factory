@@ -619,8 +619,11 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
 }
 .choice-skin-hard-training {
   --option-radius: 10px;
-  --option-gap: 12px;
+  --option-gap: 16px;
   --option-min-height: 66px;
+}
+.choice-skin-hard-training .choice-list {
+  gap: 16px;
 }
 .choice-skin-hard-training .option-row {
   position: relative;
@@ -638,7 +641,7 @@ p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 16px; }
   background:
     linear-gradient(90deg, var(--primary) 0 7px, transparent 7px),
     color-mix(in srgb, var(--primary) 13%, var(--surface));
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--primary) 16%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 16%, transparent);
 }
 .choice-skin-hard-training .choice-check {
   border-radius: 6px;
